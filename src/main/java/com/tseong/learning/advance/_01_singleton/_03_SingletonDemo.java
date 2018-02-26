@@ -1,4 +1,4 @@
-package com.tseong.learning.advance.singleton;
+package com.tseong.learning.advance._01_singleton;
 
 // 使用静态内置类实现单例模式
 class Singleton03 {
@@ -25,7 +25,7 @@ public class _03_SingletonDemo {
             new Thread(() -> {
                 int code = Singleton03.getInstance().hashCode();
                 if (code != hashcode)
-                    System.out.println("ouch! created more than 2 instances for singleton: " + code);
+                    System.out.println("ouch! created more than 2 instances for _01_singleton: " + code);
             }).start();
         }
     }

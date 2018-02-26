@@ -1,4 +1,4 @@
-package com.tseong.learning.advance.singleton;
+package com.tseong.learning.advance._01_singleton;
 
 import java.io.*;
 

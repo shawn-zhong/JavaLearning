@@ -1,4 +1,4 @@
-package com.tseong.learning.advance.singleton;
+package com.tseong.learning.advance._01_singleton;
 
 // 枚举enum和静态代码块的特性相似，在使用枚举时，构造方法会被自动调用，利用这一特性也可以实现单例：
 
@@ -30,7 +30,7 @@ public class _05_SingletonDemo {
             new Thread(() -> {
                 int code = EnumFactory.singletonFactory.getInstance().hashCode();
                 if (code != hashcode)
-                    System.out.println("ouch! created more than 2 instances for singleton: " + code);
+                    System.out.println("ouch! created more than 2 instances for _01_singleton: " + code);
             }).start();
         }
     }

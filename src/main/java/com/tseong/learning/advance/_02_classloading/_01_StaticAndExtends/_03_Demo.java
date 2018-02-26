@@ -1,4 +1,4 @@
-package com.tseong.learning.advance.classloading._01_StaticAndExtends;
+package com.tseong.learning.advance._02_classloading._01_StaticAndExtends;
 
 class Testclass {
 

@@ -1,4 +1,4 @@
-package com.tseong.learning.advance.classloading._02_Instancing;
+package com.tseong.learning.advance._02_classloading._02_Instancing;
 
 
 class InstanceVariableInitializer {

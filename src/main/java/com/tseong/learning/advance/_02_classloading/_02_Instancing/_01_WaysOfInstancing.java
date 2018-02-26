@@ -1,4 +1,4 @@
-package com.tseong.learning.advance.classloading._02_Instancing;
+package com.tseong.learning.advance._02_classloading._02_Instancing;
 
 import sun.misc.Unsafe;
 
@@ -16,7 +16,7 @@ public class _01_WaysOfInstancing {
         System.out.println("by new : " + student.toString() + " " + student.hashCode());
 
         // 2 by forname (reflects)
-        student = (Student)Class.forName("com.tseong.learning.advance.classloading._02_Instancing.Student").newInstance();
+        student = (Student)Class.forName("com.tseong.learning.advance._02_classloading._02_Instancing.Student").newInstance();
         System.out.println("by forname " + student.toString() + " " + student.hashCode());
 
         // 3 by xx.class.newInstance (reflects)
@@ -31,7 +31,7 @@ public class _01_WaysOfInstancing {
         System.out.println("by reflect constructor " + student.toString() + " " + student.hashCode());
 
         // 4.1 by call private constructor
-        Constructor constructor1 = Class.forName("com.tseong.learning.advance.classloading._02_Instancing.Student")
+        Constructor constructor1 = Class.forName("com.tseong.learning.advance._02_classloading._02_Instancing.Student")
                 .getDeclaredConstructor(String.class);
         constructor1.setAccessible(true);
         Student privateStu = (Student)constructor1.newInstance("privatedemo");

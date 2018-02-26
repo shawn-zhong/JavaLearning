@@ -1,4 +1,4 @@
-package com.tseong.learning.advance.singleton;
+package com.tseong.learning.advance._01_singleton;
 
 class ClassFactory {
 
@@ -34,7 +34,7 @@ public class _06_SingletonDemo {
             new Thread(() -> {
                 int code = ClassFactory.getInstance().hashCode();
                 if (code != hashcode)
-                    System.out.println("ouch! created more than 2 instances for singleton: " + code);
+                    System.out.println("ouch! created more than 2 instances for _01_singleton: " + code);
             }).start();
         }
     }

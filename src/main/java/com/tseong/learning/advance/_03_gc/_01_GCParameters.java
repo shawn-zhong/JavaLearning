@@ -1,4 +1,4 @@
-package com.tseong.learning.advance.gc;
+package com.tseong.learning.advance._03_gc;
 
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;

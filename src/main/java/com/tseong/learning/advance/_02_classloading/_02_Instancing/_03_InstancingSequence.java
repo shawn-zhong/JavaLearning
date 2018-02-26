@@ -1,6 +1,4 @@
-package com.tseong.learning.advance.classloading._02_Instancing;
-
-import com.sun.xml.internal.rngom.parse.host.Base;
+package com.tseong.learning.advance._02_classloading._02_Instancing;
 
 class BaseClass {
     int i = 1;
