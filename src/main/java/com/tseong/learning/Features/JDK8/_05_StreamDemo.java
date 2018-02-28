@@ -1,6 +1,7 @@
 package com.tseong.learning.Features.JDK8;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class _05_StreamDemo {
@@ -8,11 +9,49 @@ public class _05_StreamDemo {
     public static void main(String[] args) {
 
         _05_StreamDemo instance = new _05_StreamDemo();
+
+        instance.commonOperations01();
         instance.commonOperationsDemo();
 
         List<String> value = instance.createdDemoList();
         instance.serialStreamDemoForComparison(value);
         instance.parallelStreamDemoForComparison(value);
+    }
+
+    public void commonOperations01() {
+
+        List<Integer> nums = Arrays.asList(1000, 2, 3, null, 5, 12, 3, null, 23, 11);
+        int sum = nums.stream().filter(Objects::nonNull).distinct().mapToInt(num->num*2).skip(2).limit(4).peek(System.out::println).sum();
+        System.out.println(sum);
+
+        System.out.println("end");
+
+        class IntObj {
+            int a = new Random().nextInt(100);
+            int b = new Random().nextInt(100);
+        }
+
+        List<IntObj> myObjects = new ArrayList<>(10);
+        myObjects.add(new IntObj());
+        myObjects.add(new IntObj());
+        myObjects.add(new IntObj());
+
+        List<Integer> abc = myObjects.stream().map(t->t.a).collect(Collectors.toList());    // 注意使用的是map
+        System.out.println(abc);        // [18, 70, 88]
+
+        String stringRet = myObjects.stream().map(x->String.valueOf(x.b)).collect(Collectors.joining(", "));
+        System.out.println(stringRet);  // 22, 83, 99
+
+
+        // mapToT方法返回值是TStream类型，TStream类包含了一些处理基础数据的方法，可以让我们更方便。我们使用mapToT的原因，不仅仅是方便，
+        // 还在于性能。我们知道，因为泛型的原因，可以有List<Integer>但是不能有List<int>，这里的IntStream就相当于是List<int>,int 所占内存比Integer小。
+        IntSummaryStatistics intSummaryStatistics = myObjects.stream().mapToInt(t->t.a).summaryStatistics();
+        System.out.println("Max num = " + intSummaryStatistics.getMax());
+
+
+        //List<Integer> abc = nums.stream().map(num->num*num).collect(Collectors.toList());
+
+
     }
 
     public void commonOperationsDemo() {
