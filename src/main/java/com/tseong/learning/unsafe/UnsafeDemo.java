@@ -68,7 +68,7 @@ public class UnsafeDemo {
         // 实例化Player
         Player player = (Player) unsafe.allocateInstance(Player.class);
         player.setAge(18);
-        player.setName("Shawn from lockinteruptiblyDemo CAS");
+        player.setName("Shawn from LockinteruptiblyDemo CAS");
         for (Field field:Player.class.getDeclaredFields()) {
             System.out.println(field.getName() + ":对应内存偏移地址 " + unsafe.objectFieldOffset(field));
         }

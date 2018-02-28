@@ -14,8 +14,8 @@ class MyThread extends Thread {
 
         int i=0;
 
-        while (!stop) {
-            if (i++ > 100000000)    // 通过一个自定义的boolean变量来判断, 效率会提升很多
+        while (!stop) {             // 通过一个自定义的boolean变量来判断, 效率会提升很多
+            if (i++ > 100000000)
                 break;
 
             try {

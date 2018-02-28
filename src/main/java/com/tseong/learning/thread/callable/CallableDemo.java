@@ -20,8 +20,8 @@ public class CallableDemo {
 
         // 此时的FutureTask扮演着Future<V>的角色
 
-        // 该方法将阻塞知道线程执行完毕正常返回，如果是异常中断, 则被异常捕捉逻辑获取
-        Integer ret = sleepTask.get();
+        // 该方法将阻塞直到线程执行完毕正常返回，如果是异常中断, 则被异常捕捉逻辑获取
+        Integer ret = sleepTask.get(); // 可以设置超时
         System.out.println("The return value of FutureTask is " + ret);
 
         // 关于callable的其它用法可以看线程池部分

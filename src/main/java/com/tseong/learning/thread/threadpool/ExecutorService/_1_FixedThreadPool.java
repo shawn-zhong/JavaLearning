@@ -2,6 +2,7 @@ package com.tseong.learning.thread.threadpool.ExecutorService;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.*;
 
@@ -19,7 +20,7 @@ public class _1_FixedThreadPool {
 
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-        // execute 方法没有返回值
+        // execute 方法没有返回值 (Runnable)
         for (int i=0; i<10; i++) {
             executorService.execute(() -> {
                 System.out.println("thread name: " + Thread.currentThread().getName());
@@ -42,9 +43,9 @@ public class _1_FixedThreadPool {
         });
 
         Object obj = future.get(); // 会一直阻塞到执行完毕并获得返回值"a"
-        System.out.println("submit result : " + obj.toString());
+        System.out.println("submit callable result : " + obj.toString());
 
-        // submit(Callable)方法返回一个Future对象，可以使用这个Future检查是否执行完毕以及返回值
+        // submit(Runnable)方法返回一个Future对象，可以使用这个Future检查是否执行完毕
         Future future2 = executorService.submit(() ->{
             System.out.println("submit(Runnable)");
 
@@ -56,7 +57,7 @@ public class _1_FixedThreadPool {
         });
 
         Object obj2 = future2.get(); // 会一直阻塞到执行完毕并获得返回值null
-        // System.out.println("submit result : " + obj2.toString()); // nullpointerexception
+        System.out.println("submit runnable result : " + Objects.toString(obj2)); // nullpointerexception
         executorService.shutdown();
     }
 

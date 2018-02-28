@@ -13,7 +13,7 @@ public class LockSupportDemo2 {
 
         Thread.sleep(2000);
 
-        _thread.interrupt();
+        _thread.interrupt();    // -> 對Locksupport好像沒有影響
     }
 
     public static void initThreadA()  {

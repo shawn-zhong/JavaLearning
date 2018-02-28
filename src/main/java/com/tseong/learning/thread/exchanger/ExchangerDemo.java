@@ -41,3 +41,13 @@ public class ExchangerDemo {
         }
     }
 }
+
+
+/*
+
+Thread-1 is exchanging data Celestine
+Thread-0 is exchanging data shawn
+Thread-0 exchanged data shawn
+Thread-1 exchanged data Celestine
+
+ */

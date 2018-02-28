@@ -17,19 +17,19 @@ public class AtomicReferenceDemo {
 
         String newVal = "new value referenced";
         boolean exchanged = atomicReference.compareAndSet(initialVal, newVal);
-        System.out.println("exchanged : " + exchanged);
-        System.out.println("now value : " + atomicReference.get());
+        System.out.println("exchanged : " + exchanged);                 // exchanged : true
+        System.out.println("now value : " + atomicReference.get());     // now value : new value referenced
 
         exchanged = atomicReference.compareAndSet("new value referenced", "new value referenced2"); // final string 用的是同一塊地址，故而判等
-        System.out.println("exchanged: " + exchanged);
-        System.out.println("now value : " + atomicReference.get());
+        System.out.println("exchanged: " + exchanged);                  // exchanged: true
+        System.out.println("now value : " + atomicReference.get());     // now value : new value referenced2
 
         StringBuilder builder = new StringBuilder();
         builder.append("new value ");
         builder.append("referenced2");
         exchanged = atomicReference.compareAndSet(builder.toString(), "new value referenced3"); // 說明是引用判等，而非值判等
-        System.out.println("exchanged: " + exchanged);
-        System.out.println("now value : " + atomicReference.get());
+        System.out.println("exchanged: " + exchanged);                  // exchanged: false
+        System.out.println("now value : " + atomicReference.get());     // now value : new value referenced2
 
         //atomicReference.set();
     }

@@ -16,7 +16,7 @@ public class ScheduledExecutorServiceDemo {
     public void scheduleDemo() throws ExecutionException, InterruptedException {
         ScheduledExecutorService scheduleExecutorService = Executors.newScheduledThreadPool(5); // 预制5个线程
 
-        // showcase runnable
+        // showcase runnable & callable
         ScheduledFuture scheduledFuture =
                 scheduleExecutorService.schedule( ()->{ // new runnable
                             System.out.println("Reached condition and runnable method executed");

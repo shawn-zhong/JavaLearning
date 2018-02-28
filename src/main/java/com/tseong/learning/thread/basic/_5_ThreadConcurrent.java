@@ -10,7 +10,7 @@ public class _5_ThreadConcurrent {
 
     public static void main(String[] args) throws InterruptedException {
 
-        Runnable taskWrong = new MyRunnable();
+        Runnable taskWrong = new MyRunnableWrong();
         demoConcurrent(taskWrong);
 
         Runnable taskByLock = new MyRunnableByRLock();
@@ -48,7 +48,7 @@ public class _5_ThreadConcurrent {
         t3.join();
     }
 
-    static class MyRunnable implements Runnable {
+    static class MyRunnableWrong implements Runnable {
 
         private static int counter = 0; // 即使加了volatile没有用锁，还是不正确，因为volatile只保证可见性
 
@@ -59,7 +59,7 @@ public class _5_ThreadConcurrent {
                 counter += 1;       // 非原子性操作，线程间会冲突，不能期待最后结果是2000000, 如果给这一步加锁则正确, 见下个例子
             }
 
-            System.out.println("MyRunnable : " + Thread.currentThread().getName() + " : i = " + counter);
+            System.out.println("MyRunnableWrong : " + Thread.currentThread().getName() + " : i = " + counter);
         }
     }
 
@@ -119,7 +119,7 @@ public class _5_ThreadConcurrent {
         private static Unsafe unsafe;
         private static long counteroffset;
 
-        MyRunnableByCompareAndSwap(SharedValueContainer container) {
+        MyRunnableByCompareAndSwap(SharedValueContainer container) {    // 传入container, 多个线程共享container变量, 然后使用unsafe实现CAS一致性
             this.container = container;
         }
 
@@ -176,7 +176,7 @@ public class _5_ThreadConcurrent {
                 unsafe = (Unsafe)f.get(null);
 
                 Field field = MyRunnableByCompareAndSwapWrongway.class.getDeclaredField("counter");
-                counteroffset = unsafe.objectFieldOffset(field); // 不能这样用，因为unsafe取不到static counter的值；需要用的话则在多个线程共享一个对象而非static
+                counteroffset = unsafe.objectFieldOffset(field); // 不能这样用，因为unsafe取不到static counter的值；需要用的话则在多个线程共享一个'对象'而非static
 
                 System.out.println("counterOffset = " + counteroffset);
 
