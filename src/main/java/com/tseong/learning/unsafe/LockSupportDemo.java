@@ -34,7 +34,7 @@ public class LockSupportDemo {
 
         public void run() {
             System.out.println("resume the thread in advance");
-            LockSupport.unpark(thread);
+            LockSupport.unpark(thread); // unpark带了线程句柄
         }
     }
 }
