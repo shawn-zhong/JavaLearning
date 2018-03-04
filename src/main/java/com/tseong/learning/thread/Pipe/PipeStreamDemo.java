@@ -67,18 +67,22 @@ class ThreadWrite extends Thread {
 
 }
 
-public class PipeDemo {
+public class PipeStreamDemo {
 
-    public static void main(String[] args) {
-        try {
-            PipedInputStream inputStream = new PipedInputStream();
-            PipedOutputStream outputStream = new PipedOutputStream();
+    public static void main(String[] args) throws InterruptedException {
+        try (PipedOutputStream outputStream = new PipedOutputStream();
+             PipedInputStream inputStream = new PipedInputStream()){
 
             // nputStream.connect(outputStream); // 效果相同
             outputStream.connect(inputStream);
 
-            new ThreadRead(inputStream).start();
-            new ThreadWrite(outputStream).start();
+            Thread t1 = new ThreadRead(inputStream);
+            Thread t2 = new ThreadWrite(outputStream);
+            t1.start();
+            t2.start();
+
+            t1.join();
+            t2.join();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -98,6 +102,7 @@ public class PipeDemo {
 　　在 Java 的 JDK 中，提供了四个类用于线程间通信：
 
 字节流：PipedInputStream 和 PipedOutputStream;
+字符流: PipedWriter 和 PipedReader
 
 
  */
