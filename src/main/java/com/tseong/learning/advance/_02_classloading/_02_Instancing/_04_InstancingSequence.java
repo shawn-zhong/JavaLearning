@@ -49,3 +49,16 @@ public class _04_InstancingSequence {
     // a=110 b=112
     static _04_InstancingSequence st2 = new _04_InstancingSequence();
 }
+
+/*
+
+non-static block
+In Constructor
+a=110 b=0
+static block
+non-static block
+In Constructor
+a=110 b=112
+In staticFunction(); b=112
+
+ */

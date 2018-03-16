@@ -16,5 +16,4 @@ public class ResourceUser implements Runnable {
         resourceManager.userResource(userId);
         System.out.println("userId : " + userId + " has used toilet");
     }
-
 }

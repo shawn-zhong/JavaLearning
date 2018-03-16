@@ -93,10 +93,9 @@ public class _1_FixedThreadPool {
 
 /*
 
-newCachedThreadPool     必要时创建新线程，空闲线程会被保留60秒
-newFixedThreadPool      该池包含固定数量的线程，空闲一定会被保留，如果任
-                        务数量多线程数量，多出的任务被放在队列中缓存，直
-                        到有空闲线程可以执行为止
+newCachedThreadPool     必要时创建新线程，空闲线程会被保留60秒，注意线程数的创建没有限制。
+newFixedThreadPool      该池包含固定数量的线程，空闲一定会被保留，如果任务数量多线程数量，多出的任务被放在队列中缓存，直
+                        到有空闲线程可以执行为止。注意使用的是无界队列。多余的空闲线程被被立即终止
 newSingleThreadExecutor  只有一个线程的newFixedThreadPool
 newScheduledThreadPool   java.util.Timer内部是由一个线程来维护并执行Timer
                          内部的多个TimerTask的，而该执行器类可以看做是由

@@ -51,7 +51,6 @@ public class _05_StreamDemo {
 
         //List<Integer> abc = nums.stream().map(num->num*num).collect(Collectors.toList());
 
-
     }
 
     public void commonOperationsDemo() {

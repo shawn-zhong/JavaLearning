@@ -29,8 +29,8 @@ public class _03_Demo {
 
         // 结果：
         /*
-        non-static
-        block constructor
+        non-static block
+        constructor
         static block
         static function
         */
