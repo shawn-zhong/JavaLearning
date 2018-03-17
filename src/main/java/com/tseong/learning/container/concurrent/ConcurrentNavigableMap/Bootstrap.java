@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-public class ConcurrentSkipListMapDemo {
+public class Bootstrap {
 
     // java.util.concurrent.ConcurrentNavigableMap 是一个支持并发访问的 java.util.NavigableMap，
     // 它还能让它的子 map 具备并发访问的能力。所谓的 "子 map" 指的是诸如 headMap()，subMap()，tailMap() 之类的方法返回的 map。

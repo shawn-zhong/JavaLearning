@@ -12,7 +12,8 @@ public class TwinsLockDemo {
         final Lock lock = new TwinsLock();
 
         Runnable runnable = () ->{
-            while (true) {
+            //while (true)
+            {
                 lock.lock();
                 try {
                     Thread.sleep(1000);

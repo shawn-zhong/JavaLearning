@@ -13,6 +13,7 @@ public class TwinsLock implements Lock {
 
     private final Sync sync = new Sync(2);
 
+    // 使用私有内部静态类实现 AQS
     private static final class Sync extends AbstractQueuedSynchronizer{
 
         Sync(int count) {
@@ -23,11 +24,12 @@ public class TwinsLock implements Lock {
         }
 
         @Override
+        // 在acquireShared(int arg)方法中，同步器调用tryAcquireShared(int arg)方法尝试获取同步状态，当tryAcquireShared方法返回值为int类型大于等于0时，表示能够获取到同步状态。
         protected int tryAcquireShared(int reduceCount) {
             for (;;) {
                 int current = getState();
                 int newCount = current - reduceCount;
-                if (newCount < 0 || compareAndSetState(current, newCount)) {
+                if (newCount < 0 || compareAndSetState(current, newCount)) {    // 已经小于0的时候不用交换了，肯定不能获取锁，直接返回
                     return newCount;
                 }
             }

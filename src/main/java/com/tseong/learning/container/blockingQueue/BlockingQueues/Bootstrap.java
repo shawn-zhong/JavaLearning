@@ -1,15 +1,22 @@
-package com.tseong.learning.container.concurrent.blockingQueue.ArrayBlockingQueue;
+package com.tseong.learning.container.blockingQueue.BlockingQueues;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.*;
 
-public class BlockingQueueDemo {
+public class Bootstrap {
+
+    /* BlockingQueue有这几种类型 (实现的是 BlockingQueue的接口)：
+
+    - ArrayBlockingQueue
+    - LinkedBlockingQueue
+    - PriorityBlockingQueue
+    - synchronousQueue
+    - DelayQueue
+    - LinkedBlockingDeque
+    */
 
     public static void main(String[] args) throws InterruptedException {
 
-        BlockingQueueDemo instance = new BlockingQueueDemo();
+        Bootstrap instance = new Bootstrap();
         instance.arrayBlockingQueueDemo();
         instance.linkedBlockingQueueDemo();
 
@@ -35,6 +42,10 @@ public class BlockingQueueDemo {
         LinkedBlockingQueue的优点是锁分离，那就很适合生产和消费频率差不多的场景，这样生产和消费互不干涉的执行，
         能达到不错的效率，尽量不使用remove操作，获取两把锁的效率更低，可以使用size方法（就是计数器直接返回），这个还是比较重要的，
         有些集合不适合使用size->例如ConcurrentLinkedQueue，正确应该使用isEmpty(); 对比ConcurrentLinkedQueue, LinkedBlockingQueue多了take和put方法
+
+        arrayBlockingQueueDemo or linkedBlockingQueueDemo 对比ConcurrentLinkedQueue：
+        － 区别：   实现接口不同，有put， take方法，面向服务／消费模型
+        － 共同点： 都是线程安全
         */
 
         System.out.println("test linkedBlcokingQueueDemo");
@@ -46,6 +57,7 @@ public class BlockingQueueDemo {
 
         new Thread(producer).start();
         new Thread(consumer).start();
+
     }
 
     void priorityBlockingQueueDemo() throws InterruptedException {
@@ -77,6 +89,7 @@ public class BlockingQueueDemo {
         // SynchronousQueue 是一个特殊的队列，它的内部同时只能够容纳单个元素。
         // 如果该队列已有一元素的话，试图向队列中插入一个新元素的线程将会阻塞，直到另一个线程将该元素从队列中抽走。
         // 同样，如果该队列为空，试图向队列中抽取一个元素的线程将会阻塞，直到另一个线程向队列中插入了一条新的元素
+        // SynchronousQueue 实现的是 BlockingQueue的接口
     }
 
 
@@ -112,13 +125,3 @@ public class BlockingQueueDemo {
         }
     }
 }
-
-
-/* blocking queue 的操作
-
- 	    抛异常	    特定值	    阻塞	        超时
-插入	    add(o)	    offer(o)	put(o)	    offer(o, timeout, timeunit)
-移除	    remove(o)	poll(o)	    take(o)	    poll(timeout, timeunit)
-检查	    element(o)	peek(o)
-
- */

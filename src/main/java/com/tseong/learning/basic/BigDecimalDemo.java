@@ -8,7 +8,7 @@ public class BigDecimalDemo {
     public static void main(String[] args) {
         BigDecimal decimalA = new BigDecimal("3.1415926");
         BigDecimal decimalB = decimalA;
-        decimalB.subtract(new BigDecimal("3"));
+        decimalB.subtract(new BigDecimal("3")); // 做减法
 
         System.out.println( new DecimalFormat("#.00").format(decimalA));    // 看起来是简单的四舍五入
         System.out.println( new DecimalFormat("#.00").format(decimalB));

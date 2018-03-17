@@ -1,11 +1,12 @@
-package com.tseong.learning.container.concurrent.blockingQueue.DelayQueue;
+package com.tseong.learning.container.blockingQueue.DelayQueue;
 
 import java.util.concurrent.DelayQueue;
 
-public class DelayQueueDemo {
+public class Bootstrap {
 
     public static void main(String[] args) throws InterruptedException {
 
+        // DelayQueue内部使用了PriorityQueue和锁来实现
         DelayQueue<DelayedElement> delayQueue = new DelayQueue<>();
 
         DelayedElement element1 = new DelayedElement(5000, "5secsElement");

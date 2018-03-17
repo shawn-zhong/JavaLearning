@@ -1,9 +1,8 @@
-package com.tseong.learning.container.concurrent.blockingQueue.ArrayBlockingQueue;
+package com.tseong.learning.container.blockingQueue.Methods;
 
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
-public class ArrayBokckingQueueDemo2 {
+public class Bootstrap {
 
     public static void main(String[] args) {
         // 创建一个有界的blocking queue, 看超出界限之后会怎么样
@@ -24,3 +23,14 @@ public class ArrayBokckingQueueDemo2 {
         System.out.println("added all");
     }
 }
+
+/* blocking queue 的操作
+
+ 	    抛异常	    特定值	    阻塞	        超时
+插入	    add(o)	    offer(o)	put(o)	    offer(o, timeout, timeunit)
+移除	    remove(o)	poll(o)	    take(o)	    poll(timeout, timeunit)
+检查	    element(o)	peek(o)
+
+注意抛出的异常是runtime exception
+
+ */
