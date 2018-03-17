@@ -14,8 +14,8 @@ public class _03_CommonFunctional {
 
         _03_CommonFunctional instance = new _03_CommonFunctional();
         instance.consumerTest();
-        instance.functionTest();
         instance.supplierTest();
+        instance.functionTest();
         instance.predicateTest();
     }
 
@@ -28,10 +28,12 @@ public class _03_CommonFunctional {
         myConsumer.accept("Europe");
 
         Consumer<String> myConsumer2 = n -> System.out.println("Welcome " + n + " to " );
-        myConsumer2.accept("shawn");
+        myConsumer2.accept("shawn");    // Welcome shawn to
         myConsumer2.andThen(myConsumer).accept("shawn"); // 打印两行如下
         // Welcome shawn to
         // place shawn
+
+        System.out.println();
     }
 
     public void supplierTest() {
@@ -49,6 +51,7 @@ public class _03_CommonFunctional {
         System.out.println(result);
         System.out.println(mySupplier.get());
 
+        System.out.println();
     }
 
     public void functionTest() {
@@ -72,6 +75,8 @@ public class _03_CommonFunctional {
                 return String.format("%d * %d = ", integer, integer) + String.valueOf(integer * integer);
             }
         };*/
+
+        System.out.println();
     }
 
     public void predicateTest() {

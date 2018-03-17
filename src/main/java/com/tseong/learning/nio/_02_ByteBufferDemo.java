@@ -21,7 +21,7 @@ public class _02_ByteBufferDemo {
             FileChannel chlOut = out.getChannel();
 
             // 创建一个buffer, 大小为1024
-            ByteBuffer buffer = ByteBuffer.allocate(1024);  // 使用静态方法allocate来分配缓冲区 (会自动释放的堆外内存？)
+            ByteBuffer buffer = ByteBuffer.allocate(1024);  // 使用静态方法allocate来分配缓冲区 (会自动释放的堆外内存－》allocateDirect)
 
             // 另外一种方法创建ByteBuffer :
             /*

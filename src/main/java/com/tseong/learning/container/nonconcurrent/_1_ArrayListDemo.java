@@ -20,7 +20,7 @@ public class _1_ArrayListDemo {
 
         System.out.println("Executing iteratorDemo");
 
-        ArrayList<String> list = new ArrayList<>(3);
+        List<String> list = new ArrayList<>(3);
         list.add("Monday");
         list.add("Tuesday");
         list.add("Wednesday");
@@ -62,7 +62,7 @@ public class _1_ArrayListDemo {
 
     public void removeAndSizeDemo() {
 
-        ArrayList<String> list = new ArrayList<>(4);
+        List<String> list = new ArrayList<>(4);
         System.out.println("Initial size of list is : " + list.size());
         list.add("C");
         list.add("A");
@@ -85,7 +85,7 @@ public class _1_ArrayListDemo {
             iterator.remove(); // Notes:remove() must be called after next()
         }
 
-        System.out.println("Size after iteration deletions: " + list.size());
+        System.out.println("Size after iteration deletions: " + list.size());   // 0
         System.out.println("Contents of list: " + list);    // Contents of list: []
 
     }
@@ -133,12 +133,23 @@ public class _1_ArrayListDemo {
             System.out.println(str);
         }
 
-        list.set(0, "1AA");         // strArray不会受影响，说明是新增的
+        list.set(0, "1AA");         // strArray不会受影响，说明是新分配的内存
         System.out.println(list);
         System.out.println("toArrayList : ");
         for (String str : strArray) {
             System.out.println(str);
         }
+        // 结论：由list转换为Array，Array使用的是新的内存，不会受影响
+
+        String[] arrStr = {"a1", "a2", "a3"};
+        List<String> arrLst = Arrays.asList(arrStr);
+        arrLst.set(0, "A1");
+        System.out.println("asList : ");
+        for (String str : arrStr) {
+            System.out.println(str);
+        }
+        // 结论：由Arrays将Array转变为List时，并没有分配新内存，原来的数据会受印象
+
     }
 
     public void fillAndReplaceDemo() {
@@ -167,16 +178,16 @@ public class _1_ArrayListDemo {
         colors.add("green");
         colors.add("blue");
 
-        System.out.println("before swao : " + colors);
+        System.out.println("before swap : " + colors);  // [read, green, blue]
         System.out.println(colors);
-        Collections.swap(colors, 0, 2 );            // 将元素0和元素2互换
-        System.out.println("after swap : " + colors);
+        Collections.swap(colors, 0, 2 );          // 将元素0和元素2互换
+        System.out.println("after swap : " + colors);   // [blue, green, read]
 
         Collections.reverse(colors);
-        System.out.println("after reverse : " + colors);  // 将元素反转
+        System.out.println("after reverse : " + colors);  // 将元素反转 [read, green, blue]
 
         Collections.sort(colors);
-        System.out.println("after sort :" + colors);       // 排序
+        System.out.println("after sort :" + colors);       // 排序 [blue, green, read]
 
         Collections.sort(colors, Collections.reverseOrder());
         System.out.println("after sort by reverseOrder :" + colors);

@@ -26,18 +26,21 @@ public class _01_TimeDemo {
         Date date2 = Date.from(Clock.systemDefaultZone().instant());
 
         System.out.println(legacyDate);
-        System.out.println(date2);
+        System.out.println(date2);          // Sat Mar 17 16:08:54 CST 2018
+
+        System.out.println();
     }
 
     public static void localDateTime() {
         LocalDateTime timePoint = LocalDateTime.now();
-        System.out.println(timePoint);
+        System.out.println(timePoint);      // 2018-03-17T16:08:54.106
 
         LocalDate date1 = LocalDate.of(2014, Month.OCTOBER, 12);
         LocalTime time1 = LocalTime.of(12, 30, 59);
         LocalTime time2 = LocalTime.parse("10:15:23");
 
         System.out.println(time1);
+        System.out.println();   // 12:30:59
     }
 
     public static void timezones() {
@@ -45,22 +48,22 @@ public class _01_TimeDemo {
 
         ZoneId zone1 = ZoneId.of("Europe/Berlin");
         ZoneId zone2 = ZoneId.of("Brazil/East");
-        System.out.println(zone1.getRules());
-        System.out.println(zone2.getRules());
+        System.out.println(zone1.getRules());   // ZoneRules[currentStandardOffset=+01:00]
+        System.out.println(zone2.getRules());   // ZoneRules[currentStandardOffset=-03:00]
 
         LocalTime now1 = LocalTime.now(zone1);
         LocalTime now2 = LocalTime.now(zone2);
 
-        System.out.println(now1.isBefore(now2));
+        System.out.println(now1.isBefore(now2));    // false
 
         long hoursBetween = ChronoUnit.HOURS.between(now1, now2);
         long minutesBetween = ChronoUnit.MINUTES.between(now1, now2);
 
-        System.out.println("Hours between : " + hoursBetween);
-        System.out.println("Minutes between : " + minutesBetween);
+        System.out.println("Hours between : " + hoursBetween);          // Hours between : -3
+        System.out.println("Minutes between : " + minutesBetween);      // Minutes between : -239
 
         LocalTime late = LocalTime.of(23, 59, 59);
-        System.out.println(late);
+        System.out.println(late);   // 23:59:59
 
         DateTimeFormatter germanFormatter = DateTimeFormatter
                 .ofLocalizedTime(FormatStyle.SHORT)
@@ -94,6 +97,6 @@ public class _01_TimeDemo {
         OffsetDateTime nowOff = OffsetDateTime.now();
         String offLabel = nowOff.toString();
         System.out.println(offLabel);
-
+        System.out.println();
     }
 }

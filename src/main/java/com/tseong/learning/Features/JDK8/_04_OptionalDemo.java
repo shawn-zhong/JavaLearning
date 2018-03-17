@@ -10,18 +10,18 @@ public class _04_OptionalDemo {
 
         Optional<String> optional = Optional.ofNullable(null);
 
-        boolean isPresent = optional.isPresent();   // true
-       // String valueget = optional.get();
+        boolean isPresent = optional.isPresent();
+//        String valueget = optional.get(); // exception threw here
         String valueElse = optional.orElse("CHN");
 
-       // System.out.println("Optional: boolean, valueget, valueElse : " + isPresent + " " + valueget + " " + valueElse);
+        System.out.println("Optional: boolean, valueElse : " + isPresent  + " " + valueElse);
 
         optional.ifPresent(s->System.out.println(s.charAt(0)));
 
         User user = new User();
         user.setName("shawn");
         user.setSurname("zhong");
-        System.out.println(getChampionName(user));
+        System.out.println(getChampionName(null));
 
     }
 

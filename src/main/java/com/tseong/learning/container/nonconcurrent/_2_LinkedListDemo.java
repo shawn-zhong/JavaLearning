@@ -1,5 +1,6 @@
 package com.tseong.learning.container.nonconcurrent;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,6 +28,11 @@ public class _2_LinkedListDemo {
 
         linkedList.addFirst("1");
         linkedList.addLast("5");
+        System.out.println(linkedList);
+
+        System.out.println();
+        
+        Collections.sort(linkedList, Collections.reverseOrder());
         System.out.println(linkedList);
     }
 }

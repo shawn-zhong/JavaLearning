@@ -19,10 +19,10 @@ public class _05_StreamDemo {
     }
 
     public void commonOperations01() {
-
+        //List<Integer> nums1 = Arrays.asList(new Integer[] {1000, 2, 3, 5, 12, 3, 23, 11});
         List<Integer> nums = Arrays.asList(1000, 2, 3, null, 5, 12, 3, null, 23, 11);
-        int sum = nums.stream().filter(Objects::nonNull).distinct().mapToInt(num->num*2).skip(2).limit(4).peek(System.out::println).sum();
-        System.out.println(sum);
+        int sum = nums.stream().filter(Objects::nonNull).distinct().mapToInt(num->num*2).sorted().skip(0).limit(4).peek(System.out::println).sum();
+        System.out.println("sum = " + sum);
 
         System.out.println("end");
 
@@ -38,12 +38,17 @@ public class _05_StreamDemo {
 
         List<Integer> abc = myObjects.stream().map(t->t.a).collect(Collectors.toList());    // 注意使用的是map
         System.out.println(abc);        // [18, 70, 88]
+        abc.set(0, 1);
+
+        for (IntObj obj : myObjects) {
+            System.out.println("original val : " + obj.a);  // 没有变，说明map是有新建内存的
+        }
 
         String stringRet = myObjects.stream().map(x->String.valueOf(x.b)).collect(Collectors.joining(", "));
         System.out.println(stringRet);  // 22, 83, 99
 
 
-        // mapToT方法返回值是TStream类型，TStream类包含了一些处理基础数据的方法，可以让我们更方便。我们使用mapToT的原因，不仅仅是方便，
+        // mapToInt方法返回值是TStream类型，TStream类包含了一些处理基础数据的方法，可以让我们更方便。我们使用mapToT的原因，不仅仅是方便，
         // 还在于性能。我们知道，因为泛型的原因，可以有List<Integer>但是不能有List<int>，这里的IntStream就相当于是List<int>,int 所占内存比Integer小。
         IntSummaryStatistics intSummaryStatistics = myObjects.stream().mapToInt(t->t.a).summaryStatistics();
         System.out.println("Max num = " + intSummaryStatistics.getMax());
@@ -134,6 +139,4 @@ public class _05_StreamDemo {
 }
 
 
-//
-//
 //        // http://www.jb51.net/article/48304.htm

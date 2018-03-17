@@ -39,15 +39,15 @@ public class _3_HashsetDemo {
         hashset.add(new Integer("2"));
         hashset.add(new Integer("3"));
 
-        System.out.println(hashset.contains(3));
-        System.out.println(hashset);
+        System.out.println(hashset.contains(3));    // true
+        System.out.println(hashset);                // [1, 2, 3]
 
         boolean isRemoved = hashset.remove(2);
-        System.out.println(hashset.contains(2));
+        System.out.println(hashset.contains(2));    // false
         System.out.println(isRemoved);
         hashset.clear();
-        System.out.println(hashset);
-        System.out.println(hashset.isEmpty());
+        System.out.println(hashset);                // []
+        System.out.println(hashset.isEmpty());      // true
 
     }
 
