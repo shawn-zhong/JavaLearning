@@ -14,8 +14,9 @@ public class _01_GCParameters {
         }
 
         /* 输出结果：
-        PS Scavenge
-        PS MarkSweep
+
+        PS Scavenge    -- PS Scavenge，全称是ParallelScavenge，是个并行的copying算法的收集器
+        PS MarkSweep   -- 负责执行full GC（收集整个GC堆，包括young gen、old gen、perm gen）的是PS MarkSweep, 但整个收集器并不是并行的，而在骨子里是跟Serial Old是同一份代码，是串行收集的。其算法是经典的LISP2算法，是一种mark-compact GC（不要被MarkSweep的名字骗了）
 
          */
     }
@@ -115,3 +116,46 @@ Java(TM) SE Runtime Environment (build 1.8.0_92-b14)
 Java HotSpot(TM) 64-Bit Server VM (build 25.92-b14, mixed mode)
 
  */
+
+
+
+
+/*
+
+作者：RednaxelaFX
+        链接：https://www.zhihu.com/question/48780091/answer/113063216
+        来源：知乎
+        著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+        不奇怪，一切现象都是有原因的。先来了解些背景信息。在题主所使用的JDK 6 update 27的HotSpot VM里，-XX:+UseParallelGC会启用题主所说的配置（这也是HotSpot VM在Server Class Machine上的默认配置）。
+        其中，负责执行minor GC（只收集young gen）的是PS Scavenge，全称是ParallelScavenge，是个并行的copying算法的收集器；而负责执行full GC（收集整个GC堆，包括young gen、old gen、perm gen）的是PS MarkSweep
+        ——但整个收集器并不是并行的，而在骨子里是跟Serial Old是同一份代码，是串行收集的。其算法是经典的LISP2算法，是一种mark-compact GC（不要被MarkSweep的名字骗了）。
+        （注意这个跟使用-XX:+UseParallelOldGC所指定的并不是同一个收集器，那个是PS Compact，是个并行的全堆收集器）
+        ParallelScavenge这个GC套装的full GC有个很特别的实现细节，那就是：当触发full GC的时候，实际上会先使用PS Scavenge执行一次young GC收集young gen，然后紧接着去用PS MarkSweep执行一次真正的full GC收集全堆。
+        所以说题主看到的现象就是很正常的一次ParallelScavenge的full GC而已。要控制这个行为，可以使用VM参数：
+        product(bool, ScavengeBeforeFullGC, true,                                 \
+        "Scavenge youngest generation before each full GC, "              \
+        "used with UseParallelGC")
+        指定 -XX:-ScavengeBeforeFullGC 就可以不在执行full GC的时候先执行一次PS Scavenge。
+
+        jdk6/jdk6/hotspot: 7561dfbeeee5 src/share/vm/gc_implementation/parallelScavenge/psMarkSweep.cpp
+
+        oid PSMarkSweep::invoke(bool maximum_heap_compaction) {
+        // ...
+
+        if (ScavengeBeforeFullGC) {
+        PSScavenge::invoke_no_policy();
+        }
+
+        // ...
+        }
+        ================================题主说：
+        这次FullGC为什么会被触发？回收前Old Gen的使用率是194M/910M，Survivor只占用了300多K，Eden则是0，此时Old Gen空间很富余，从YoungGen晋升的对象也只有300多K，PermGen也很富余……按照我的理解，似乎此时不应该触发FullGC啊？
+
+        正因为上面说的，ParallelScavenge这套GC在触发full GC时实际上会先做一个young GC（PS Scavenge），再执行真正的full GC（PS MarkSweep），所以题主在看数据的时候就被弄晕了：题主实际看到的是在“真正的full GC”的数据，
+        而这是在刚刚做完那个young GC后的，所以自然，此时edgen是空的，而survivor space里的对象都是活的。要看这次full GC为何触发，必须去看这个因为full GC而触发的young GC之前的状态才行。================================
+        另外，做完full GC后old gen的使用量上升也是非常正常的行为。HotSpot的full GC实现中，默认young gen里所有活的对象都要晋升到old gen，实在晋升不了才会留在young gen。假如做full GC的时候，old gen里的对象几乎没有死掉的，
+        而young gen又要晋升活对象上来，那么full GC结束后old gen的使用量自然就上升了。
+
+
+        */

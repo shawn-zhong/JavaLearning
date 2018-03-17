@@ -3,8 +3,8 @@ package com.tseong.learning.advance._02_classloading._01_StaticAndExtends;
 public class _01_Demo {
 
     public static void main(String[] args) {
-        // test-01: 通过子类引用父类的静态字段，不会导致子类初始化
-        System.out.println(SubClass.value); // test-01
+        // test-01:
+        System.out.println(SubClass.value); // test-01 : 通过子类引用父类的静态字段，不会导致子类初始化
 
         // test-01 result
         /*

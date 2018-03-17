@@ -1,5 +1,13 @@
 package com.tseong.learning.advance._02_classloading._02_Instancing;
 
+public class _03_InstancingSequence {
+
+    public static void main(String[] args) {
+        SubClass instance = new SubClass();
+        System.out.println("main : " + instance.getValue());    // running sequence : step-7
+    }
+}
+
 class BaseClass {
     int i = 1;
 
@@ -55,14 +63,6 @@ class SubClass extends BaseClass {
     }
 }
 
-
-public class _03_InstancingSequence {
-
-    public static void main(String[] args) {
-        SubClass instance = new SubClass();
-        System.out.println("main : " + instance.getValue());    // running sequence : step-7
-    }
-}
 
 
 // 输出:

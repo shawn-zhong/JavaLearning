@@ -17,6 +17,8 @@ class HelloServiceImpl {
     public void sayHello() {
         System.out.println("Hello ShawnZHONG");
     }
+
+    public void sayGoodbye() { System.out.println("Good bye");}
 }
 
 class HelloMethodInterceptor implements MethodInterceptor {
@@ -37,6 +39,11 @@ public class ProxyDemo3 {
         enhancer.setSuperclass(HelloServiceImpl.class);     // 继承被代理类
         enhancer.setCallback(new HelloMethodInterceptor()); // 设置回调
         HelloServiceImpl helloService = (HelloServiceImpl) enhancer.create();   // 生成代理对象
+
         helloService.sayHello();    // 在调用代理类中方法时会被我们实现的方法拦截器进行拦截
+        helloService.sayGoodbye();
     }
 }
+
+
+// http://ifeve.com/jdk动态代理代理与cglib代理原理探究/

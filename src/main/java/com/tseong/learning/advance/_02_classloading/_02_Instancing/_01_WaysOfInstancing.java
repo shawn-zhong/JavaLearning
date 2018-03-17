@@ -26,7 +26,7 @@ public class _01_WaysOfInstancing {
 
         // 4 by constructor.newInstance (reflects)
         Constructor<Student> constructor = Student.class.getConstructor(String.class, int.class);
-        //constructor.setAccessible(true);    // 事实证明这种想法错误:因为该构造函数是private的， 这里可以设置可达性绕开; 即使设置了true还是会抛出异常, 使用4.1的方法
+        //constructor.setAccessible(true);    // 事实证明这种想法错误:因为该构造函数是private的， 这里可以设置可达性绕开; 即使设置了true还是会抛出异常, 使用4.1的方法，获取private方法需要加入..Declare..
         student = constructor.newInstance("zhong", 12);
         System.out.println("by reflect constructor " + student.toString() + " " + student.hashCode());
 

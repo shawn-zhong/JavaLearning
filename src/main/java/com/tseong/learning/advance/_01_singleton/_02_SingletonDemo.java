@@ -20,7 +20,7 @@ class Singleton02 {
     3. constructor(inst);      // 真正执行构造函数
     4. 初次访问
 
-    加入一个线程运行到上面到2，还没执行3，另一个线程进入下面代码4，此时instance不为null，将返回一个没有初始化到类！ 加上volatile没事
+    假如一个线程运行到上面到2，还没执行3，另一个线程进入下面代码4，此时instance不为null，将返回一个没有初始化到类！ 加上volatile没事
      */
 
     private Singleton02() {}
