@@ -1,7 +1,7 @@
-package com.tseong.learning.container.concurrent.map;
+package com.tseong.learning.basic.container.concurrent.map;
 
 
-import com.tseong.learning.container.blockingQueue.DelayQueue.DelayedElement;
+import com.tseong.learning.basic.container.blockingQueue.DelayQueue.DelayedElement;
 
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.LinkedBlockingDeque;

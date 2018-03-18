@@ -1,9 +1,8 @@
-package com.tseong.learning.container.concurrent._ReadMe;
+package com.tseong.learning.basic.container.concurrent._ReadMe;
 
 public class _01_readme {
 
     public static void main(String[] args) {
-
 
     }
 }

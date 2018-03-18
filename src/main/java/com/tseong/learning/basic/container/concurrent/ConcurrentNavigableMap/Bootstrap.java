@@ -1,4 +1,4 @@
-package com.tseong.learning.container.concurrent.ConcurrentNavigableMap;
+package com.tseong.learning.basic.container.concurrent.ConcurrentNavigableMap;
 
 import java.util.Map;
 import java.util.NavigableSet;

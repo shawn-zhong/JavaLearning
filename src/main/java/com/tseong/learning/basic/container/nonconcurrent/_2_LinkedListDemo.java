@@ -1,4 +1,5 @@
-package com.tseong.learning.container.nonconcurrent;
+package com.tseong.learning.basic.container.nonconcurrent;
+
 
 import java.util.Collections;
 import java.util.LinkedList;

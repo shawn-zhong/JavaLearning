@@ -1,4 +1,4 @@
-package com.tseong.learning.container.blockingQueue.BlockingQueues;
+package com.tseong.learning.basic.container.blockingQueue.BlockingQueues;
 
 import java.util.concurrent.BlockingQueue;
 

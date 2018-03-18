@@ -1,4 +1,4 @@
-package com.tseong.learning.container.nonconcurrent;
+package com.tseong.learning.basic.container.nonconcurrent;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package com.tseong.learning.advance._05_concurrent;
+package com.tseong.learning.advance._05_lock;
 
 public class _01_HappensBefore {
 

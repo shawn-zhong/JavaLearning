@@ -1,4 +1,4 @@
-package com.tseong.learning.container.concurrent.map;
+package com.tseong.learning.basic.container.concurrent.map;
 
 import java.util.HashMap;
 import java.util.Iterator;

@@ -1,4 +1,4 @@
-package com.tseong.learning.container.concurrent.CopyOnWrite;
+package com.tseong.learning.basic.container.concurrent.CopyOnWrite;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
