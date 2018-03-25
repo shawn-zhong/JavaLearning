@@ -58,6 +58,27 @@ public class _07_Java {
     8. 对脚本语言的支持
     9. Common Annotation
 
+
+    Java类的声明周期及其初始化时机 (注意类的初始化和实例化的区别)：
+    1. 加载 Loading
+    2. 连接 Linking
+        2.1 验证 Verification
+        2.2 准备 Preparation
+        2.3 解析 Resolution
+    3. 初始化 Initialization
+    4. 使用 using
+    5. 卸载 Unloading
+
+    JVM有且只有五种情况必须立即对类进行初始化：
+    1. new 设置／获取／调用 static 字段，方法的时候
+    2. 对类进行反射调用时 （Java.lang.reflect）
+    3. 当初始化一个类的时候，如果发现其父类还没有进行初始化，则需要先触发其父类的初始化
+    4. 当虚拟机启动时，用户需要指定要执行的类（main），初始化这个类
+    5. 1.7动态语言
+
+
+
+
      */
 
 }

@@ -30,6 +30,11 @@ public class _05_MySQL {
     4. Serializable
 
 
+    MyBatis:
+    一级缓存：作用域：同一个SqlSession中执行相同的SQL语句
+    二级缓存：作用域：多个sqlSession共享
+
+    MyBatis延迟加载（默认关）：先查主表需要的信息，里面包含的比如Association，需要用到数据再进行DB查询
 
      */
 
