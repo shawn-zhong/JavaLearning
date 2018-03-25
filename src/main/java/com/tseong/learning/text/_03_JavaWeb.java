@@ -28,7 +28,7 @@ public class _03_JavaWeb {
     － session是用户级别的；Application是web应用程序级别的，是一个全局作用域
     － 一个用户一个session，每个用户的session不同。用户所访问的网站多个页面共享一个session；一个web应用程序对应一个application，每个web应用程序的Application实例不同，但是一个web应用程序的多个用户之间共享一个application
     － 生命周期不同：session：注销，离开网站，关闭浏览器；application：启动web服务器至关闭web服务器
-    
+
 
     JSP中定义了三个指令： Page， include， taglib
 

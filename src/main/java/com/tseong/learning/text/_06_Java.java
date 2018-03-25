@@ -1,6 +1,6 @@
 package com.tseong.learning.text;
 
-public class _07_Java {
+public class _06_Java {
 
     /*
 
@@ -77,6 +77,29 @@ public class _07_Java {
     5. 1.7动态语言
 
 
+    JAVA基础知识：
+    － OO特性：封装，继承，多态，抽象
+    － JAVA修饰符：public，private，protected
+    － JRE包括：Java虚拟机，applte插件
+    － JDK包括：JRE，编译器，JavaDoc，调试器
+    － JAVA支持8种基本数据类型：
+        － boolean：true／false
+        － char：2个字节，unicode
+        － byte：1个字节，－128～127
+        － short：2个字节，－2^15~2^15-1
+        － int：4个字节，-2^31~2^31-1
+        － long：8个字节，－2^63~2^63-1    => long a = 1L;
+        － float: 4个字节，               => float f = 1.0f
+        － double：8个字节
+    - 浮点数比较大小：
+        － Math.abs(a-b) = 0 or Math.abs(a-b) < 0.00000001
+    - Java浮点数：1bit符号位 8bit指数位 23bit尾数
+    - 定点数：BigDecimal
+    - JAVA不支持继承多个类，但可以实现多个接口
+    - 抽象类和接口的区别：
+        － 只能实现一个抽象类；可以实现多个接口
+        － 可以不实现多有的抽象方法
+        － 接口中所有变量为final，所有函数为public；抽象方法可以不一样
 
 
      */
