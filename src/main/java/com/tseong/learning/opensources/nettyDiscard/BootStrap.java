@@ -22,4 +22,8 @@ public class BootStrap {
 
 telnet 127.0.0.1 8383
 
+
+refers to : https://waylau.com/netty-4-user-guide/Getting%20Started/Writing%20a%20Discard%20Server.html
+
+
  */
