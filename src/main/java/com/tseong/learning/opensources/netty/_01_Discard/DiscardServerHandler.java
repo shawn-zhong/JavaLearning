@@ -1,11 +1,7 @@
-package com.tseong.learning.opensources.nettyDiscard;
+package com.tseong.learning.opensources.netty._01_Discard;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.CharsetUtil;
-import io.netty.util.ReferenceCountUtil;
 
 /*
  服务器端处理通道，这里知识打印以下请求的内容，并不对请求进行任何的响应。
@@ -38,7 +34,6 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 
         ctx.write(msg);
         ctx.flush();
-
 
     }
 

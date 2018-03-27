@@ -1,4 +1,4 @@
-package com.tseong.learning.opensources.nettyDiscard;
+package com.tseong.learning.opensources.netty._01_Discard;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

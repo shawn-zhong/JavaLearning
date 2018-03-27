@@ -1,4 +1,4 @@
-package com.tseong.learning.opensources.nettyDiscard;
+package com.tseong.learning.opensources.netty._02_TimeServerClient;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
@@ -47,6 +47,9 @@ public class TimerServerHandler extends ChannelInboundHandlerAdapter {
                 ctx.close();
             }
         }); // 4
+
+        // 活着，可以使用简单的预定义监听器代码
+        // f.addListener(ChannelFutureListener.CLOSE);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.tseong.learning.opensources.netty;
+package com.tseong.learning.opensources.netty.nettyDemos;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

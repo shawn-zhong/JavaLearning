@@ -1,24 +1,17 @@
-package com.tseong.learning.opensources.netty;
+package com.tseong.learning.opensources.netty.nettyDemos;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.ReadTimeoutException;
 
-public class DiscardHandler extends ChannelInboundHandlerAdapter {
+public class DemoHandler3 extends ChannelInboundHandlerAdapter {
 
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf in = (ByteBuf) msg;
-        try {
-            while (in.isReadable()) {   // (1)
-                System.out.print((char) in.readByte());
-                System.out.flush();
-            }
-        } finally {
-            in.release();
-        }
+        String str = String.format("Handler3:%s", (String)msg);
+        System.out.println(str);
+        //ctx.writeAndFlush((String)msg);
     }
 
     @Override
@@ -28,5 +21,7 @@ public class DiscardHandler extends ChannelInboundHandlerAdapter {
             ctx.writeAndFlush(notify);
             return;
         }
+
+        cause.printStackTrace();
     }
 }

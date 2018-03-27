@@ -1,4 +1,4 @@
-package com.tseong.learning.opensources.nettyDiscard;
+package com.tseong.learning.opensources.netty._01_Discard;
 
 public class BootStrap {
 
