@@ -1,6 +1,5 @@
 package com.tseong.learning.opensources.netty._02_TimeServerClient;
 
-import com.tseong.learning.opensources.netty._01_Discard.DiscardServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -32,7 +31,7 @@ public class TimeServer {
 
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
-                    socketChannel.pipeline().addLast(new TimerServerHandler());
+                    socketChannel.pipeline().addLast(new TimeEncoder()).addLast(new TimerServerHandler());
                     //socketChannel.pipeline().addLast(new )
                 }
             });

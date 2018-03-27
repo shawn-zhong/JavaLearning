@@ -93,6 +93,5 @@ public class DiscardServer {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
-
     }
 }

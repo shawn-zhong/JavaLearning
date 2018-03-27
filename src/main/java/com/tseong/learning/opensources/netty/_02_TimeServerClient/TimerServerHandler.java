@@ -33,7 +33,10 @@ public class TimerServerHandler extends ChannelInboundHandlerAdapter {
         请注意,close() 方法也可能不会立马关闭，他也会返回一个ChannelFuture。
         */
 
-        final ChannelFuture f = ctx.writeAndFlush(time);    // 3
+        //final ChannelFuture f = ctx.writeAndFlush(time);    // 3
+
+        // 如果使用结构的化：
+        ChannelFuture f = ctx.writeAndFlush(new UnixTime());
 
         /*
         当一个写请求已经完成是如何通知到我们？这个只需要简单地在返回的 ChannelFuture 上增加一个ChannelFutureListener。这里我们构建了一个匿名的 ChannelFutureListener 类用来在操作完成时关闭 Channel。

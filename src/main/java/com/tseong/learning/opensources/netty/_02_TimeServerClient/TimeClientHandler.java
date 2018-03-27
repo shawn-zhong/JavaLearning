@@ -9,6 +9,8 @@ import java.util.Date;
 // 这种实现有问题，无法解决粘包的问题
 public class TimeClientHandler extends ChannelInboundHandlerAdapter {
 
+
+    /*
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf m = (ByteBuf) msg;  //1
@@ -19,6 +21,14 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter {
         } finally {
             m.release();
         }
+    }*/
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        // 直接处理传进来的结构
+        UnixTime m = (UnixTime) msg;
+        System.out.println(m);
+        ctx.close();
     }
 
     @Override
