@@ -134,6 +134,7 @@ public class _06_Java {
     4） 动态对象年龄判定
 
 
+
     JAVA Stream流水线解决方案: https://www.cnblogs.com/CarpenterLee/archive/2017/03/28/6637118.html
 
     Stream上的所有操作分为两类：中间操作和结束操作，中间操作只是一种标记，只有结束操作才会触发实际计算。中间操作又可以分为无状态的(Stateless)和有状态的(Stateful)，
@@ -197,6 +198,51 @@ public class _06_Java {
             返回一个Optional，但事实上底层是通过调用reduce()方法实现的
         3. 对于返回是数组的情况，毫无疑问的结果会放在数组当中。这么说当然是对的，但在最终返回数组之前，结果其实是存储在一种叫做Node的数据结构中的，Node是一种多叉树结构，元素存储在树的叶子当中，
         并且一个叶子节点可以存放多个元素，这样做是为了并行执行方便。
+
+
+
+
+    Lambda的底层实现：https://www.cnblogs.com/WJ5888/p/4667086.html
+
+    Lambda的使用：
+
+    @FunctionalInterface
+        interface Print<T> {
+        public void print(T x);
+    }
+
+    public class Lambda {
+        public static void PrintString(String s, Print<String> print) {
+            print.print(s);
+        }
+        public static void main(String[] args) {
+            PrintString("test", (x) -> System.out.println(x));
+        }
+    }
+
+    通过代码编织，增加一个方法和一个类文件，最终的Lambda表达式等价于以下形式
+    @FunctionalInterface
+        interface Print<T> {
+        public void print(T x);
+    }
+
+    public class Lambda {
+        public static void PrintString(String s, Print<String> print) {
+            print.print(s);
+        }
+        private static void lambda$0(String x) {
+            System.out.println(x);
+        }
+        final class $Lambda$1 implements Print{
+            @Override
+            public void print(Object x) {
+                lambda$0((String)x);
+            }
+        }
+        public static void main(String[] args) {
+            PrintString("test", new Lambda().new $Lambda$1());
+        }
+    }
 
 
      */
