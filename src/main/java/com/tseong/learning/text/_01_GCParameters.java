@@ -16,17 +16,16 @@ public class _01_GCParameters {
         /* 输出结果：
 
         PS Scavenge    -- PS Scavenge，全称是ParallelScavenge，是个并行的copying算法的收集器
-        PS MarkSweep   -- 负责执行full GC（收集整个GC堆，包括young gen、old gen、perm gen）的是PS MarkSweep, 但整个收集器并不是并行的，而在骨子里是跟Serial Old是同一份代码，是串行收集的。其算法是经典的LISP2算法，是一种mark-compact GC（不要被MarkSweep的名字骗了）
+        PS MarkSweep   -- 负责执行full GC（收集整个GC堆，包括young gen、old gen、perm gen）的是PS MarkSweep, 但整个收集器并不是并行的，而在骨子里是跟Serial Old是同一份代码，是串行收集的。
+                            其算法是经典的LISP2算法，是一种mark-compact GC（不要被MarkSweep的名字骗了）
 
          */
     }
 
     /*
-
     1 标记 - 清除算法
     2 复制算法
     3 标记 - 整理算法
-
     ----
 
     1. Serial（ -XX:+UseSerialGC ）. 新生代收集器算法。单线程收集器。采用复制算法避免内存碎片但是要预留一块空内存
@@ -117,10 +116,8 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.92-b14, mixed mode)
 
 /*
 
-作者：RednaxelaFX
         链接：https://www.zhihu.com/question/48780091/answer/113063216
-        来源：知乎
-        著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
 
         不奇怪，一切现象都是有原因的。先来了解些背景信息。在题主所使用的JDK 6 update 27的HotSpot VM里，-XX:+UseParallelGC会启用题主所说的配置（这也是HotSpot VM在Server Class Machine上的默认配置）。
         其中，负责执行minor GC（只收集young gen）的是PS Scavenge，全称是ParallelScavenge，是个并行的copying算法的收集器；而负责执行full GC（收集整个GC堆，包括young gen、old gen、perm gen）的是PS MarkSweep
