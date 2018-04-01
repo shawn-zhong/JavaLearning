@@ -20,7 +20,7 @@ public class _1_FixedThreadPool {
 
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-        // execute 方法没有返回值 (Runnable)
+        // 调用execute方法没有返回值 (Runnable)
         for (int i=0; i<10; i++) {
             executorService.execute(() -> {
                 System.out.println("thread name: " + Thread.currentThread().getName());

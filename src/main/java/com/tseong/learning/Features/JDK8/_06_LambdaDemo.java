@@ -1,7 +1,5 @@
 package com.tseong.learning.Features.JDK8;
 
-import com.sun.javafx.scene.layout.region.Margins;
-import com.tseong.learning.thread.lock.condition.ConditionDemo;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.jvmTools.jstack;
+package com.tseong.learning.basic.thread.jvmTools.jstack;
 
 import java.util.concurrent.TimeUnit;
 

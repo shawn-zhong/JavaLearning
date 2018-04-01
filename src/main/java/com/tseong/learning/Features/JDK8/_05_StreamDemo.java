@@ -41,7 +41,7 @@ public class _05_StreamDemo {
         abc.set(0, 1);
 
         for (IntObj obj : myObjects) {
-            System.out.println("original val : " + obj.a);  // 没有变，说明map是有新建内存的
+            System.out.println("original val : " + obj.a);  // 没有变，说明collect是有新建内存的
         }
 
         String stringRet = myObjects.stream().map(x->String.valueOf(x.b)).collect(Collectors.joining(", "));
@@ -110,7 +110,7 @@ public class _05_StreamDemo {
     }
 
     public List<String> createdDemoList() {
-        int max = 10000000;
+        int max = 100000;
         List<String> values = new ArrayList<>(max);
         for (int i = 0; i < max; i++) {
             UUID uuid = UUID.randomUUID();

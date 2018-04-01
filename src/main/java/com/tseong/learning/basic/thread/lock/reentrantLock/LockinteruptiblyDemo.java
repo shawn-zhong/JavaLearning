@@ -9,6 +9,7 @@ public class LockinteruptiblyDemo {
     public static void main(String[] args) {
         LockinteruptiblyDemo instance = new LockinteruptiblyDemo();
 
+        // demo 1
         System.out.println("below is the lock competition of 2threads");
         instance.demoLockCompetition();
 
@@ -18,6 +19,7 @@ public class LockinteruptiblyDemo {
             e.printStackTrace();
         }
 
+        // demo2
         System.out.println("below interrupts thread-2 while thread-1 occupying the lock, but thread-2 returns immediatially:");
         instance.demoInterrupt();
     }

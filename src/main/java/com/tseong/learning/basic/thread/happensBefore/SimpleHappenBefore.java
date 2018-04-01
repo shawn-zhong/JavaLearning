@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.happensBefore;
+package com.tseong.learning.basic.thread.happensBefore;
 
 /**
  * 一个简单的展示Happen-before的例子
