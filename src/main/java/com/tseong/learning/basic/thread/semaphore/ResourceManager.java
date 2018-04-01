@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.semaphore;
+package com.tseong.learning.basic.thread.semaphore;
 
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;

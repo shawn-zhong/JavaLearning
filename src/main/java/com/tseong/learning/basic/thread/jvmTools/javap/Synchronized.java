@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.jvmTools.javap;
+package com.tseong.learning.basic.thread.jvmTools.javap;
 
 public class Synchronized {
 

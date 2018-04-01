@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.lock.reentrantLock;
+package com.tseong.learning.basic.thread.lock.reentrantLock;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;

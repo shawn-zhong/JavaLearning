@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.threadpool.ScheduledExecutorService;
+package com.tseong.learning.basic.thread.threadpool.ScheduledExecutorService;
 
 import java.time.LocalTime;
 import java.util.Objects;

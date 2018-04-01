@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.callable;
+package com.tseong.learning.basic.thread.callable;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;

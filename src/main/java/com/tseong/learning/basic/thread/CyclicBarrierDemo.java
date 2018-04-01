@@ -1,4 +1,4 @@
-package com.tseong.learning.thread;
+package com.tseong.learning.basic.thread;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;

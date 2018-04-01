@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.Atomic;
+package com.tseong.learning.basic.thread.Atomic;
 
 import java.util.concurrent.atomic.AtomicReference;
 

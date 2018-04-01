@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.threadpool.ForkJoinPool;
+package com.tseong.learning.basic.thread.threadpool.ForkJoinPool;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;

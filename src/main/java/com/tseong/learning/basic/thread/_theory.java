@@ -1,4 +1,4 @@
-package com.tseong.learning.thread;
+package com.tseong.learning.basic.thread;
 
 public class _theory {
 

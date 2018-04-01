@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.basic;
+package com.tseong.learning.basic.thread.basic;
 
 public class _1_JoinDemo {
 

@@ -43,8 +43,6 @@ public class _03_CharsetDemo {
 
         inf.close();
         outf.close();
-
-
     }
 }
 

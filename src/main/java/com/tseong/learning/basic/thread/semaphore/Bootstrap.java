@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.semaphore;
+package com.tseong.learning.basic.thread.semaphore;
 
 public class Bootstrap {
 

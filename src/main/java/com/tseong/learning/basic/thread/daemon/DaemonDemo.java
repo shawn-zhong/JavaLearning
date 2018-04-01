@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.daemon;
+package com.tseong.learning.basic.thread.daemon;
 
 public class DaemonDemo {
 

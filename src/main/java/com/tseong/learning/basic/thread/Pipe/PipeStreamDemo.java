@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.Pipe;
+package com.tseong.learning.basic.thread.Pipe;
 
 import java.io.IOException;
 import java.io.PipedInputStream;

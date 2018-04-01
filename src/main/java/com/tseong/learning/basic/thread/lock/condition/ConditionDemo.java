@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.lock.condition;
+package com.tseong.learning.basic.thread.lock.condition;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;

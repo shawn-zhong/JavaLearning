@@ -38,7 +38,7 @@ public class Bootstrap {
     }
 
     void linkedBlockingQueueDemo() {
-        /* linkedBlockingQueue 分离了putLock和takeLock,
+        /* linkedBlockingQueue 分离了putLock和takeLock, ArrayBlockingQueue可以指定消费线程的公平/非公平消费
         LinkedBlockingQueue的优点是锁分离，那就很适合生产和消费频率差不多的场景，这样生产和消费互不干涉的执行，
         能达到不错的效率，尽量不使用remove操作，获取两把锁的效率更低，可以使用size方法（就是计数器直接返回），这个还是比较重要的，
         有些集合不适合使用size->例如ConcurrentLinkedQueue，正确应该使用isEmpty(); 对比ConcurrentLinkedQueue, LinkedBlockingQueue多了take和put方法

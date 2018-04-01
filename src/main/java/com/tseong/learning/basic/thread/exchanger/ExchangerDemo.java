@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.exchanger;
+package com.tseong.learning.basic.thread.exchanger;
 
 import java.util.concurrent.Exchanger;
 

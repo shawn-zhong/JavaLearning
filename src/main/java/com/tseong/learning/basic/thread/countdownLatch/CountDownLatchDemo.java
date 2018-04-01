@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.countdownLatch;
+package com.tseong.learning.basic.thread.countdownLatch;
 
 import java.util.concurrent.CountDownLatch;
 

@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.basic;
+package com.tseong.learning.basic.thread.basic;
 
 import sun.misc.Unsafe;
 

@@ -21,6 +21,7 @@ B) BlockingQueue/TransferQueue
     - synchronousQueue          // 一个不存储元素的阻塞队列，每一个put操作必须等待一个take操作，否则不能继续添加元素
     - DelayQueue                // 一个支持延时获取元素的无界阻塞队列
     - LinkedBlockingDeque       // 由链表组成的双向阻塞队列 多了方法：addFirst addLast offerFirst offerLast peekFirst peekLast takeFirst..
+
     - LinkedTransferQueue       // 一个由链表结构组成的无界阻塞TransferQueue队列。相比其它，多了tryTransfer和transfer方法;
 
     // transfer方法：如果当前有消费者正在等待接受元素, transfer方法可以把生产者掺入的元素立刻transfer给消费者，如果没有消费者在等待接受元素，transfer方法会将元素放在队列的tail节点，

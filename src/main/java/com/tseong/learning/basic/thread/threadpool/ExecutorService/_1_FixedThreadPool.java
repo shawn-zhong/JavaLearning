@@ -1,4 +1,4 @@
-package com.tseong.learning.thread.threadpool.ExecutorService;
+package com.tseong.learning.basic.thread.threadpool.ExecutorService;
 
 import java.util.HashSet;
 import java.util.List;
