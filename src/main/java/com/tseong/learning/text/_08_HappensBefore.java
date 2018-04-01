@@ -1,13 +1,13 @@
-package com.tseong.learning.advance._05_lock;
+package com.tseong.learning.text;
 
-public class _01_HappensBefore {
+public class _08_HappensBefore {
 
     /*
 
     另外，Java内存模型具备一些先天的“有序性”，即不需要通过任何手段就能够得到保证的有序性，这个通常也称为 happens-before 原则。如果两个操作的执行次序无法从happens-before原则推导出来，那么它们就不能保证它们的有序性，虚拟机可以随意地对它们进行重排序。
 
     - 程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；-> 这个规则是用来保证程序在单线程中执行结果的正确性，但无法保证程序在多线程中执行的正确性。
-    - 锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作； -> 也就是说无论在单线程中还是多线程中，同一个锁如果出于被锁定的状态，那么必须先对锁进行了释放操作，后面才能继续进行 lock 操作。
+    - 锁定规则：一个unLock操作先行发生于后面对同一个锁的lock操作； -> 也就是说无论在单线程中还是多线程中，同一个锁如果出于被锁定的状态，那么必须先对锁进行了释放操作，后面才能继续进行 lock 操作。
     - volatile 变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作 -> 直观地解释就是，如果一个线程先去写一个变量，然后一个线程去进行读取，那么写入操作肯定会先行发生于读操作。
     - 传递规则：如果操作 A 先行发生于操作 B，而操作 B 又先行发生于操作 C，则可以得出操作 A 先行发生于操作 C -> 就是体现 happens-before 原则具备传递性
 
@@ -79,7 +79,7 @@ public class _01_HappensBefore {
 
     注意线程的interrupt操作，
     － 如果有抛出InterruptedException异常，抛出之前，IsInterrupted标志位会被清除，isInterrupted（）返回false
-    － 如果没有抛出异常（比如噢做循环），则isInterrupted会返回true
+    － 如果没有抛出异常（比如做循环），则isInterrupted会返回true
 
 
     使用 javap -v xx.class 来查看实现细节
@@ -107,7 +107,7 @@ public class _01_HappensBefore {
 
 
     线程池的处理流程
-    1. 如果当前运行的线程烧鱼corePoolSize，则创建新线程来执行任务（注意，执行这一步需要获取全局锁）
+    1. 如果当前运行的线程少于corePoolSize，则创建新线程来执行任务（注意，执行这一步需要获取全局锁）
     2. 如果运行的线程等于或多余corePoolSize， 则将任务加入BlockingQueue
     3. 如果无法将任务加入BlockingQueue（队列已满），则创建新的线程来处理任务（注意，执行这一步需要获取全局锁）
     4. 如果创建新线程将使当前总线程数超出maximumPoolSize，任务将被拒绝，并调用RejectedExecutionHandler.rejectedExecution()方法
@@ -116,9 +116,6 @@ public class _01_HappensBefore {
     － CPU密集型任务应配置尽可能小的线程池，比如 N(cpu)＋1 个线程的线程池
     － IO密集型任务由于并不是一直在执行任务，则应配置尽可能多的线程，如2*N（cpu）－ 另一说，比如监听一个端口使用一个线程就好了
     － 混合型任务，可以尝试拆分
-
-
-
 
      */
 }

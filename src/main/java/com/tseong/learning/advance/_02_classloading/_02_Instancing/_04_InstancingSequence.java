@@ -1,5 +1,6 @@
 package com.tseong.learning.advance._02_classloading._02_Instancing;
 
+// 这个例子很好
 // 这个例子关键在于说明类的初始化操作和类的实例化操作可以是并行的，也就是类的实例化操作可以在初始化操作完成之前完成
 public class _04_InstancingSequence {
 

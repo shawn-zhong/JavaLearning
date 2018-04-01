@@ -39,8 +39,6 @@ public class _02_InstancingSequence {
             8
             4
             */
-
-
     }
 
 }
