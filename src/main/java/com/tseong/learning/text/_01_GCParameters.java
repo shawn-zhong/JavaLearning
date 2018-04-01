@@ -69,9 +69,7 @@ public class _01_GCParameters {
     */
 
     /*
-
     Young Generation        Old Generation          JVM Options
-
     Serial                  Serial                  -XX:+UseSerialGC
     Parallel Scavenge       Serial                  -XX:+UseParallelGC -XX:-UseParallelOldGC (?)
     Parallel New            Serial                  -XX:+UseParNewGC
@@ -85,7 +83,6 @@ public class _01_GCParameters {
 
     PS: UseConcMarkSweepGC is "ParNew" + "CMS" + "Serial Old". "CMS" is used most of the time to collect
     the tenured generation. "Serial Old" is used when a concurrent mode failure occurs.
-
      */
 }
 
@@ -116,8 +113,6 @@ Java(TM) SE Runtime Environment (build 1.8.0_92-b14)
 Java HotSpot(TM) 64-Bit Server VM (build 25.92-b14, mixed mode)
 
  */
-
-
 
 
 /*
@@ -157,5 +152,37 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.92-b14, mixed mode)
         另外，做完full GC后old gen的使用量上升也是非常正常的行为。HotSpot的full GC实现中，默认young gen里所有活的对象都要晋升到old gen，实在晋升不了才会留在young gen。假如做full GC的时候，old gen里的对象几乎没有死掉的，
         而young gen又要晋升活对象上来，那么full GC结束后old gen的使用量自然就上升了。
 
+*/
 
-        */
+
+/*
+
+常见GC方式：
+
+Eden S0 S1      Tenured         Permenent
+
+1. 绝大部分新生成的对象都放在Eden区，当Eden区将满，JVM会因申请不到内存，而触发Young GC ,进行Eden区+有对象的Survivor区(设为S0区)垃圾回收，把存活的对象用复制算法拷贝到一个空的Survivor(S1)中，此时Eden区被清空，另外一个Survivor S0也为空。
+下次触发Young GC回收Eden+S0，将存活对象拷贝到S1中。新生代垃圾回收简单、粗暴、高效。
+
+2. Old区(每次Young GC都会使Survivor区存活对象值+1，直到阈值)。 3.Old区也会进行垃圾收集(Young GC),发生一次 Major GC 至少伴随一次Young GC，一般比Young GC慢十倍以上。
+
+3. JVM在Old区申请不到内存，会进行Full GC。Old区使用一般采用Concurrent-Mark–Sweep策略回收内存。
+总结：Java垃圾回收器是一种“自适应的、分代的、停止—复制、标记-清扫”式的垃圾回收器。
+
+缺点：
+
+GC过程中会出现STW(Stop-The-World)，若Old区对象太多，STW耗费大量时间。
+CMS收集器对CPU资源很敏感。
+CMS收集器无法处理浮动垃圾，可能出现“Concurrent Mode Failure”失败而导致另一次Full GC的产生。
+CMS导致内存碎片问题。
+
+在G1中，堆被划分成 许多个连续的区域(region)。每个区域大小相等，在1M~32M之间。JVM最多支持2000个区域，可推算G1能支持的最大内存为2000*32M=62.5G。区域(region)的大小在JVM初始化的时候决定，也可以用-XX:G1HeapReginSize设置。
+在G1中没有物理上的Yong(Eden/Survivor)/Old Generation，它们是逻辑的，使用一些非连续的区域(Region)组成的。
+G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时候，开始出发收集。
+
+
+G1虽然保留了CMS关于代的概念，但是代已经不是物理上连续区域，而是一个逻辑的概念。在标记过程中，每个区域的对象活性都被计算，在回收时候，就可以根据用户设置的停顿时间，选择活性较低的区域收集，这样既能保证垃圾回收，又能保证停顿时间，
+而且也不会降低太多的吞吐量。
+Remark阶段新算法的运用，以及收集过程中的压缩，都弥补了CMS不足。引用Oracle官网的一句话：“G1 is planned as the long term replacement for the Concurrent Mark-Sweep Collector (CMS)”。
+
+ */
