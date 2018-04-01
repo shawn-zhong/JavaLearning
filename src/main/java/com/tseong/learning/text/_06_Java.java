@@ -29,6 +29,7 @@ public class _06_Java {
     - jstack : Java堆栈跟踪工具
 
 
+
     JAva线程池不建议用Executors去创建，而是通过ThreadPoolExecutor的方式，这样的处理方式更加明了，而且避免了资源耗尽的风险
     通过Executors返回的线程池有以下弊端：
     1）FixedThreadPool 和 SingleThreadPool：允许请求的队列长度为Integer.MAX_VALUE, 可能OOM
@@ -58,8 +59,7 @@ public class _06_Java {
     4. Lambda表达式
     5. 四大函数式接口
     6. Stream
-    7. Fork/Join框架
-    8. Optional类
+    7. Optional类
 
     ＊ JDK1.7新特性
     1. 对集合类的语言支持                      // List<String> list = ["item"];
@@ -69,6 +69,7 @@ public class _06_Java {
     5. switch中使用string
     6. 二进制字面量                           // byte aByte = (byte)0b001;  short aShort = (short)0b010;
     7. 简化可变参数方法调用
+    8. Fork/Join框架
 
     http://blog.csdn.net/wlanye/article/details/51954855
 
@@ -84,6 +85,7 @@ public class _06_Java {
     9. Common Annotation
 
 
+
     Java类的声明周期及其初始化时机 (注意类的初始化和实例化的区别)：
     1. 加载 Loading
     2. 连接 Linking
@@ -93,6 +95,8 @@ public class _06_Java {
     3. 初始化 Initialization
     4. 使用 using
     5. 卸载 Unloading
+
+
 
     JVM有且只有五种情况必须立即对类进行初始化：
     1. new 设置／获取／调用 static 字段，方法的时候
