@@ -24,6 +24,9 @@ public class _06_Java {
 
         YGC - 表示Minor GC的次数，YGCT － 表示Minor GC的总耗时
         FGC - 表示Full GC的次数， FGCT - 表示Full GC的总耗时
+    - jinfo: 实时地查看和调整虚拟机各项参数。
+    - jmap : 用于生成堆转储快照 （dump文件）， 并使用jhat进行分析
+    - jstack : Java堆栈跟踪工具
 
 
     JAva线程池不建议用Executors去创建，而是通过ThreadPoolExecutor的方式，这样的处理方式更加明了，而且避免了资源耗尽的风险
@@ -135,7 +138,14 @@ public class _06_Java {
 
     Stream上的所有操作分为两类：中间操作和结束操作，中间操作只是一种标记，只有结束操作才会触发实际计算。中间操作又可以分为无状态的(Stateless)和有状态的(Stateful)，
     无状态中间操作是指元素的处理不受前面元素的影响，而有状态的中间操作必须等到所有元素处理之后才直到最终结果，比如排序是有状态操作，在读取所有元素之前并不能确定排序结果；
-    结束操作又可以分为短路操作和非短路操作，短路操作是指不用处理全部元素就可以返回结果，比如找到第一个满足条件的元素。之所以要进行如此细致的划分，
+    结束操作又可以分为短路操作和非短路操作，短路操作是指不用处理全部元素就可以返回结果，比如找到第一个满足条件的元素。之所以要进行如此细致的划分，之所以要进行如此精细的
+    化划分，是因为底层对每一种情况的处理方式butong
+    中间操作：
+        - 无状态：unordered(), filter(), map(), mapToInt(), mapToLong(), mapToDouble(), flatMap(), flatMapToInt(), flatMapToLong(), flatMapToDouble(), peek()
+        - 有状态: distinct(), sorted(), limit(), skip()
+    结束操作：
+        - 非短路操作：forEach(), forEachOrdered(), toArray(), reduce(), collect(), max(), min(), count()
+        - 短路操作：anyMatch(), allMatch(), noneMatch(), findFirst(), findAny()
 
 
     我们大致能够想到，应该采用某种方式记录用户每一步大操作，当用户调用结束操作时将之前记录的操作叠加到一起在一次迭代中全部执行掉。沿着这个思路，有几个问题需要解决；
@@ -147,10 +157,48 @@ public class _06_Java {
     1. 用户的操作如何记录？
         图中通过Collection.Stram()方法得到Head也就是stage0, 紧接着调用一系列的中间操作，不断产生新的Stream。这些Stream对象以双向链表的形式组织在一起，构成整个流水线。由于每个Stage都记录
         了前一个Stage和本次的操作以及回调函数，依靠这种结构就能建立骑对数据源的所有操作。这就是Stream记录操作的方式。（Stream由某种数据结构产生，每次调用中间操作都会产生一个新的Stream）
+
     2. 操作如何叠加？
         通过Sink接口的协议协调Stage之间的调用关系。每个Stage都会将自己的操作封装到一个Sink里，前一个Stage只需要调用后一个Stage的accept（）方法即可，并不需要直到其内部是如何处理的。当然对于
         有状态的操作，Sink的begin（）和end（）方法也是必须实现的。比如Sorted（）是一个有状态的中间操作，其对应的Sink.begin（）方法可能创建一个盛放结果的容器，而accept（）方法负责将元素添加到
-        该容器，最后end（）负责对容器进行排序。对于短路操作
+        该容器，最后end（）负责对容器进行排序。对于短路操作Sink.cancellationRequested()也是必须实现的，比如Stream.findFirst()是短路操作，只要找到一个元素，cancellationRequested()就应该返回true，
+        以便调用者尽快结束查找。Sink的四个接口方法常常互相协作，共同完成计算任务。实际上Stream API内部实现的本质，就是如何重载Sink的这四个接口方法
+        有了Sink对操作的包装，Stage之间的调用问题就解决了，执行时只需要从流水线的head开始对数据源依次调用每个Stage对应的Sink.{begin(), accept(). cancellationRequested(). end()}方法就可以了。
+        一种可能的Sink.accept()方法流程是这样的：
+        void accept(U u) {
+            1. 使用当前Sink包装的回调函数处理u
+            2. 将处理结果传递给流水线下游的sink
+        }
+
+        举例 Sorted （ 有状态的中间操作 ）方法Sink的四个接口的协同工作：
+        1. 首先begin()方法告诉Sink参与排序的元素个数，方便确定中间结果容器的大小
+        2. 之后通过accept()方法将元素添加到中间结果当中，最终执行时调用者会不断调用该方法，直到便利所有元素
+        3. 最后end（）方法告诉Sink所有元素遍历完毕，启动排序步骤。排序完成后将结果传递给下游的Sink
+        4. 如果下游的Sink是短路操作，将结果传递给下游时不断询问下游cancellationRequested()是否可以结束处理
+
+    3. 叠加之后的操作如何执行
+        Sink完美封装了Stream每一步操作，并给出了[处理->转发]的模式来叠加操作。这一连串的齿轮已经咬合，就差最后一步拨动齿轮启动执行。是什么启动这一连串的操作呢？也许你已经想到了启动的原始动力就是
+        结束操作(Terminal Operation)，一旦调用某个结束操作，就会触发整个流水线的执行。
+        结束操作之后不能再有别的操作，所以结束操作不会创建新的流水线阶段(Stage)，直观的说就是流水线的链表不会在往后延伸了。结束操作会创建一个包装了自己操作的Sink，这也是流水线中最后一个Sink，
+        这个Sink只需要处理数据而不需要将结果传递给下游的Sink（因为没有下游）。对于Sink的[处理->转发]模型，结束操作的Sink就是调用链的出口。
+        为什么要产生一个新对象而不是返回一个Sink字段？这是因为使用opWrapSink()可以将当前操作与下游Sink（上文中的downstream参数）结合成新Sink。试想只要从流水线的最后一个Stage开始，不断调用上一个Stage的opWrapSink()方法直到最开始
+        （不包括stage0，因为stage0代表数据源，不包含操作），就可以得到一个代表了流水线上所有操作的Sink，用代码表示就是这样：
+        现在流水线上从开始到结束的所有的操作都被包装到了一个Sink里，执行这个Sink就相当于执行整个流水线
+
+    4. 执行后的结果在哪里
+        返回类型    对应的结束操作
+        boolean	    anyMatch()      allMatch()      noneMatch()
+        Optional	findFirst()     findAny()
+        归约结果	    reduce()        collect()
+        数组	        toArray()
+
+        1. 对于表中返回boolean或者Optional的操作（Optional是存放一个值的容器）, 由于值返回一个值，只需要在对应的Sink中记录这个值，等到执行结束时返回就可以了
+        2. 对于规约操作，最终结果放在用户调用时指定的容器中（容器类型通过收集器指定）。collect(), reduce(), max(), min()都是规约操作，虽然max()和min()也是
+            返回一个Optional，但事实上底层是通过调用reduce()方法实现的
+        3. 对于返回是数组的情况，毫无疑问的结果会放在数组当中。这么说当然是对的，但在最终返回数组之前，结果其实是存储在一种叫做Node的数据结构中的，Node是一种多叉树结构，元素存储在树的叶子当中，
+        并且一个叶子节点可以存放多个元素，这样做是为了并行执行方便。
+
+
      */
 
 }
