@@ -4,6 +4,28 @@ public class _06_Java {
 
     /*
 
+    调试JVM的方法:
+    - 应用程序打开JMX接口，然后使用JConsole或JVisualVM
+    - 使用飞行记录器（jcmd jmc）：-XX:+UnlockCommercialFeatures -XX:+FlightRecorder，使用jcmd打印处dump信息，使用jmc.exe分析
+    - jps命令打印出进程状态信息（通过RMI协议查询开启了RMI服务的远程虚拟机进程状态）
+        jps [options] [hostid]
+    - jstat：虚拟机同级信息监视工具：（看JVM垃圾回收）
+        jstat -gcutil [进程号]
+
+        jstat -gcutil 25444 1000 5  (每隔1000毫秒查询一次，查询5次)
+        S0     S1     E      O      P     YGC     YGCT    FGC    FGCT     GCT
+
+        S0      S1      E      O      P         YGC     YGCT       FGC   FGCT     GCT
+        58.34   0.00    71.44  23.88  72.08     85498   220.502    14    1.182   221.683
+        0.00    33.34   35.76  24.32  72.08     85499   220.503    14    1.182   221.685
+        25.00   0.00    40.51  24.33  72.08     85500   220.505    14    1.182   221.687
+        0.00    50.00   36.37  24.33  72.08     85501   220.507    14    1.182   221.688
+        0.00    0.00    0.00   24.35  72.08     85502   220.509    14    1.182   221.691
+
+        YGC - 表示Minor GC的次数，YGCT － 表示Minor GC的总耗时
+        FGC - 表示Full GC的次数， FGCT - 表示Full GC的总耗时
+
+
     JAva线程池不建议用Executors去创建，而是通过ThreadPoolExecutor的方式，这样的处理方式更加明了，而且避免了资源耗尽的风险
     通过Executors返回的线程池有以下弊端：
     1）FixedThreadPool 和 SingleThreadPool：允许请求的队列长度为Integer.MAX_VALUE, 可能OOM
@@ -111,7 +133,10 @@ public class _06_Java {
 
     JAVA Stream流水线解决方案: https://www.cnblogs.com/CarpenterLee/archive/2017/03/28/6637118.html
 
-    
+    Stream上的所有操作分为两类：中间操作和结束操作，中间操作只是一种标记，只有结束操作才会触发实际计算。中间操作又可以分为无状态的(Stateless)和有状态的(Stateful)，
+    无状态中间操作是指元素的处理不受前面元素的影响，而有状态的中间操作必须等到所有元素处理之后才直到最终结果，比如排序是有状态操作，在读取所有元素之前并不能确定排序结果；
+    结束操作又可以分为短路操作和非短路操作，短路操作是指不用处理全部元素就可以返回结果，比如找到第一个满足条件的元素。之所以要进行如此细致的划分，
+
 
     我们大致能够想到，应该采用某种方式记录用户每一步大操作，当用户调用结束操作时将之前记录的操作叠加到一起在一次迭代中全部执行掉。沿着这个思路，有几个问题需要解决；
     1. 用户的操作如何记录？
