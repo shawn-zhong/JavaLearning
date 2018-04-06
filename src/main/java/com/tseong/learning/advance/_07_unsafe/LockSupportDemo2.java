@@ -77,7 +77,7 @@ public class LockSupportDemo2 {
             lock.lock();
 
             try {
-                condition.await();  // 和
+                condition.await();  //
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
