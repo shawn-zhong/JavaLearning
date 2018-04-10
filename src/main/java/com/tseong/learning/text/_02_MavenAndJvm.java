@@ -20,5 +20,29 @@ public class _02_MavenAndJvm {
     -XX:NewRatio    :   年轻代与年老代的比值
     -Xss128k    : 设置每个线程的堆栈大小
 
+
+    将文件checkout到本地目录
+    1 svn checkout path（path是服务器上的目录）
+    2 例如：svn checkout svn://192.168.1.1/pro/domain
+    3 简写：svn co
+
+    往版本库中添加新的文件
+    1 svn add file
+    2 例如：svn add test.php(添加test.php)
+    3 svn add *.php(添加当前目录下所有的php文件)
+
+    将改动的文件提交到版本库
+    1 svn commit -m “LogMessage“ [-N] [--no-unlock] PATH　　　　　　　　(如果选择了保持锁，就使用–no-unlock开关)
+    2 例如：svn commit -m “add test file for my test“ test.php
+    3 简写：svn ci
+
+    加锁/解锁
+    1 svn lock -m “LockMessage“ [--force] PATH
+    2 例如：svn lock -m “lock test file“ test.php
+    3 svn unlock PATH
+
+    https://www.cnblogs.com/luckythan/p/4478706.html
+
+
      */
 }
