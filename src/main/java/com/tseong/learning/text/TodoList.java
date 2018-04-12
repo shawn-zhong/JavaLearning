@@ -11,6 +11,7 @@ public class TodoList {
     5. Dubbo和Dubbox的使用
     6. zookeeper的使用
     7. Docker的使用
+    8. Curator的使用
 
      */
 }
