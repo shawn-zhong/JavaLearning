@@ -63,6 +63,16 @@ public class _05_MySQL {
 
 
 
+    Innodb 的锁机制：
+    source: https://www.cnblogs.com/janehoo/p/5603983.html
+
+    Innodb 的锁分两类：lock和latch
+        - latch主要是保证并发线程操作临界资源的正确性，要求时间非常短，所以没有死锁检测机制。latch包括mutex（互斥量）和rwlock（读写锁）
+        - lock是面向事务，操作（表、页（Innodb没有页锁）、行）等对象，用来管理共享资源的并发访问，是有死锁检测机制的
+
+    行锁：innodb实现了多粒度锁：表锁，行锁，
+
+
      */
 
 }
