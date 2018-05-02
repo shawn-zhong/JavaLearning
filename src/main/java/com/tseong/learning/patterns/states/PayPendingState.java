@@ -5,12 +5,12 @@ import com.tseong.learning.patterns.templateMethod.PayProcessor;
 
 public class PayPendingState extends PayState {
     public PayPendingState(ChargePolicy policy) {
-        super(policy);
+       // super(policy);
     }
 
     @Override
     public void Handle(PayProcessor processor) {
         // processing ..
-        processor.setState(new PaySuccessState(policy));
+       // processor.setState(new PaySuccessState(policy));
     }
 }

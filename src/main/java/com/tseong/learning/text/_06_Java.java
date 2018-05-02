@@ -102,7 +102,7 @@ public class _06_Java {
     1. new 设置／获取／调用 static 字段，方法的时候
     2. 对类进行反射调用时 （Java.lang.reflect）
     3. 当初始化一个类的时候，如果发现其父类还没有进行初始化，则需要先触发其父类的初始化
-    4. 当虚拟机启动时，用户需要指定要执行的类（main），初始化这个类
+    4. 当虚拟机启动时，用户需要指定要执行的类（Api），初始化这个类
     5. 1.7动态语言
 
 
@@ -219,7 +219,7 @@ public class _06_Java {
         public static void PrintString(String s, Print<String> print) {
             print.print(s);
         }
-        public static void main(String[] args) {
+        public static void Api(String[] args) {
             PrintString("test", (x) -> System.out.println(x));
         }
     }
@@ -243,7 +243,7 @@ public class _06_Java {
                 lambda$0((String)x);
             }
         }
-        public static void main(String[] args) {
+        public static void Api(String[] args) {
             PrintString("test", new Lambda().new $Lambda$1());
         }
     }

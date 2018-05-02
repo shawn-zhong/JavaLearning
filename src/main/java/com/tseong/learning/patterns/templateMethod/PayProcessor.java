@@ -6,6 +6,12 @@ public abstract class PayProcessor {
 
     PayState currentState;
 
+    public void process() {
+
+        // while
+        currentState.Handle(this);
+    }
+
     public void setState(PayState state) {
         currentState = state;
     }
@@ -36,9 +42,5 @@ public abstract class PayProcessor {
 
     }
 
-    public void process() {
 
-        // while
-        currentState.Handle(this);
-    }
 }

@@ -4,7 +4,7 @@ public class _03_InstancingSequence {
 
     public static void main(String[] args) {
         SubClass instance = new SubClass();
-        System.out.println("main : " + instance.getValue());    // running sequence : step-7
+        System.out.println("Api : " + instance.getValue());    // running sequence : step-7
     }
 }
 
@@ -79,6 +79,6 @@ SubClass Constructor: j = 3
 SubClass getValue() , i=2 j=3
 SubClass Constructor: getValue() = 3
 SubClass getValue() , i=2 j=3
-main : 3
+Api : 3
 
  */

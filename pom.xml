@@ -76,5 +76,11 @@
           </exclusions>
       </dependency>
 
+      <dependency>
+          <groupId>com.luckycatlabs</groupId>
+          <artifactId>SunriseSunsetCalculator</artifactId>
+          <version>1.2</version>
+      </dependency>
+
   </dependencies>
 </project>

@@ -18,7 +18,7 @@ public class CountDownLatchDemo {
             t.start();
         }
 
-        System.out.println("main thread : waiting for threads to complete");
+        System.out.println("Api thread : waiting for threads to complete");
         try {
             // 在栓锁latch被减到0之前，函数将挂起主函数
             // 直到latch的值为0, 函数将正常返回
@@ -27,7 +27,7 @@ public class CountDownLatchDemo {
             e.printStackTrace();
         }
 
-        System.out.println("main thread : all threads exited");
+        System.out.println("Api thread : all threads exited");
     }
 
     static class MyRunnable implements Runnable {

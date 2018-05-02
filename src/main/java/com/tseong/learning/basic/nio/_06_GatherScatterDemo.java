@@ -41,7 +41,7 @@ public class _06_GatherScatterDemo {
             }
         }
 
-        // process message
+        // pay message
 
         // flip buffer
         for (int i=0; i<buffers.length; i++) {
