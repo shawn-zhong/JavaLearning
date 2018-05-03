@@ -1,6 +1,7 @@
 package com.tseong.learning.patterns.Demo.template;
 
 import com.tseong.learning.patterns.Demo.PayOrder;
+import com.tseong.learning.patterns.Demo.PayPreOrder;
 import com.tseong.learning.patterns.Demo.SettleModel;
 import com.tseong.learning.patterns.Demo.SettleResultModel;
 import com.tseong.learning.patterns.Demo.strategy.MoneyBackPolicy;
@@ -27,23 +28,23 @@ public class ClassSettleProcessor extends SettleTemplate {
     }
 
     @Override
-    protected List<PayOrder> createOrders() throws Exception {
+    protected List<PayPreOrder> createMQOrders() throws Exception {
         // 根据跑班结算策略生成订单
 
-        List<PayOrder> totalList = new LinkedList<>();
+        List<PayPreOrder> totalList = new LinkedList<>();
 
         for (MoneyBackPolicy policy : settlePolicies) {
-            List<PayOrder> list = policy.chargeAndGenerateOrders(settleModel);
+            List<PayPreOrder> list = policy.chargeAndGenerateOrders(settleModel);
             totalList.addAll(list);
         }
         return totalList;
     }
 
     @Override
-    protected void postPaymentActions(List<PayOrder> orders, SettleResultModel result) throws Exception {
+    protected void postMQActions(List<PayPreOrder> orders, SettleResultModel result) throws Exception {
         // 根据处理结果发送小秘书通知什么的
         // actions
 
-        System.out.println("跑班结算成功" + settleModel.toString() + result.toString() );
+        System.out.println("已发送结算订单到相关MQ处理" + settleModel.toString() + result.toString() );
     }
 }

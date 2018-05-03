@@ -1,6 +1,6 @@
 package com.tseong.learning.patterns.Demo.template;
 
-import com.tseong.learning.patterns.Demo.PayOrder;
+import com.tseong.learning.patterns.Demo.PayPreOrder;
 import com.tseong.learning.patterns.Demo.SettleModel;
 import com.tseong.learning.patterns.Demo.SettleResultModel;
 
@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class SettleTemplate {
 
     protected SettleModel settleModel;
-    protected List<PayOrder> orders;
+    protected List<PayPreOrder> orders;
 
     public SettleTemplate(SettleModel model) {
         this.settleModel = model;
@@ -22,26 +22,26 @@ public abstract class SettleTemplate {
 
         checkPaymentEnvironment();      // 检查支付环境
 
-        prePaymentActions();            // 支付前处理
+        preMQActions();            // 支付前处理
 
-        orders = createOrders();
+        orders = createMQOrders();
 
-        SettleResultModel result = doGateWayPayment(orders);     // 支付动作
+        SettleResultModel result = sendPendingPayOrdersToMQ(orders);     // 支付动作
 
-        persitOrders(orders, result);                 // 实例化订单等
+        //persitOrders(orders, result);                 // 实例化订单等
 
-        postPaymentActions(orders, result);           // 支付后动作
+        postMQActions(orders, result);           // 支付后动作
 
         return result;
     }
 
     protected abstract void checkParameters() throws Exception ;
 
-    protected void prePaymentActions() throws Exception {};
+    protected void preMQActions() throws Exception {};
 
-    protected void postPaymentActions(List<PayOrder> orders, SettleResultModel model) throws Exception {};
+    protected void postMQActions(List<PayPreOrder> orders, SettleResultModel model) throws Exception {};
 
-    protected SettleResultModel doGateWayPayment(List<PayOrder> orders) throws Exception {
+    protected SettleResultModel sendPendingPayOrdersToMQ(List<PayPreOrder> orders) throws Exception {
         // common implementation here
         return null;
     }
@@ -50,12 +50,13 @@ public abstract class SettleTemplate {
         // common implementation here
     }
 
-    protected List<PayOrder> createOrders() throws Exception {
+    protected List<PayPreOrder> createMQOrders() throws Exception {
         // common implementation here
         return null;
     };
 
-    protected void persitOrders(List<PayOrder> orders, SettleResultModel model) throws Exception {
+    /*
+    protected void persitOrders(List<PayPreOrder> orders, SettleResultModel model) throws Exception {
         // common implementation here
-    };
+    };*/
 }
