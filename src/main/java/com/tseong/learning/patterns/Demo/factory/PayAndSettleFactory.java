@@ -2,11 +2,7 @@ package com.tseong.learning.patterns.Demo.factory;
 
 import com.tseong.learning.patterns.Demo.PayModel;
 import com.tseong.learning.patterns.Demo.SettleModel;
-import com.tseong.learning.patterns.Demo.template.ClassSettleProcessor;
-import com.tseong.learning.patterns.Demo.template.AliPayProcessor;
-import com.tseong.learning.patterns.Demo.template.PayTemplate;
-import com.tseong.learning.patterns.Demo.template.SettleTemplate;
-import com.tseong.learning.patterns.Demo.template.WalletPayProcessor;
+import com.tseong.learning.patterns.Demo.template.*;
 
 // "支付处理" 工厂类
 public class PayAndSettleFactory {
@@ -19,7 +15,7 @@ public class PayAndSettleFactory {
         }
     }
 
-    public static SettleTemplate getSettleProcessor(SettleModel model) throws Exception {
+    public static ClassSettleProcessor getSettleProcessor(SettleModel model) throws Exception {
         return new ClassSettleProcessor(model);
     }
 }

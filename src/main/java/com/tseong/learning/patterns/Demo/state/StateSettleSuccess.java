@@ -2,9 +2,9 @@ package com.tseong.learning.patterns.Demo.state;
 
 import com.tseong.learning.patterns.Demo.ClockInRecord;
 import com.tseong.learning.patterns.Demo.state.base.BetClass;
-import com.tseong.learning.patterns.Demo.state.base.RunClassState;
+import com.tseong.learning.patterns.Demo.state.base.BetClassState;
 
-public class StateSettleSuccess implements RunClassState {
+public class StateSettleSuccess implements BetClassState {
 
     @Override
     public void startPromisedClass(BetClass theRunClass) throws Exception {

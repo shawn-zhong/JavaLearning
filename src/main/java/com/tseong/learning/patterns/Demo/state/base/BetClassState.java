@@ -2,7 +2,7 @@ package com.tseong.learning.patterns.Demo.state.base;
 
 import com.tseong.learning.patterns.Demo.ClockInRecord;
 
-public interface RunClassState {
+public interface BetClassState {
 
     void startPromisedClass(BetClass theRunClass) throws Exception;
 

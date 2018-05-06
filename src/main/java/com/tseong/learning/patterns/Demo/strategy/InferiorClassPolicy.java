@@ -8,7 +8,7 @@ import com.tseong.learning.patterns.Demo.SettleModel;
 import java.util.ArrayList;
 import java.util.List;
 
-// 适用于"没有一人毕业的跑班"的结算策略
+// 适用于"没有一个人毕业的跑班"的结算策略
 public class InferiorClassPolicy implements MoneyBackPolicy {
     @Override
     public List<PayPreOrder> chargeAndGenerateOrders(SettleModel settleModel) {

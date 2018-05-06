@@ -1,23 +1,25 @@
 package com.tseong.learning.patterns.Demo.template;
 
+import com.tseong.learning.patterns.Demo.PayOrder;
 import com.tseong.learning.patterns.Demo.PayPreOrder;
 import com.tseong.learning.patterns.Demo.SettleModel;
 import com.tseong.learning.patterns.Demo.SettleResultModel;
 import com.tseong.learning.patterns.Demo.strategy.MoneyBackPolicy;
 
+import java.util.LinkedList;
 import java.util.List;
 
 // "班级结帐"处理类
-public class ClassSettleProcessor extends SettleTemplate {
+public class ClassSettleProcessor1 extends SettleTemplate {
 
-    private MoneyBackPolicy settlePolicy;
+    private List<MoneyBackPolicy> settlePolicies = new LinkedList<>();
 
-    public ClassSettleProcessor(SettleModel model) {
+    public ClassSettleProcessor1(SettleModel model) {
         super(model);
     }
 
     public void addSettlePolicy(MoneyBackPolicy policy) {
-        settlePolicy = policy;
+        settlePolicies.add(policy);
     }
 
     @Override
@@ -28,7 +30,14 @@ public class ClassSettleProcessor extends SettleTemplate {
     @Override
     protected List<PayPreOrder> createMQOrders() throws Exception {
         // 根据跑班结算策略生成订单
-        return settlePolicy.chargeAndGenerateOrders(settleModel);
+
+        List<PayPreOrder> totalList = new LinkedList<>();
+
+        for (MoneyBackPolicy policy : settlePolicies) {
+            List<PayPreOrder> list = policy.chargeAndGenerateOrders(settleModel);
+            totalList.addAll(list);
+        }
+        return totalList;
     }
 
     @Override

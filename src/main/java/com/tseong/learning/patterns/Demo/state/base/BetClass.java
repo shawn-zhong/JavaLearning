@@ -1,19 +1,22 @@
 package com.tseong.learning.patterns.Demo.state.base;
 
 import com.tseong.learning.patterns.Demo.ClockInRecord;
+import com.tseong.learning.patterns.Demo.state.StateCreatePending;
 
 public class BetClass {
 
-    RunClassState currentState;
+    BetClassState currentState;
 
-    public void getBetClassFromDB() {
+    public static BetClass initBetClassFromDB(int classId) {
         // fetch entry from DB
-        BetClass betClass = null;
+        // ...
 
-        //
+        BetClass theClass = new BetClass();
+        theClass.setState(new StateCreatePending());
+        return theClass;
     }
 
-    public void setState(RunClassState state) {
+    public void setState(BetClassState state) {
         currentState = state;
     }
 
