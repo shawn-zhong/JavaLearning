@@ -42,7 +42,7 @@ Constant pool:
    #9 = Utf8               LocalVariableTable
   #10 = Utf8               this
   #11 = Utf8               Lcom/tseong/learning/thread/jvmTools/javap/Synchronized;
-  #12 = Utf8               Api
+  #12 = Utf8               _01_Api
   #13 = Utf8               ([Ljava/lang/String;)V
   #14 = Utf8               args
   #15 = Utf8               [Ljava/lang/String;
@@ -73,7 +73,7 @@ Constant pool:
         Start  Length  Slot  Name   Signature
             0       5     0  this   Lcom/tseong/learning/thread/jvmTools/javap/Synchronized;
 
-  public static void Api(java.lang.String[]);
+  public static void _01_Api(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: ACC_PUBLIC, ACC_STATIC
     Code:

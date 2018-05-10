@@ -71,11 +71,11 @@ public class _05_FileLockReadDemo {
 
 
 /*
-Exception in thread "Api" java.io.IOException: 另一个程序已锁定文件的一部分，进程无法访问。
+Exception in thread "_01_Api" java.io.IOException: 另一个程序已锁定文件的一部分，进程无法访问。
         at sun.nio.ch.FileDispatcherImpl.read0(Native Method)
         at sun.nio.ch.FileDispatcherImpl.read(Unknown Source)
         at sun.nio.ch.IOUtil.readIntoNativeBuffer(Unknown Source)
         at sun.nio.ch.IOUtil.read(Unknown Source)
         at sun.nio.ch.FileChannelImpl.read(Unknown Source)
-        at com.anders.javanio.filelock.ReadFile.Api(ReadFile.java:23)
+        at com.anders.javanio.filelock.ReadFile._01_Api(ReadFile.java:23)
 */

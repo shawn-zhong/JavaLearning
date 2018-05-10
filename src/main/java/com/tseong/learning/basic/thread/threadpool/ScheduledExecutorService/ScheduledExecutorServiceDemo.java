@@ -40,7 +40,7 @@ public class ScheduledExecutorServiceDemo {
         // 因为是callable，将会阻塞等待结束并返回null
         System.out.println("scheduledExecutorService callable returns : " + Objects.toString(scheduledFuture2.get()));
 
-        System.out.println("Api thread over");
+        System.out.println("_01_Api thread over");
 
         scheduleExecutorService.shutdown();
     }
