@@ -13,5 +13,6 @@ public class TodoList {
     7. Docker的使用
     8. Curator的使用
 
+    9. RabbitMQ的高可用性
      */
 }
