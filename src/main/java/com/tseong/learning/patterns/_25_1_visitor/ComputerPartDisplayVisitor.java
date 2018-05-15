@@ -1,4 +1,4 @@
-package com.tseong.learning.patterns._25_visitor;
+package com.tseong.learning.patterns._25_1_visitor;
 
 public class ComputerPartDisplayVisitor implements ComputerPartVisitor {
 
