@@ -22,7 +22,5 @@ public class _09_interview {
     在UNIX中你可以使用kill -3，然后thread dump将会打印日志，在windows中你可以使用”CTRL+Break”。非常简单和专业的线程面试问题，
     但是如果他问你怎样分析它，就会很棘手
 
-
-
      */
 }
