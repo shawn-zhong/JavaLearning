@@ -9,7 +9,7 @@ public class _03_InstancingSequence {
 }
 
 class BaseClass {
-    int i = 1;
+    int i = 1;   // step-3.1
 
     // running sequence : step-4
     BaseClass() {
@@ -18,8 +18,9 @@ class BaseClass {
         System.out.println("BaseClass Constructor: getValue() = " + x);
     }
 
-    // running sequence : step-3
+    // running sequence : step-3.2
     {
+        System.out.println("BaseClass non-static block, i=" +i);
         i = 2;
         System.out.println("BaseClass non-static block");
     }
@@ -37,7 +38,7 @@ class BaseClass {
 }
 
 class SubClass extends BaseClass {
-    int j = 1;
+    int j = 1;  // step-5.1
 
     // running sequence : step-6
     SubClass () {
@@ -45,7 +46,7 @@ class SubClass extends BaseClass {
         System.out.println("SubClass Constructor: getValue() = " + getValue());     // 经过step-6, 此时j的值为3
     }
 
-    // running sequence : step-5
+    // running sequence : step-5.2
     {
         j = 3;
         System.out.println("SubClass non-static block");

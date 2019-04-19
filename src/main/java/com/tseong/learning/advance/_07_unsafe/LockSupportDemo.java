@@ -8,6 +8,7 @@ public class LockSupportDemo {
 
         ThreadPark threadPark = new ThreadPark();
         threadPark.start();
+
         ThreadUnPark threadUnPark = new ThreadUnPark(threadPark);
         threadUnPark.start();
 
@@ -18,7 +19,7 @@ public class LockSupportDemo {
     static class ThreadPark extends Thread {
 
         public void run() {
-            System.out.println(Thread.currentThread() + " will be blocked for 20s ..");
+            System.out.println(Thread.currentThread() + " will be blocked for 60s ..");
             LockSupport.parkNanos(1000000000l*60);
             System.out.println(Thread.currentThread() + " now resumed");
         }

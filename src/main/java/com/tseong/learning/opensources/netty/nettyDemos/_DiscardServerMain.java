@@ -22,7 +22,7 @@ public class _DiscardServerMain {
                         @Override
                         protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                             nioSocketChannel.pipeline()
-                                    //.addLast("encoder", new DemoHandlerEncoder())
+                                    .addLast("encoder", new DemoHandlerEncoder())
                                     //.addLast("decoder", new DemoHandler1())
                                     //.addLast("readTimeoutHandler", new ReadTimeoutHandler(30))
                                     //.addLast(new DemoHandler2())

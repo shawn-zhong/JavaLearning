@@ -8,8 +8,8 @@ public class ScheduledExecutorServiceDemo {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         ScheduledExecutorServiceDemo instance = new ScheduledExecutorServiceDemo();
-        instance.scheduleDemo();
-        instance.scheduleAtFiexedRateDemo();
+       // instance.scheduleDemo();
+       // instance.scheduleAtFiexedRateDemo();
         instance.scheduleAtFixedDelay();
     }
 
@@ -62,6 +62,7 @@ public class ScheduledExecutorServiceDemo {
                         e.printStackTrace();
                     }
             System.out.println("FixedRate end: init to execute every 10 secs");
+
         },
                 3, 10, TimeUnit.SECONDS);
 
@@ -80,10 +81,14 @@ public class ScheduledExecutorServiceDemo {
                     System.out.println("FixedDelay start: init to execute every 10 secs");
                     try {
                         Thread.sleep(3000);
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("FixedDelay end: init to execute every 10 secs");
+                    System.out.println("FixedDelay end: init to execute every 10 secs. thread-name" + Thread.currentThread().getName());
+                    int a=10;int b=0;
+                    int c =a/b;
+                    System.out.println("c=" + c);
         },
                 3, 10, TimeUnit.SECONDS);
 

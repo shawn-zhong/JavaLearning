@@ -13,7 +13,7 @@ public class _07_SliceDemo {
             buffer.put((byte)i);
         }
 
-        // 穿件一个缓冲区分片(相当于原来缓冲区的一个窗口)
+        // 创建一个缓冲区分片(相当于原来缓冲区的一个窗口)
         buffer.position(4); // [position, limit) 是窗口
         buffer.limit(8);    // 实际的操作不会影响limit那个槽（窗口内容为位置4,5,6,7）
         ByteBuffer sub = buffer.slice();

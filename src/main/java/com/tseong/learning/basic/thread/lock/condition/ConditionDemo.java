@@ -63,7 +63,7 @@ public class ConditionDemo {
                     lock.unlock();
                 }
 
-                System.out.println("counter = " + counter);
+                System.out.println("threadId = " + threadId + " counter = " + counter);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -2,7 +2,9 @@ package com.tseong.learning.advance._02_classloading._01_StaticAndExtends;
 
 class Testclass {
 
-    static Testclass st = new Testclass(); // 也就是实例化StaticTest对象，但这个时候类都没有初始化完毕啊，能直接进行实例化吗？事实上，这涉及到一个根本问题就是：实例初始化不一定要在类初始化结束之后才开始初始化
+    static Testclass st = new Testclass();
+    // 也就是实例化StaticTest对象，但这个时候类都没有初始化完毕啊，能直接进行实例化吗？
+    // 事实上，这涉及到一个根本问题就是：实例初始化不一定要在类初始化结束之后才开始初始化 （注意区分 实例初始化 与 类初始化）
 
     static {
         System.out.println("static block");

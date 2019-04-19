@@ -7,6 +7,7 @@ public class _1_ArrayListDemo {
     public static void main(String[] args) {
 
         _1_ArrayListDemo instance = new _1_ArrayListDemo();
+
         instance.iteratorDemo();
         instance.setAndGetDemo();
         instance.removeAndSizeDemo();
@@ -69,6 +70,8 @@ public class _1_ArrayListDemo {
         list.add("E");
         list.add("B");
         list.add(1, "A2");
+        //list.add(1, "A3");
+
 
         System.out.println("Size after addition: " + list.size());
         System.out.println("Contents of list: " + list);    // Contents of list: [C, A2, A, E, B]
@@ -78,6 +81,7 @@ public class _1_ArrayListDemo {
 
         System.out.println("Size after deletions: " + list.size());
         System.out.println("Contents of list: " + list);
+
 
         Iterator<String> iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -173,6 +177,8 @@ public class _1_ArrayListDemo {
     }
 
     public void swapReverseSortSearch() {
+
+        // 下面这些是Collections提供的方法：
         List<String> colors = new ArrayList<>();
         colors.add("read");
         colors.add("green");
@@ -204,6 +210,7 @@ public class _1_ArrayListDemo {
         List list = Collections.synchronizedList(arrayList);
 
         // list之后的并发操作将不再需要synchronized关键字来进行同步了
+
     }
 }
 
@@ -231,6 +238,16 @@ public class _1_ArrayListDemo {
         9)    TreeMap：一种键值有序排列的映射表(类似于C++中的map)；
         10)   EnumMap：一种键值属于枚举类型的映射表；
         11)   LinkedHashMap：一种可以记住键值项插入次序的映射表；
+
+
+
+
+        由于HashSet是无序的，为了使哈希表在某种需求需要有序时，出现了HashSet的子类LinkedHashSet。
+        此实现可以让客户免遭未指定的、由 HashSet 提供的通常杂乱无章的排序工作，而又不致引起与 TreeSet 关联的成本增加。使用它可以生成一个与原来顺序相同的 set 副本，并且与原 set 的实现无关：
+
+        输出的是有序的集合，和添加时的顺序一样。
+
+
 */
 
 

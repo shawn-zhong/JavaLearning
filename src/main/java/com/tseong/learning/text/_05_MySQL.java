@@ -4,11 +4,12 @@ public class _05_MySQL {
 
     /*
 
-    查看MySQL的执行速度
+    查看MySQL的执行速度  (SHOW PROFILLE(S) or SHOW STATUS)
     mySql > show variables like '%pro%';
     mySql > set profiling = 1;
     mySql > select * from xx;
     mySql > show profiles;
+    mySql > show profile for query 2 (2是上面结果返回的具体查询id)
 
     查看执行计划:
     mySql > explain select * from ...
@@ -86,6 +87,8 @@ public class _05_MySQL {
      S      兼容    不兼容   兼容   不兼容
      X      不兼容  不兼容   不兼容  不兼容
 
+     （Shawn：X锁和所有的锁都不兼容）
+
     意向锁的使用：
     考虑这个例子：
         事务A锁住了表中的一行，让这一行只能读，不能写。
@@ -106,6 +109,25 @@ public class _05_MySQL {
             step2：发现表上有意向共享锁，说明表中有些行被共享行锁锁住了，因此，事务B申请表的写锁会被阻塞。
 
         注意：申请意向锁的动作是数据库完成的，就是说，事务A申请一行的行锁的时候，数据库会自动先开始申请表的意向锁，不需要我们程序员使用代码来申请。
+
+
+    －IX，IS是表级锁，不会和行级的X，S锁发生冲突。只会和表级的X，S发生冲突
+    －意向锁之间彼此不会冲突，因为它们都只是“有意”，而不是真干，所以是可以兼容的。在加行锁之前，会使用意向锁判断是否冲突；
+    －IX和X的关系等同于X和X之间的关系，为什么呢？因为事务获得了IX锁，接下来就有权利获取X锁，这样就会出现两个事务都获取X锁的情况，这和我们已知的X锁和X锁之间互斥是矛盾的
+
+
+
+
+----------------------------
+
+调试MySQL语句：
+1. 开启慢查询日志，设置阈值（比如超过3秒就是慢SQL），也可以使用第三方工具分析慢查询日志
+2. 使用explain分析慢查询语句。比如SQL语句写得不行，索引没有或者失效，关联查询太多等等
+3. 使用 set profiling = 1; show profiles; show profile for query 2 ; 进行分析  （比explain更细节，而且explain只是预估，只支持select？）
+4. 使用 show status 辅助分析
+
+
+关于MySQL索引，可以查看这个链接： https://my.oschina.net/liughDevelop/blog/1788148
 
 
      */

@@ -15,4 +15,22 @@ public class TodoList {
 
     9. RabbitMQ的高可用性
      */
+
+
+    /*
+    *
+    * 1. Future get 是如何实现的
+    * 2. Stream 是如何实现的
+    * 3. Spring 是如何实现的
+    * 4. postProcessor是如何实现的
+    * 5. 框架的实现，分表的实现，分布式锁的实现，zookeeper的使用
+    *
+    *
+    *
+// spring的bean加载过程：https://www.cnblogs.com/yxh1008/p/6012230.html
+
+// https://www.jianshu.com/p/3b63885f61bb
+    * */
 }
+
+// classLoader: https://www.cnblogs.com/gdpuzxs/p/7044963.html

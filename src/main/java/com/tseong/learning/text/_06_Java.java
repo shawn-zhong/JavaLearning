@@ -28,6 +28,59 @@ public class _06_Java {
     - jmap : 用于生成堆转储快照 （dump文件）， 并使用jhat进行分析
     - jstack : Java堆栈跟踪工具
 
+    - vmstat : 上下文切换次数和时长
+
+jmap -J-d64 -heap
+
+
+    using parallel threads in the new generation.
+using thread-local object allocation.
+Concurrent Mark-Sweep GC
+Heap Configuration:
+   MinHeapFreeRatio = 40
+   MaxHeapFreeRatio = 70
+   MaxHeapSize      = 21474836480 (20480.0MB)
+   NewSize          = 10737418240 (10240.0MB)
+   MaxNewSize       = 10737418240 (10240.0MB)
+   OldSize          = 5439488 (5.1875MB)
+   NewRatio         = 2
+   SurvivorRatio    = 8
+   PermSize         = 134217728 (128.0MB)
+   MaxPermSize      = 134217728 (128.0MB)
+   G1HeapRegionSize = 0 (0.0MB)
+Heap Usage:
+New Generation (Eden + 1 Survivor Space):
+   capacity = 9663676416 (9216.0MB)
+   used     = 1933445808 (1843.8776092529297MB)
+   free     = 7730230608 (7372.12239074707MB)
+   20.00735253095627% used
+Eden Space:
+   capacity = 8589934592 (8192.0MB)
+   used     = 1789336224 (1706.4440002441406MB)
+   free     = 6800598368 (6485.555999755859MB)
+   20.830615237355232% used
+From Space:
+   capacity = 1073741824 (1024.0MB)
+   used     = 144109584 (137.43360900878906MB)
+   free     = 929632240 (886.5663909912109MB)
+   13.421250879764557% used
+To Space:
+   capacity = 1073741824 (1024.0MB)
+   used     = 0 (0.0MB)
+   free     = 1073741824 (1024.0MB)
+   0.0% used
+concurrent mark-sweep generation:
+   capacity = 10737418240 (10240.0MB)
+   used     = 1455760568 (1388.3214645385742MB)
+   free     = 9281657672 (8851.678535461426MB)
+   13.557826802134514% used
+Perm Generation:
+   capacity = 134217728 (128.0MB)
+   used     = 37993600 (36.2335205078125MB)
+   free     = 96224128 (91.7664794921875MB)
+   28.307437896728516% used
+17463 interned Strings occupying 1828240 bytes.
+
 
 
     JAva线程池不建议用Executors去创建，而是通过ThreadPoolExecutor的方式，这样的处理方式更加明了，而且避免了资源耗尽的风险
@@ -99,7 +152,7 @@ public class _06_Java {
 
 
     JVM有且只有五种情况必须立即对类进行初始化：
-    1. new 设置／获取／调用 static 字段，方法的时候
+    1. new 设置／获取／调用 static 字段，方法的时候 （）
     2. 对类进行反射调用时 （Java.lang.reflect）
     3. 当初始化一个类的时候，如果发现其父类还没有进行初始化，则需要先触发其父类的初始化
     4. 当虚拟机启动时，用户需要指定要执行的类（_01_Api），初始化这个类

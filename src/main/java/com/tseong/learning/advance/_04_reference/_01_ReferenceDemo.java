@@ -37,7 +37,7 @@ public class _01_ReferenceDemo {
         // 由控制台的输出结果可以看到，虽然软引用引用的对象被清空，但是由于内存充足，就算是执行了gc也不会被回收 内存不足时软引用才会被及时回收避免oom异常
 
 
-        // Weak Reference:
+        // Weak Reference: （ThreadLocalMap的key使用到了）
         WeakReference<Object> weakReference = new WeakReference<>(_objWeak);
         WeakReference<String> weakReferenceStr = new WeakReference<>(_strWeak);
         System.gc();
@@ -62,6 +62,7 @@ public class _01_ReferenceDemo {
         // after system.gc - weakReference = null
         // after system.gc - weakReference = This is text   --> 这是因为gc不清理常量池里的垃圾，所以所引用的内容不为null
 
+        // （应用）ThreadLocal的Key是弱引用类型的，但Value并非弱引用。
 
         // Phanton Reference
         ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();

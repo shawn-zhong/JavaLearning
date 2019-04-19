@@ -60,7 +60,7 @@ public class _03_JavaWeb {
     Propagation.REQUIRES_NEW: 创建一个新的事务，各自回滚
     Propagation.SUPPORTS: 支持上下文事务并同一回滚，没有事务则在非事务上下文中执行
     Propagation.MANDATORY: 如果上下文没有事务， 抛出异常；同一回滚
-    Propagation.NOT_SUPPORTED : 以非事务的状态执行， 如果调用者有事务则先刮起调用者的事务
+    Propagation.NOT_SUPPORTED : 以非事务的状态执行， 如果调用者有事务则先卦起调用者的事务
     Propagation.NEVER: 如果调用者有事务， 则抛出异常
     Propagation.NESTED: 嵌套事务：如果调用者回滚则该方法回滚；如果自己异常，则自己回滚。调用者有捕获异常则不回滚
 

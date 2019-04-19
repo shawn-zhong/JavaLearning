@@ -14,7 +14,7 @@ public class _04_OptionalDemo {
 //        String valueget = optional.get(); // exception threw here
         String valueElse = optional.orElse("CHN");
 
-        System.out.println("Optional: boolean, valueElse : " + isPresent  + " " + valueElse);
+        System.out.println("Optional: boolean, valueElse : " + isPresent  + " " + valueElse); // Optional: boolean, valueElse : false CHN
 
         optional.ifPresent(s->System.out.println(s.charAt(0)));
 

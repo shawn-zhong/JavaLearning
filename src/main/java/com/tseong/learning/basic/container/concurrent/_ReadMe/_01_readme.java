@@ -16,7 +16,7 @@ Vector, HashTable
 
 B) BlockingQueue/TransferQueue
     - ArrayBlockingQueue        // 由数组组成；有界；可以指定线程获取时是否公平/非公平
-    - LinkedBlockingQueue       // 由链表组成；有界但默认值很大（Integer.MAX_VALUE）；不可以指定公平/非公平 (固定非公平)
+    - LinkedBlockingQueue       // 由链表组成；有界但默认值很大（Integer.MAX_VALUE）(但可以指定CAPACITY)；不可以指定公平/非公平 (固定非公平); 锁分离
     - PriorityBlockingQueue     // 一个支持优先级排序的无界阻塞队列
     - synchronousQueue          // 一个不存储元素的阻塞队列，每一个put操作必须等待一个take操作，否则不能继续添加元素
     - DelayQueue                // 一个支持延时获取元素的无界阻塞队列

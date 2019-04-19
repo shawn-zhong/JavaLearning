@@ -44,5 +44,17 @@ public class _02_MavenAndJvm {
     https://www.cnblogs.com/luckythan/p/4478706.html
 
 
+
+java -jar -server -Xms512m -Xfuture -XX:+UnlockCommercialFeatures -XX:+FlightRecorder \
+        -Dcom.sun.management.jmxremote.port=1090 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false \
+        pcrf-1.0-SNAPSHOT.jar
+
+
+JAVA_MEM_OPTS=" -server -Xmx2g -Xms2g -XX:PermSize=128m -Xss256k -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC
+-XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods
+-XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -Xloggc:/apps/logs/gc/$LOG_NAME.log
+-XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGC"
+
+
      */
 }

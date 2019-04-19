@@ -16,7 +16,7 @@ public class _01_WaysOfInstancing {
         System.out.println("by new : " + student.toString() + " " + student.hashCode());
 
         // 2 by forname (reflects)
-        student = (Student)Class.forName("com.tseong.learning.advance._02_classloading._02_Instancing.Student").newInstance();
+        student = (Student)Class.forName("com.tseong.learning.advance._02_classloading._02_Instancing.Student").newInstance();  // 这种方式必须要有默认构造方法？因为没看到构造参数
         System.out.println("by forname " + student.toString() + " " + student.hashCode());
 
         // 3 by xx.class.newInstance (reflects)
@@ -25,10 +25,10 @@ public class _01_WaysOfInstancing {
         System.out.println("by xx.class.newInstance " + student.toString() + " " + student.hashCode());
 
         // 4 by constructor.newInstance (reflects)
-        Constructor<Student> constructor = Student.class.getConstructor(String.class, int.class);
+        //Constructor<Student> constructor = Student.class.getConstructor(String.class, int.class);
         //constructor.setAccessible(true);    // 事实证明这种想法错误:因为该构造函数是private的， 这里可以设置可达性绕开; 即使设置了true还是会抛出异常, 使用4.1的方法，获取private方法需要加入..Declare..
-        student = constructor.newInstance("zhong", 12);
-        System.out.println("by reflect constructor " + student.toString() + " " + student.hashCode());
+        //student = constructor.newInstance("zhong", 12);
+        //System.out.println("by reflect constructor " + student.toString() + " " + student.hashCode());
 
         // 4.1 by call private constructor
         Constructor constructor1 = Class.forName("com.tseong.learning.advance._02_classloading._02_Instancing.Student")

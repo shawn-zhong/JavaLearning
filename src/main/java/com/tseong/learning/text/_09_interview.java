@@ -6,9 +6,16 @@ public class _09_interview {
     1. 现在有T1，T2， T3三个线程，你怎么保证T2在T1执行完后执行，T3在T2执行完后执行？
     － 使用join
     － 使用callable和futureTask
+    － Object.Notify/Wait, LockSupport.park/unpark, Lock.Condition.await/Signal,
+    － BlockingQueue
+    － 线程池（实际上也是BlockingQueue）
+
+    （https://www.cnblogs.com/james0/p/9280144.html）
+    （https://blog.csdn.net/hellorichen/article/details/71107594）
+    （https://blog.csdn.net/u010185035/article/details/81172767）
 
     2. 在Java中Lock接口比synchronized块的优势是什么？如果你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保证它的完整性，你怎么实现？
-    lock接口在多线程最大优势是分别为读写提供了锁（还有其他功能，如Timeout）
+    lock接口在多线程最大优势是分别为读写提供了锁（还有其他功能，如Timeout,如果用lockInterruptibly, lock/unlock分离, 公平性，condition）
     参考concurrentHashMap的实现
 
     3. Java中wait和sleep方法的不同？

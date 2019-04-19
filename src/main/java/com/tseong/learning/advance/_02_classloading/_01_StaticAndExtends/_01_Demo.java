@@ -4,7 +4,7 @@ public class _01_Demo {
 
     public static void main(String[] args) {
         // test-01:
-        System.out.println(SubClass.value); // test-01 : 通过子类引用父类的静态字段，不会导致子类初始化
+        //System.out.println(SubClass.value); // test-01 : 通过子类引用父类的静态字段，不会导致子类初始化  (注意定义区分：类的初始化和实例的初始化)
 
         // test-01 result
         /*
@@ -13,11 +13,15 @@ public class _01_Demo {
         123
         */
 
+        System.out.println();
+
         // test-02:
         SubClass instance = new SubClass();
         instance.toString();
 
-        // test-02 result: 创建一个对象常常需要经历如下几个过程：父类的类构造器<clinit>() -> 子类的类构造器<clinit>() -> 父类的成员变量和实例代码块 -> 父类的构造函数 -> 子类的成员变量和实例代码块 -> 子类的构造函数
+        // (注意不要运行上个demo否则会影响)
+        // test-02 result: 创建一个对象常常需要经历如下几个过程：
+        //  父类的类构造器<clinit>() -> 子类的类构造器<clinit>() -> 父类的成员变量和实例代码块（不受顺序影响） -> 父类的构造函数 -> 子类的成员变量和实例代码块 -> 子类的构造函数
         /*
         SSClass-static
         SClass-static
@@ -41,13 +45,16 @@ class SSClass {
         System.out.println("SSClass-static");
     }
 
-    {
-        System.out.println("SSClass-nonstatic");
-    }
+
 
     public SSClass() {
         System.out.println("SSClass-constructor");
     }
+
+    {
+        System.out.println("SSClass-nonstatic");
+    }
+
 }
 
 

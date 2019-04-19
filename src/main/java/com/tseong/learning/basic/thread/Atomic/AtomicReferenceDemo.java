@@ -32,6 +32,17 @@ public class AtomicReferenceDemo {
         System.out.println("now value : " + atomicReference.get());     // now value : new value referenced2
 
         //atomicReference.set();
+
+
+        /////////
+        // 对于int没有这个问题，因为int是放在常量池里面的
+        int val = 10;
+        AtomicReference<Integer> atomicReferenceInt = new AtomicReference<>(val);
+
+        boolean exchangedInt = atomicReferenceInt.compareAndSet(10, 12);
+        System.out.println("int exchanged : " + exchangedInt);
+        System.out.println("int now value : " + atomicReferenceInt.get());
+
     }
 
     public static void main(String[] args) {

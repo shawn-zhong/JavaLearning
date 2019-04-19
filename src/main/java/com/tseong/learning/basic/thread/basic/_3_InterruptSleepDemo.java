@@ -21,7 +21,7 @@ public class _3_InterruptSleepDemo {
                         Thread.sleep(100);
                     }
                 } catch (InterruptedException e) {
-                    System.out.println("InterruptedException is raised here");
+                    System.out.println("InterruptedException is raised here. interrupted val:" + Thread.currentThread().isInterrupted());
                     System.out.println("i = " + i);
                 } finally {
                     System.out.println("i = " + i);
@@ -35,6 +35,8 @@ public class _3_InterruptSleepDemo {
 
                     try {
                         Thread.sleep(10);   // 第二次sleep不会触发异常
+
+                        System.out.println("isInterrupt val: " + Thread.currentThread().isInterrupted());   // false
                     } catch (InterruptedException e) {
                         System.out.println("InterruptedException 2 is raised here");
                     }

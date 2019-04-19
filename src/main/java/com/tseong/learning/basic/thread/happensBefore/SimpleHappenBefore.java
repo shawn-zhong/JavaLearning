@@ -44,6 +44,8 @@ public class SimpleHappenBefore {
         public void run() {
             a = 3;
             flag = true;
+
+           // System.out.println("existed");
         }
     }
 

@@ -12,3 +12,7 @@ public class SpringDemo {
         System.out.println(helloworld.sayHello());
     }
 }
+
+// spring的bean加载过程：https://www.cnblogs.com/yxh1008/p/6012230.html
+
+// https://www.jianshu.com/p/3b63885f61bb

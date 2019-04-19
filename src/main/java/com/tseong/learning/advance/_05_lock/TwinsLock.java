@@ -8,6 +8,12 @@ import java.util.concurrent.locks.Lock;
 /*
  来自<<Java并发编程的艺术>>
  实现TwinsLock在同一时刻允许之多两个线程的访问，如果其它线程再对同步状态进行获取，该线程只能被阻塞
+
+ 设计一个同步工具，该工具同一个时刻，只允许两个线程同时访问，超过两个线程访问将会被阻塞。
+分析：首先，确定访问模式，TwinLock能够同一时刻支持多个线程同时访问，这明显是共享式访问。这需要同步器提供的acquireShared(int args)方法和Share相关的方法，同时要求重写tryAcquireShared(int args)等方法。
+其次，定义资源数量，TwinsLock在同一时刻允许两个线程同时访问资源数量为0，这样设置初始状态status为2，合法状态0、1、2.
+
+
  */
 public class TwinsLock implements Lock {
 

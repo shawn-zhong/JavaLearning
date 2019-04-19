@@ -14,6 +14,8 @@ public class _04_InstancingSequence {
     // non-static block
     // In Constructor
     // a=110 b=0  // -> 因为b是静态变量，类只完成实例化，没有完成初始化，所以b的值为0
+    //
+    // 还有注意这个例子会被初始化两次
     static _04_InstancingSequence st = new _04_InstancingSequence();
 
     // 类初始化执行顺序－2
@@ -29,7 +31,7 @@ public class _04_InstancingSequence {
     // 类的实例化执行顺序-2
     public _04_InstancingSequence() {
         System.out.println("In Constructor");
-        System.out.println("a=" + a + " b=" + b);
+        System.out.println("a=" + a + " b=" + b);   // a = 110 b=0 因为a是实例化完成的，b是类的初始化完成的，而此时还没有进行类的初始化
     }
 
     //
@@ -63,3 +65,6 @@ a=110 b=112
 In staticFunction(); b=112
 
  */
+
+
+

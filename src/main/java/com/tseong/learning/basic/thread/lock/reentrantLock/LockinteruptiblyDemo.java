@@ -66,21 +66,23 @@ class RunDemo implements Runnable {
     private void doJob() throws InterruptedException {
 
         // 如果用lock()，要等其它线程释放锁本线程得到锁之后，才会进入执行引发异常
+        // (主要说明在没有拿到锁的情况下，interrupt该线程没什么用，要等拿到锁才行)
         // 执行结果如下 :
         // Thread-0 got the lock
         // Thread-0 finished
         // Thread-1 got the lock
         // Thread-1 interrupted
-        // lock.lock();
+         lock.lock();
 
 
         // 如果用lockInterruptibly(), 不用等到锁，直接在里面抛出异常并处理异常
+        // (主要说明在没有拿到锁的情况下，interrupt该线程立即抛出异常给上层)
         // 执行结果如下 :
         // Thread-0 got the lock
         // Thread-1 Interrupted from doJob
         // Thread-0 finished
 
-        lock.lockInterruptibly();
+        //lock.lockInterruptibly();
 
         System.out.println(Thread.currentThread().getName() + " got the lock" );
 

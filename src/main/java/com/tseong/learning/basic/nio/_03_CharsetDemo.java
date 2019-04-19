@@ -56,3 +56,11 @@ public class _03_CharsetDemo {
 //  UTF-16BE
 //  UTF-16LE
 //  UTF-16
+
+
+
+/*
+* 与普通的输入/输出流不同的是，RandomAccessFile支持跳到文件任意位置读写数据，RandomAccessFile对象包含一个记录指针，用以标识当前读写处的位置，
+* 当程序创建一个新的RandomAccessFile对象时，该对象的文件记录指针对于文件头（也就是0处），当读写n个字节后，文件记录指针将会向后移动n个字节
+* 。除此之外，RandomAccessFile可以自由移动该记录指针
+* */

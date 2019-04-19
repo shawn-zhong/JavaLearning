@@ -20,8 +20,8 @@ public class LockSupportDemo2 {
 
         ThreadCondition threadB = new ThreadCondition();
         threadB.start();
-        threadB.interrupt();    // －> Object.wait会抛出异常
-        threadB.interrupt();
+        threadB.interrupt();    // －> condition.wait会抛出异常
+       // threadB.interrupt();
 
     }
 
@@ -74,10 +74,10 @@ public class LockSupportDemo2 {
 
             System.out.println("ThreadCondition: after 10 second count = " + count);
 
-            lock.lock();
+            lock.lock(); // condition必须配合lock使用
 
             try {
-                condition.await();  //
+                condition.await();  // 内部还是使用了locksupport，不过首先判断了是否interrupt并抛出异常
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

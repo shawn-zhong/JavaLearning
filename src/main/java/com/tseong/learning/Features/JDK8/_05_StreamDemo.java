@@ -36,8 +36,11 @@ public class _05_StreamDemo {
         myObjects.add(new IntObj());
         myObjects.add(new IntObj());
 
-        List<Integer> abc = myObjects.stream().map(t->t.a).collect(Collectors.toList());    // 注意使用的是map
+        List<Integer> abc = myObjects.stream().map(t->t.a).collect(Collectors.toList());    // 注意使用的是map而非mapToInt
         System.out.println(abc);        // [18, 70, 88]
+
+       // Integer abc2 = myObjects.stream().map(t->t.a).max(Integer::compareTo).orElse(null);
+
         abc.set(0, 1);
 
         for (IntObj obj : myObjects) {
@@ -72,6 +75,11 @@ public class _05_StreamDemo {
         list.stream()
                 .filter(s->s.startsWith("a"))
                 .forEach(System.out::println);
+
+        list.stream()
+                .filter(s->s.startsWith("a"))
+                .peek(System.out::println).count();
+
 
         System.out.println("----------------");
 
@@ -140,3 +148,14 @@ public class _05_StreamDemo {
 
 
 //        // http://www.jb51.net/article/48304.htm
+
+/*
+// stream 的实现原理：https://blog.csdn.net/y4x5M0nivSrJaY3X92c/article/details/83155483
+
+关键字：中间操作（无状态、有状态），终止操作（非短路操作、典故操作），双向链表，Sink接口（begin、end、cancellationRequested，accept）
+
+例如 sorted() 就是一个有状态的操作，一般会有一个属于自己的容器，用来记录处自己理过的数据的状态。sorted() 是在执行 begin 的时候初始化这个容器，在执行 accept 的时候把数据放到容器中，最后在执行 end 方法时才正在开始排序。排序之后再将数据，采用同样的方式依次传递给下游节点。
+
+
+
+*/
