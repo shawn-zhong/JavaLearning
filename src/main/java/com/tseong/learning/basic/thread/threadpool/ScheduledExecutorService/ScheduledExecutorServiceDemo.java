@@ -9,8 +9,8 @@ public class ScheduledExecutorServiceDemo {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         ScheduledExecutorServiceDemo instance = new ScheduledExecutorServiceDemo();
        // instance.scheduleDemo();
-       // instance.scheduleAtFiexedRateDemo();
-        instance.scheduleAtFixedDelay();
+        instance.scheduleAtFiexedRateDemo();
+       // instance.scheduleAtFixedDelay();
     }
 
     public void scheduleDemo() throws ExecutionException, InterruptedException {

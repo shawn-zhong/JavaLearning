@@ -48,6 +48,8 @@ public class _02_FastSortDemo {
         list.set(i, val);   // 此时i位置和j位置指向同一个坑，填入val值。所以val左边都是小于val的值，val右边都是大于val的值
         printArray(list, begin, end);
 
+        System.out.println("break. index:"+i);
+
         fastSort(list, begin, i-1);      // 递归处理左边
         fastSort(list, i+1, end);       // 递归处理右边
     }

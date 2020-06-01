@@ -35,11 +35,11 @@ public class AtomicReferenceDemo {
 
 
         /////////
-        // 对于int没有这个问题，因为int是放在常量池里面的
-        int val = 10;
+        // 对于int没有这个问题，因为int是放在常量池里面的 (>127不行)
+        int val = 100;
         AtomicReference<Integer> atomicReferenceInt = new AtomicReference<>(val);
 
-        boolean exchangedInt = atomicReferenceInt.compareAndSet(10, 12);
+        boolean exchangedInt = atomicReferenceInt.compareAndSet(100, 12);
         System.out.println("int exchanged : " + exchangedInt);
         System.out.println("int now value : " + atomicReferenceInt.get());
 

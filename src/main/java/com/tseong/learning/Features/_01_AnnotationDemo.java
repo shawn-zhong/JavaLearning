@@ -44,7 +44,7 @@ public class _01_AnnotationDemo {
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
- @interface MyAnnotation1 {
+@interface MyAnnotation1 {
     String value();
 }
 

@@ -22,5 +22,20 @@ public class BigDecimalDemo {
         setScale = decimal.setScale(4, BigDecimal.ROUND_HALF_UP);
         System.out.println(setScale);
 
+
+        // 引用传递
+        int[] arrayA = new int[10];
+        arrayA[0] = 1;
+
+       System.out.println("length of ArrayA: " + arrayA.length);
+
+    }
+
+    private void modifyArray(int[] arrayB) {
+        int[] b = new int[20];
+        b[0] = 10;
+        b[1] = 20;
+
+        arrayB = b;
     }
 }

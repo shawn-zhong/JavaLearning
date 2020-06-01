@@ -6,7 +6,7 @@ public class _06_Java {
 
     调试JVM的方法:
     - 应用程序打开JMX接口，然后使用JConsole或JVisualVM
-    - 使用飞行记录器（jcmd jmc）：-XX:+UnlockCommercialFeatures -XX:+FlightRecorder，使用jcmd打印处dump信息，使用jmc.exe分析
+    - 使用飞行记录器（jcmd jmc）：-XX:+UnlockCommercialFeatures -XX:+FlightRecorder，使用jcmd打印处dump信息，使用jmc.exe分析 （jcmd 进程号 GC.heap_dump）
     - jps命令打印出进程状态信息（通过RMI协议查询开启了RMI服务的远程虚拟机进程状态）
         jps [options] [hostid]
     - jstat：虚拟机同级信息监视工具：（看JVM垃圾回收）

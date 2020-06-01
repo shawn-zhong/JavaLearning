@@ -183,3 +183,10 @@ G1虽然保留了CMS关于代的概念，但是代已经不是物理上连续区
 Remark阶段新算法的运用，以及收集过程中的压缩，都弥补了CMS不足。引用Oracle官网的一句话：“G1 is planned as the long term replacement for the Concurrent Mark-Sweep Collector (CMS)”。
 
  */
+
+
+/*
+
+使用MAT进行heap dump分析
+
+ */

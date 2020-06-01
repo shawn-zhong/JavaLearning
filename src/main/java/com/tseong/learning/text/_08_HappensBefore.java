@@ -113,7 +113,7 @@ public class _08_HappensBefore {
     1. 如果当前运行的线程少于corePoolSize，则创建新线程来执行任务（注意，执行这一步需要获取全局锁）
     2. 如果运行的线程等于或多余corePoolSize， 则将任务加入BlockingQueue
     3. 如果无法将任务加入BlockingQueue（队列已满），则创建新的线程来处理任务（注意，执行这一步需要获取全局锁）
-    4. 如果创建新线程将使当前总线程数超出maximumPoolSize，任务将被拒绝，并调用RejectedExecutionHandler.rejectedExecution()方法
+    4. 如果创建新线程将使当前总线程数超出maximumPoolSize，任务将被拒绝，并调用RejectedExecutionHandler.rejectedExecution()方法。自带四种策略：抛出异常，丢弃，丢弃最旧，返回给caller线程执行
 
     线程池使用原则：
     － CPU密集型任务应配置尽可能小的线程池，比如 N(cpu)＋1 个线程的线程池

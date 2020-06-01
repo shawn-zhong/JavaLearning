@@ -17,7 +17,6 @@ public class _1_FixedThreadPool {
     }
 
     void executeDemo() throws InterruptedException {
-
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         // 调用execute方法没有返回值 (Runnable)
@@ -77,18 +76,16 @@ public class _1_FixedThreadPool {
         // invokeAny() 方法要求一系列的 Callable 或者其子接口的实例对象。调用这个方法并不会返回一个 Future，
         // 但它返回其中一个 Callable 对象的结果。无法保证返回的是哪个 Callable 的结果 -
         // 只能表明其中一个已执行结束。
-        String result = executorService.invokeAny(callables); // 內部使用了completionQueue，當task完成時候加入Queue，invokeAny就是在輪詢這個Queue
+        String result = executorService.invokeAny(callables); // 內部使用了completionQueue，當task完成時候加入Queue，invokeAny就是在take這個Queue （使用了BlockingQueue）
         System.out.println("Invoke Any result : " + result);
 
         // invokeAll() 返回一系列的 Future 对象，通过它们你可以获取每个 Callable 的执行结果。
         // 记住，一个任务可能会由于一个异常而结束，因此它可能没有 "成功"。无法通过一个 Future 对象来告知我们是两种结束中的哪一种。
-        List<Future<String>> futures = executorService.invokeAll(callables);
+        List<Future<String>> futures = executorService.invokeAll(callables);    // 内部使用了ArrayList，轮训每个task都是isDone
 
         for (Future<String> future : futures) {
             System.out.println("Invoke All return: " + future.get());
         }
-
-        executorService.shutdown();
     }
 }
 
