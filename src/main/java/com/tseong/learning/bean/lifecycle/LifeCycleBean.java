@@ -50,4 +50,7 @@ public class LifeCycleBean implements BeanNameAware {
      * destroyMethod entering..
      */
 
+    // 详细请参考：Spring 了解Bean的一生(生命周期)
+    // https://blog.csdn.net/w_linux/article/details/80086950
+
 }
