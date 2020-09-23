@@ -37,14 +37,17 @@ public class _03_JavaWeb {
     - 1.0 : 短连接，每次请求都要建立一个TCP连接
     - 1.1 : Keep-alive: 支持长连接； 提供了身份验证，状态管理 和 Cache缓存等机制相关的请求头和响应头
 
-    HTTP请求的方式有：POST GET PUT DELETE HEAD OPTIONS TRACE
+    HTTP请求的方式有：POST GET PUT DELETE HEAD OPTIONS（允许客户端查看服务器的性能） TRACE（回显服务器收到的请求，主要用于测试或诊断）
 
     HTTP常用返回码：
     - 100 ：OK, 并需要下一步动作
     - 200 : OK
     - 302 : 资源转移
+    - 403 : FORBIDDEN
     - 404 :
+    - 405 : Method Not Allowed
     - 500 : 服务器错误
+    - 502 : BAD_GATEWAY
 
 
     SpringMVC 关键类
@@ -58,11 +61,16 @@ public class _03_JavaWeb {
     Spring事务 － 事务的传播行为
     Propagation.REQUIRED : 如果没有事务，则新建事务。支持当前方法支持当前事务，同一回滚
     Propagation.REQUIRES_NEW: 创建一个新的事务，各自回滚
-    Propagation.SUPPORTS: 支持上下文事务并同一回滚，没有事务则在非事务上下文中执行
-    Propagation.NOT_SUPPORTED : 以非事务的状态执行， 如果调用者有事务则先卦起调用者的事务
-    Propagation.MANDATORY: 如果上下文没有事务， 抛出异常；同一回滚
-    Propagation.NEVER: 如果调用者有事务， 则抛出异常
     Propagation.NESTED: 嵌套事务：如果调用者回滚则该方法回滚；如果自己异常，则自己回滚。调用者有捕获异常则不回滚
 
+    Propagation.SUPPORTS: 支持上下文事务并同一回滚，没有事务则在非事务上下文中执行
+    Propagation.NOT_SUPPORTED : 以非事务的状态执行， 如果调用者有事务则先卦起调用者的事务
+
+    Propagation.MANDATORY: 如果上下文没有事务， 抛出异常；同一回滚
+    Propagation.NEVER: 如果调用者有事务， 则抛出异常
+
+
      */
+
+
 }

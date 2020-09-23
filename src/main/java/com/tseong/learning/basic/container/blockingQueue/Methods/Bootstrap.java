@@ -24,7 +24,7 @@ public class Bootstrap {
     }
 }
 
-/* blocking queue 的操作 （记忆方法：ARE OPP - Add Remove Element, Offer, Poll, Peek)
+/* blocking queue 的操作 （记忆方法：ARE OPP PT - Add Remove Element, Offer, Poll, Peek)
 
  	    抛异常	    特定值	    阻塞	        超时      -> （越左越麻烦）
 插入	    add(o)	    offer(o)	put(o)	    offer(o, timeout, timeunit)

@@ -1,5 +1,7 @@
 package com.tseong.learning.text;
 
+import com.sun.codemodel.internal.JAnnotationValue;
+
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.util.List;
@@ -13,14 +15,213 @@ public class _01_GCParameters {
             System.out.println(b.getName());
         }
 
-        /* 输出结果：
+        /*
+
+        默认（没有设置）输出结果：(-XX:UseParallelGC)
 
         PS Scavenge    -- PS Scavenge，全称是ParallelScavenge，是个并行的copying算法的收集器
         PS MarkSweep   -- 负责执行full GC（收集整个GC堆，包括young gen、old gen、perm gen）的是PS MarkSweep, 但整个收集器并不是并行的，而在骨子里是跟Serial Old是同一份代码，是串行收集的。
                             其算法是经典的LISP2算法，是一种mark-compact GC（不要被MarkSweep的名字骗了）
 
+        抛开上面令人迷惑的命令方式，直接说明：
+        在JDK8中，默认使用下面GC算法：
+        Young Generation : ParallelScavenge (某种 copying 算法)
+        Old Generatoin :   SerialOld (某种 mark-compact 算法).
+
+
+        -XX:+UseConcMarkSweepGC (使用CMS收集器)
+        Young Generation : ParNew
+        Old Generation : ConcurrentMarkSweep
+
+
+        -XX:+UseParallelOldGC
+        Young Generation : Parallel Scavenge
+        Old Generation : ParOld
+
          */
     }
+
+
+    /*
+
+    JAVA内存区域划分：
+    1. 程序计数器（字节码的行号指示器）
+    2. stack (栈)：创建盏帧存储线程的局部变量表、操作数栈、动态链接、方法出口等信息；会抛出 StackOverFlowError 或 OutOfMemoryError
+    3. Native Method Stack (本地方法栈)：服务于native方法 （Hotspot直接把statck和Native Method Stack合二为一）
+    4. 堆（Heap）：（堆上可能有freelist，表明哪些内存可用）
+        - 新生代（Eden, Survivor(S0, S1) 供三个，默认Eden占80%，S0, S1各占10%，即默认-XX:SurvivorRatio=8）
+          - Eden区容纳不下对象时，通过分配担保机制直接进入老年代
+          - 大对象直接进入老年代，但默认设置为0 （-XX：PretenureSizeThreshhold=0），一定会现在新生代尝试
+          - 长期存活的对象进入老年代（-XX:MaxTenuringThreashhod）, 默认15次
+        - 老年代 （默认老年代占 2/3， 即 -XX:newRatio=2）
+    5. 方法区（Method Area, 即perm区）（JDK8取消了MethodArea而用MetaSpace代替）: 存储类信息、常量、静态变量，即时编译器编译后的代码等数据 （OOM）
+    6. 直接内存（有人叫堆外内存）：（）（OOM）(可通过 -XX:MaxDirectMemorySize指定如果不指定默认等于-Xmx) （NIO可以直接分配直接内存并自动释放、unsafe类可以手动分配直接内存手动释放）
+        直接内存不会主动触发GC
+
+    对象的内存布局：
+        对象头（2或3个字（数组），一个字32/64bit） + 实例数据 + 对齐填充（凑成8字节的倍数）
+
+
+    程序计数器、栈、本地方法 3个区域随线程而生而灭
+
+    如何判断对象已死：引用计数法、可达性分析法（GC roots：栈中引用的对象、方法区中静态属性引用的对象、方法区中常量引用的对象、JNI（即Native方法）引用对的对象）
+    引用分成4中：强引用（就是最普通的引用）、软引用（OOM前进行回收）、弱引用（下次GC时进行回收）、虚引用（）
+    类的finalize方法只能执行一次，但在finalize方法中自己还能救活自己一次；
+
+
+    GC的基本算法：
+    1. 复制算法copying(没有碎片、实现简单效率高、但内存利用率只有50%)
+    2. 标志-清除算法（Mark-Sweep）：不足：标志和清除的效率都不高，会产生内存碎片
+    3。标志-整理算法（Mark-Compact）：
+
+    SerialNew（新生代 copying） : 单线程，而且需要stopTheWorld，新生代采取复制算法
+    ParNew（新生代算法，copying）：CMS的默认新生代算法（另一个可用新生代算法为SerialNew），可以通过 -XX:ParallelGCThreads进行线程数量控制
+    Parallel Scavenge(新生代算法，copying)：可自适应调节策略、可设置最大停顿时间，可直接设置吞吐量大小；
+    SerialOld（老年代 mark-compact），不仅默认与 parallel scavenge配合工作，还作为CMS的后备预案(因为CMS可以和用户程序并发，这时可能内存还不够用，所以换用SerialOld)
+    CMS（老年代，mark-sweep算法）：优点：并发，停顿时间少；缺点：占cpu、浮动垃圾、内存碎片
+      - 初识标志（CMS initial mark）：标志Root内直接关联到的对象；stop the world
+      - 并发标志（CMS concurrent mark）：可以与用户用户线程并发执行
+      - 重新标志（CMS remark）：修正并发标志期间因用户程序继续运作而导致标志产生变动的那一部分对象的标志记录
+      - 并发清除（CMS concurrent sweep）
+    G1（老年代-新生代一起）：mark-compact，copying可预测的停顿时间模型（优先列表，优先收回价值最大的region）；将整个java堆划分为多个大小相等的独立区域（Region），虽然还保留有新生代和老年代的概念，但不是物理隔离了，而是他们都是一部分Region的集合
+
+
+    CMS参数：
+      -XX：CMSInitialtingOccupancyFraction=68 (当老年代使用了xx%空间后就会激活CMS)
+      -XX：UseCMSCompactAtFullCollection (默认开)：FullGC时compact
+
+
+     */
+
+
+
+
+    /*
+
+    JAVA 参数配置（Oracle）：
+
+    LIB_JARS=`echo /opt/app/lib/*.jar | tr ' ' ':'`
+    JAVA_OPTS=" -Ddubbo.protocol.port=$DUBBO_PROTOCOL_PORT
+                -Dserver:port=$SERVER_PORT
+                -Dspring.profiles.active=$SPRING_PROFILES_ACTIVE
+                -Dlogname=$LOG_NAME
+                -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true "
+
+
+    # 为了避免Perm区满引起的full gc，建议开启CMS回收Perm区选项：+CMSPermGenSweepingEnabled -XX:+CMSClassUnloadingEnabled
+
+    JAVA_MEM_OPTS="
+                -server
+                -Xmx2048m
+                -Xms512m
+                -XX:PermSize=128m （JDK8无permsize参数）
+                -Xss256k
+                -XX:+DisableExplicitGC
+                -XX:+UseConcMarkSweepGC
+                -XX:+CMSParallelRemarkEnabled （为了减少第二次暂停的时间，开启并行remark）
+                -XX:+UseCMSCompactAtFullCollection （可以通过配置适当的CMSFullGCsBeforeCompaction来调整性能）
+                -XX:CMSInitiatingOccupancyFraction=70 （老年代70%的时候开始进行CMS收集）
+                -XX:+UseCMSInitiatingOccupancyOnly （只是用设定的回收阈值(上面指定的70%),如果不指定,JVM仅在第一次使用设定值,后续则自动调整）
+                -XX:LargePageSizeInBytes=128m （https://blog.csdn.net/xihuanyuye/article/details/83930703）
+                -XX:+UseFastAccessorMethods
+                -Xloggc:/apps/logs/gc/$LOG_NAME.log -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps "
+
+    JAVA_JMX="  -Dcom.sun.management.jmxremote=true
+                -Dcom.sun.management.jmxremote.rmi.port=1000
+                -Dcom.sun.management.jmxremote.port=1000
+                -Dcom.sun.management.jmxremote.ssl=false
+                -Dcom.sun.management.jmxremote.authenticate=false
+                -Dcom.sun.management.jmxremote.local.only=false
+                -Djava.rmi.server.hostname=192.168.1.186 "
+
+    JAVA_OOM_OPTS="
+                -XX:+HeapDumpOnOutOfMemoryError
+                -XX:HeapDumpPath=/apps/logs/heapdump/$APP_NAME "
+
+    nohup java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_OOM_OPTS $JAVA_JMX -classpath $LIB_JARS $MAIN_FUNCTION > ${LOG_NAME}.log 2>&1 &
+
+
+
+    JAVA 参数配置（OpenJ9）：
+    JAVA_OPTS="
+                -Dlogname=$APP_NAME
+                -Ddubbo.protocol.port=$DUBBO_PROTOCOL_PORT
+                -Dserver:port=$SERVER_PORT
+                -Dspring.profiles.active=$SPRING_PROFILES_ACTIVE
+                -Dlogname=$LOG_NAME
+                -Djava.awt.headless=true
+                -Djava.net.preferIPv4Stack=true "
+
+    # set memory options ( app memory : 400m ~ 85% of container memory ); ignore -XX:InitialRAMPercentage=; ignore -Xmx2g -Xms400m
+    JAVA_MEM_OPTS="
+                -Xss256k
+                -Xms400m
+                -XX:+UseContainerSupport
+                -XX:MaxRAMPercentage=85
+                -XX:+IgnoreUnrecognizedVMOptions
+                -XX:+DisableExplicitGC
+                -XX:+UseConcMarkSweepGC
+                -XX:+CMSParallelRemarkEnabled
+                -XX:+UseCMSCompactAtFullCollection
+                -XX:+UseCMSInitiatingOccupancyOnly
+                -XX:CMSInitiatingOccupancyFraction=70
+                -XX:LargePageSizeInBytes=128m
+                -XX:+UseFastAccessorMethods
+                -Xloggc:/apps/logs/gc/$LOG_NAME.log -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGC "
+
+    # enable openj9 features
+    JAVA_CONTAINER_OPTS="
+                -XX:+IdleTuningCompactOnIdle
+                -XX:+IdleTuningGcOnIdle
+                -Xshareclasses
+                -Xquickstart "
+
+    # set OOM heapdump path
+    JAVA_OOM_OPTS=" -XX:HeapDumpPath=/apps/logs/heapdump/$APP_NAME "
+
+    # enable JMX (when needed)
+    JAVA_JMX_OPTS=" -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.rmi.port=1000 -Dcom.sun.management.jmxremote.port=1000 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=192.168.1.186 "
+
+    echo -e `date` "Starting the service $APP_NAME...\c" >> shell.log
+    echo -e "nohup java -server $JAVA_OPTS $JAVA_MEM_OPTS  $JAVA_CONTAINER_OPTS  $JAVA_OOM_OPTS -classpath $LIB_JARS $MAIN_FUNCTION > ${LOG_NAME}.log 2>&1 &" >> shell.log
+
+
+
+     */
+
+
+
+
+
+
+
+
+    /*
+
+
+    什么时候触发FullGC：
+
+    触发MinorGC(Young GC)
+    虚拟机在进行minorGC之前会判断老年代最大的可用连续空间是否大于新生代的所有对象总空间
+
+    1、如果大于的话，直接执行minorGC
+    2、如果小于，判断是否开启HandlerPromotionFailure，没有开启直接FullGC
+    3、如果开启了HanlerPromotionFailure, JVM会判断老年代的最大连续内存空间是否大于历次晋升的大小，如果小于直接执行FullGC
+    4、如果大于的话，执行minorGC
+
+    触发FullGC （shawn：快OOM的时候+YGC安全判断）
+    老年代空间不足
+         如果创建一个大对象，Eden区域当中放不下这个大对象，会直接保存在老年代当中，如果老年代空间也不足，就会触发Full GC。为了避免这种情况，最好就是不要创建太大的对象。
+    持久代空间不足
+        如果有持久代空间的话，系统当中需要加载的类，调用的方法很多，同时持久代当中没有足够的空间，就出触发一次Full GC
+    YGC出现promotion failure
+        promotion failure发生在Young GC, 如果Survivor区当中存活对象的年龄达到了设定值，会就将Survivor区当中的对象拷贝到老年代，如果老年代的空间不足，就会发生promotion failure， 接下去就会发生Full GC.
+    统计YGC发生时晋升到老年代的平均总大小大于老年代的空闲空间
+          在发生YGC是会判断，是否安全，这里的安全指的是，当前老年代空间可以容纳YGC晋升的对象的平均大小，如果不安全，就不会执行YGC,转而执行Full GC。
+    显示调用System.gc
+
+     */
+
 
     /*
     1 标记 - 清除算法
@@ -66,52 +267,8 @@ public class _01_GCParameters {
     因此目前暂时没有发现哪个公司使用它，这个放在之后再去研究吧。
 
     */
-
-    /*
-    Young Generation        Old Generation          JVM Options
-    Serial                  Serial                  -XX:+UseSerialGC
-    Parallel Scavenge       Serial                  -XX:+UseParallelGC -XX:-UseParallelOldGC (?)
-    Parallel New            Serial                  -XX:+UseParNewGC
-    Serial                  Parallel Old            N/A
-    Parallel Scavenge       Parallel Old            -XX:+UseParallelGC -XX:+UseParallelOldGC
-    Parallel New            Parallel Old            N/A
-    Serial                  CMS                     -XX:-UseParNewGC -XX:+UseConcMarkSweepGC
-    Parallel Scavenge       CMS                     N/A
-    Parallel New            CMS                     -XX:+UseParNewGC -XX+UseConcMarkSweepGC
-    G1                                              -XX:+UseG1GC
-
-    PS: UseConcMarkSweepGC is "ParNew" + "CMS" + "Serial Old". "CMS" is used most of the time to collect
-    the tenured generation. "Serial Old" is used when a concurrent mode failure occurs.
-     */
 }
 
-
-//https://zhuanlan.zhihu.com/p/25539690
-
-
-/*
-
-/ Shawn >> java -XX:+PrintFlagsFinal -version | grep :
-     intx CICompilerCount                          := 3                                   {product}
-    uintx InitialHeapSize                          := 134217728                           {product}
-    uintx MaxHeapSize                              := 2147483648                          {product}
-    uintx MaxNewSize                               := 715653120                           {product}
-    uintx MinHeapDeltaBytes                        := 524288                              {product}
-    uintx NewSize                                  := 44564480                            {product}
-    uintx OldSize                                  := 89653248                            {product}
-     bool PrintFlagsFinal                          := true                                {product}
-     bool UseCompressedClassPointers               := true                                {lp64_product}
-     bool UseCompressedOops                        := true                                {lp64_product}
-     bool UseParallelGC                            := true                                {product}
-
-
-/ Shawn >> java -XX:+PrintCommandLineFlags -version
--XX:InitialHeapSize=134217728 -XX:MaxHeapSize=2147483648 -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseParallelGC
-java version "1.8.0_92"
-Java(TM) SE Runtime Environment (build 1.8.0_92-b14)
-Java HotSpot(TM) 64-Bit Server VM (build 25.92-b14, mixed mode)
-
- */
 
 
 /*
@@ -152,41 +309,24 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.92-b14, mixed mode)
 */
 
 
+
 /*
-
-常见GC方式：
-
-Eden S0 S1      Tenured         Permenent
-
-1. 绝大部分新生成的对象都放在Eden区，当Eden区将满，JVM会因申请不到内存，而触发Young GC ,进行Eden区+有对象的Survivor区(设为S0区)垃圾回收，把存活的对象用复制算法拷贝到一个空的Survivor(S1)中，此时Eden区被清空，另外一个Survivor S0也为空。
-下次触发Young GC回收Eden+S0，将存活对象拷贝到S1中。新生代垃圾回收简单、粗暴、高效。
-
-2. Old区(每次Young GC都会使Survivor区存活对象值+1，直到阈值)。 3.Old区也会进行垃圾收集(Young GC),发生一次 Major GC 至少伴随一次Young GC，一般比Young GC慢十倍以上。
-
-3. JVM在Old区申请不到内存，会进行Full GC。Old区使用一般采用Concurrent-Mark–Sweep策略回收内存。
-总结：Java垃圾回收器是一种“自适应的、分代的、停止—复制、标记-清扫”式的垃圾回收器。
-
-缺点：
-
-GC过程中会出现STW(Stop-The-World)，若Old区对象太多，STW耗费大量时间。
-CMS收集器对CPU资源很敏感。
-CMS收集器无法处理浮动垃圾，可能出现“Concurrent Mode Failure”失败而导致另一次Full GC的产生。
-CMS导致内存碎片问题。
-
-在G1中，堆被划分成 许多个连续的区域(region)。每个区域大小相等，在1M~32M之间。JVM最多支持2000个区域，可推算G1能支持的最大内存为2000*32M=62.5G。区域(region)的大小在JVM初始化的时候决定，也可以用-XX:G1HeapReginSize设置。
-在G1中没有物理上的Yong(Eden/Survivor)/Old Generation，它们是逻辑的，使用一些非连续的区域(Region)组成的。
-G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时候，开始出发收集。
+*
+*
+*
+* java -jar -server -Xms512m -Xfuture -XX:+UnlockCommercialFeatures -XX:+FlightRecorder \
+        -Dcom.sun.management.jmxremote.port=1090 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false \
+        pcrf-1.0-SNAPSHOT.jar
 
 
-G1虽然保留了CMS关于代的概念，但是代已经不是物理上连续区域，而是一个逻辑的概念。在标记过程中，每个区域的对象活性都被计算，在回收时候，就可以根据用户设置的停顿时间，选择活性较低的区域收集，这样既能保证垃圾回收，又能保证停顿时间，
-而且也不会降低太多的吞吐量。
-Remark阶段新算法的运用，以及收集过程中的压缩，都弥补了CMS不足。引用Oracle官网的一句话：“G1 is planned as the long term replacement for the Concurrent Mark-Sweep Collector (CMS)”。
-
- */
-
+JAVA_MEM_OPTS=" -server -Xmx2g -Xms2g -XX:PermSize=128m -Xss256k -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC
+-XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods
+-XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -Xloggc:/apps/logs/gc/$LOG_NAME.log
+-XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGC"
 
 /*
 
-使用MAT进行heap dump分析
-
- */
+容器里2.5G环境下，如果没有设定 -Xmx -Xmx，Max Memory is : 618.6875 Mb Init Memory is : 40.0 Mb Committed Memory is: 120.69140625 Mb Used Memory is 76.60406494140625 Mb
+说明 xmx是 感知内存的 1/4
+*
+* */

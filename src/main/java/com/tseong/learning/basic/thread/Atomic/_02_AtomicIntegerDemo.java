@@ -1,11 +1,10 @@
 package com.tseong.learning.basic.thread.Atomic;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class AtomicIntegerDemo {
+public class _02_AtomicIntegerDemo {
 
     public static void main(String[] args) {
 
@@ -41,6 +40,9 @@ public class AtomicIntegerDemo {
         AtomicLong atomicLong = new AtomicLong();
         long longVal = atomicLong.decrementAndGet();
         System.out.println("long val : " + longVal);    // long val : -1
+
+
+        atomicInteger.getAndSet(4); // 还是用了unsafe下面的实现
 
     }
 

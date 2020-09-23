@@ -203,6 +203,7 @@ public class _1_ArrayListDemo {
 
         System.out.println("min : " + Collections.min(colors));
         System.out.println("max : " + Collections.max(colors));
+
     }
 
     public void SynchronizedArrayList() {

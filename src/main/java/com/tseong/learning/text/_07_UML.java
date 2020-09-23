@@ -33,7 +33,7 @@ public class _07_UML {
 
     3. 聚合关系（Aggregation）：聚合关系与关联关系只是语义上的区别。关联关系－平等，聚合关系－不平等（整体与局部）
        表示方法：空心菱形加直线
-       例子：比如Team和个人。Team解散了，但个人还是可以假如其它的team
+       例子：比如Team和个人。Team解散了，但个人还是可以加入其它的team
        public Class Team {
             public Person person;
 

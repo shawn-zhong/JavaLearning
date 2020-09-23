@@ -1,13 +1,14 @@
 package com.tseong.learning.bean.lifecycle;
 
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.InitializingBean;
 
 import javax.annotation.PostConstruct;
 
 /**
  * @author: Shawn ZHONG @date: 2020-05-29 17:34
  */
-public class LifeCycleBean implements BeanNameAware {
+public class LifeCycleBean implements BeanNameAware, InitializingBean {
 
     public LifeCycleBean(){
         System.out.println("\n\tConstructoring ...");
@@ -36,6 +37,11 @@ public class LifeCycleBean implements BeanNameAware {
         System.out.println("\n\tdestroyMethod entering..");
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("\n\tafterPropertiesSet ..");
+    }
+
 
     // bean的生命周期打印如下：
     /**
@@ -44,11 +50,13 @@ public class LifeCycleBean implements BeanNameAware {
      * Bean name aware.. （AWARE接口）
      * postProcessBeforeInitialization..
      * PostContrutoring
+     * afterPropertiesSet ..
      * initMethod entering..
      * postProcessAfterInitialization..
      * playing lifecycle..
      * destroyMethod entering..
      */
+
 
     // 详细请参考：Spring 了解Bean的一生(生命周期)
     // https://blog.csdn.net/w_linux/article/details/80086950

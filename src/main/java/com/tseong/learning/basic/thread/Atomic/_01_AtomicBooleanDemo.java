@@ -1,8 +1,8 @@
 package com.tseong.learning.basic.thread.Atomic;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.*;
 
-public class AtomicBooleanDemo {
+public class _01_AtomicBooleanDemo {
 
     public static void main(String[] args) {
 
@@ -19,3 +19,9 @@ public class AtomicBooleanDemo {
         System.out.println("atomicBoolean.compareAndSet : " + setSucceed);
     }
 }
+
+
+/*
+    经常用的Atomic包下的类有：AtomicBoolean, AtomicInteger, AtomicLong, AtomicIntegerArray, AtomicLongArray
+
+ */

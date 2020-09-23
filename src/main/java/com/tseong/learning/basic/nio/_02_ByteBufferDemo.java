@@ -21,13 +21,16 @@ public class _02_ByteBufferDemo {
             FileChannel chlOut = out.getChannel();
 
             // 创建一个buffer, 大小为1024
-            ByteBuffer buffer = ByteBuffer.allocate(1024);  // 使用静态方法allocate来分配缓冲区 (会自动释放的堆外内存－》allocateDirect)
+            ByteBuffer buffer = ByteBuffer.allocate(1024);  // 使用静态方法allocate来分配缓冲区 (allocate使用堆内存；如果是allocateDirect，使用直接内存（内部还是用了unsafe）会自动释放)
+            //ByteBuffer.allocateDirect()
 
             // 另外一种方法创建ByteBuffer :
             /*
             byte array[] = new byte[1024];
             ByteBuffer buffer2 = ByteBuffer.wrap(array);
             */
+
+            // 简单描述下面的操作：buffer.clear, channel.read, buffer.flip , 循环到read返回负数而止
 
             while(true) {
                 buffer.clear(); // 将position置为0，limit和capacity置为1024（注意不是1023）
@@ -73,7 +76,8 @@ position：指定了下一个将要被写入或者读取的元素索引，它的
 limit：指定还有多少数据需要取出(在从缓冲区写入通道时)，或者还有多少空间可以放入数据(在从通道读入缓冲区时)。
 capacity：指定了可以存储在缓冲区中的最大数据容量，实际上，它指定了底层数组的大小，或者至少是指定了准许我们使用的底层数组的容量
 
-以上三个属性值之间有一些相对大小的关系：0 <= position <= limit <= capacity。如果我们创建一个新的容量大小为10的ByteBuffer对象，在初始化的时候，position设置为0，limit和 capacity被设置为10，在以后使用ByteBuffer对象过程中，capacity的值不会再发生变化，而其它两个个将会随着使用而变化。三个属性值分别如图所示：
+以上三个属性值之间有一些相对大小的关系：0 <= position <= limit <= capacity。如果我们创建一个新的容量大小为10的ByteBuffer对象，在初始化的时候，position设置为0，limit和 capacity被设置为10，在以后使用ByteBuffer对象过程中，
+capacity的值不会再发生变化，而其它两个个将会随着使用而变化。三个属性值分别如图所示：
 
 现在我们可以从通道中读取一些数据到缓冲区中，注意从通道读取数据，相当于往缓冲区中写入数据。如果读取4个自己的数据，则此时position的值为4，即下一个将要被写入的字节索引为4，而limit仍然是10，如下图所示：
 

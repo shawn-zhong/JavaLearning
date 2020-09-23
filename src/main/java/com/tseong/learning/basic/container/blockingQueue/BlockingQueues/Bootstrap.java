@@ -2,6 +2,7 @@ package com.tseong.learning.basic.container.blockingQueue.BlockingQueues;
 
 import java.util.concurrent.*;
 
+// 阻塞队列（比ConcurrentQueue 多了 put/take ）
 public class Bootstrap {
 
     /* BlockingQueue有这几种类型 (实现的是 BlockingQueue的接口)：
@@ -60,11 +61,12 @@ public class Bootstrap {
 
     }
 
+    // 采用的是最小堆的排序方法。关于最小堆的定义，引用一下百度百科的定义：最小堆，是一种经过排序的完全二叉树，其中任一非终端节点的数据值均不大于其左子节点和右子节点的值。
     void priorityBlockingQueueDemo() throws InterruptedException {
         System.out.println("test priorityBlockingQueueDemo");
 
         // 注意，如果你从一个 PriorityBlockingQueue 获得一个 Iterator 的话，该 Iterator 并不能保证它对元素的遍历是以优先级为序的
-        BlockingQueue<PriorityElememt> queue = new PriorityBlockingQueue<>();
+        BlockingQueue<PriorityElememt> queue = new PriorityBlockingQueue<>();   // 只设置initialCapacity，可以自动扩容，所以put的时候没有等释放
         for (int i=0; i<10; i++) {
             queue.put(new PriorityElememt(i));
         }

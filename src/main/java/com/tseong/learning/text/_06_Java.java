@@ -1,7 +1,14 @@
 package com.tseong.learning.text;
 
+import com.sun.jmx.remote.internal.ArrayQueue;
+
+import java.util.concurrent.Executors;
+
 public class _06_Java {
 
+    public void a() {
+        Executors.newScheduledThreadPool(1);
+    }
     /*
 
     调试JVM的方法:
@@ -9,6 +16,7 @@ public class _06_Java {
     - 使用飞行记录器（jcmd jmc）：-XX:+UnlockCommercialFeatures -XX:+FlightRecorder，使用jcmd打印处dump信息，使用jmc.exe分析 （jcmd 进程号 GC.heap_dump）
     - jps命令打印出进程状态信息（通过RMI协议查询开启了RMI服务的远程虚拟机进程状态）
         jps [options] [hostid]
+
     - jstat：虚拟机同级信息监视工具：（看JVM垃圾回收）
         jstat -gcutil [进程号]
 
@@ -22,64 +30,43 @@ public class _06_Java {
         0.00    50.00   36.37  24.33  72.08     85501   220.507    14    1.182   221.688
         0.00    0.00    0.00   24.35  72.08     85502   220.509    14    1.182   221.691
 
-        YGC - 表示Minor GC的次数，YGCT － 表示Minor GC的总耗时
-        FGC - 表示Full GC的次数， FGCT - 表示Full GC的总耗时
-    - jinfo: 实时地查看和调整虚拟机各项参数。
-    - jmap : 用于生成堆转储快照 （dump文件）， 并使用jhat进行分析
-    - jstack : Java堆栈跟踪工具
 
+        // 貌似java8没有了P区，而是改为M区（元空间）
+        bash-5.0# jstat -gcutil 12 1000
+          S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
+         91.79   0.00  22.43  30.26  95.82  94.24     18    0.530     4    0.068    0.599
+         91.79   0.00  22.43  30.26  95.82  94.24     18    0.530     4    0.068    0.599
+
+
+        S0 : so区负载百分比
+        S1 :
+        M: Metaspace utilization as a percentage of the space's current capacity. 元空间
+        YGC - 表示Minor GC的次数，YGCT － 表示Minor GC的总耗时
+        YGCT: Young generation garbage collection time. 年轻一代垃圾收集时间
+        FGC - 表示Full GC的次数， FGCT - 表示Full GC的总耗时
+
+    kill -3 pid 生成javacore信息，可以查看线程信息: openJ9生成在OOM设置的path，oracle生成在/proc/${pid}/cwd （其实执行位置也有）
+
+
+    打印JAVA HeapDump的几种方式：
+
+    - jcmd <pid> GC.heap_dump <file-path>
+      jcmd 37320 GC.heap_dump /opt/tmp/heapdump.txt
+
+    - jmap : 用于生成堆转储快照 （dump文件）， 并使用jhat进行分析
+        jmap -dump:live,format=b,file=heap-dump.bin <pid>
+        jmap -dump:live,format=b,file=jmap-dump.bin 12
+
+    - jstack : Java堆栈跟踪工具 （执行了一下，主要是看线程状态信息等，包含线程的调用堆栈）
+    jstack 12
+
+
+    - jinfo: 实时地查看和调整虚拟机各项参数。
     - vmstat : 上下文切换次数和时长
 
-jmap -J-d64 -heap
 
+    可以使用MAT进行heapdump的分析（但openJ9的heapdump好像用MAT无法打开），MAT（Memory Analyze Tool 内存分析工具）
 
-    using parallel threads in the new generation.
-using thread-local object allocation.
-Concurrent Mark-Sweep GC
-Heap Configuration:
-   MinHeapFreeRatio = 40
-   MaxHeapFreeRatio = 70
-   MaxHeapSize      = 21474836480 (20480.0MB)
-   NewSize          = 10737418240 (10240.0MB)
-   MaxNewSize       = 10737418240 (10240.0MB)
-   OldSize          = 5439488 (5.1875MB)
-   NewRatio         = 2
-   SurvivorRatio    = 8
-   PermSize         = 134217728 (128.0MB)
-   MaxPermSize      = 134217728 (128.0MB)
-   G1HeapRegionSize = 0 (0.0MB)
-Heap Usage:
-New Generation (Eden + 1 Survivor Space):
-   capacity = 9663676416 (9216.0MB)
-   used     = 1933445808 (1843.8776092529297MB)
-   free     = 7730230608 (7372.12239074707MB)
-   20.00735253095627% used
-Eden Space:
-   capacity = 8589934592 (8192.0MB)
-   used     = 1789336224 (1706.4440002441406MB)
-   free     = 6800598368 (6485.555999755859MB)
-   20.830615237355232% used
-From Space:
-   capacity = 1073741824 (1024.0MB)
-   used     = 144109584 (137.43360900878906MB)
-   free     = 929632240 (886.5663909912109MB)
-   13.421250879764557% used
-To Space:
-   capacity = 1073741824 (1024.0MB)
-   used     = 0 (0.0MB)
-   free     = 1073741824 (1024.0MB)
-   0.0% used
-concurrent mark-sweep generation:
-   capacity = 10737418240 (10240.0MB)
-   used     = 1455760568 (1388.3214645385742MB)
-   free     = 9281657672 (8851.678535461426MB)
-   13.557826802134514% used
-Perm Generation:
-   capacity = 134217728 (128.0MB)
-   used     = 37993600 (36.2335205078125MB)
-   free     = 96224128 (91.7664794921875MB)
-   28.307437896728516% used
-17463 interned Strings occupying 1828240 bytes.
 
 
 
@@ -87,10 +74,12 @@ Perm Generation:
     通过Executors返回的线程池有以下弊端：
     1）FixedThreadPool 和 SingleThreadPool：允许请求的队列长度为Integer.MAX_VALUE, 可能OOM
     2) CachedThreadPool 和 ScheduledThreadPool : 允许创建线程的数量为Integer.MAX_VALUE, 可能会创建大量的线程，OOM
+        (注：ScheduledThreadPool的参数 (corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,new DelayedWorkQueue())是个无界队列)
 
     实践中用ScheduledThreadPool代替Timer, 因为Timer有以下缺陷：
     1） 一个异常发生，Timer都会停止
     2） 修改Local时间，Timer会归零
+
 
 
     Java容器包括两类 （需要再完善）：
@@ -152,7 +141,7 @@ Perm Generation:
 
 
     JVM有且只有五种情况必须立即对类进行初始化：
-    1. new 设置／获取／调用 static 字段，方法的时候 （）
+    1. new, 设置／获取／调用 static 字段，方法的时候 （）
     2. 对类进行反射调用时 （Java.lang.reflect）
     3. 当初始化一个类的时候，如果发现其父类还没有进行初始化，则需要先触发其父类的初始化
     4. 当虚拟机启动时，用户需要指定要执行的类（_01_Api），初始化这个类
@@ -185,10 +174,16 @@ Perm Generation:
 
 
     内存分配与回收策略：
+    我是一个普通的Java对象，我出生在Eden区，在Eden区我还看到和我长的很像的小兄弟，我们在Eden区中玩了挺长时间。有一天Eden区中的人实在是太多了，我就被迫去了Survivor区的“From”区，
+    自从去了Survivor区，我就开始漂了，有时候在Survivor的“From”区，有时候在Survivor的“To”区，居无定所。直到我18岁的时候，爸爸说我成人了，该去社会上闯闯了。于是我就去了年老代那边，
+    年老代里，人很多，并且年龄都挺大的，我在这里也认识了很多人。在年老代里，我生活了20年(每次GC加一岁)，然后被回收。
+    https://blog.csdn.net/u012799221/article/details/73180509
+
     1） 对象优先在Eden分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次MinorGC
     2） 大对象直接进入老年代
     3） 长期存活的对象将进入老年代（15次MinorGC存活）
     4） 动态对象年龄判定
+
 
 
 
@@ -197,7 +192,7 @@ Perm Generation:
     Stream上的所有操作分为两类：中间操作和结束操作，中间操作只是一种标记，只有结束操作才会触发实际计算。中间操作又可以分为无状态的(Stateless)和有状态的(Stateful)，
     无状态中间操作是指元素的处理不受前面元素的影响，而有状态的中间操作必须等到所有元素处理之后才直到最终结果，比如排序是有状态操作，在读取所有元素之前并不能确定排序结果；
     结束操作又可以分为短路操作和非短路操作，短路操作是指不用处理全部元素就可以返回结果，比如找到第一个满足条件的元素。之所以要进行如此细致的划分，之所以要进行如此精细的
-    化划分，是因为底层对每一种情况的处理方式butong
+    化划分，是因为底层对每一种情况的处理方式不同
     中间操作：
         - 无状态：unordered(), filter(), map(), mapToInt(), mapToLong(), mapToDouble(), flatMap(), flatMapToInt(), flatMapToLong(), flatMapToDouble(), peek()
         - 有状态: distinct(), sorted(), limit(), skip()
@@ -301,7 +296,10 @@ Perm Generation:
         }
     }
 
+    key： 动态编织技术，生成一个实现 @FunctionalInterface 的类，类中的接口实现调用 生成的一个带具体操作方法，再通过原接口传入一个obj
+
 
      */
 
 }
+

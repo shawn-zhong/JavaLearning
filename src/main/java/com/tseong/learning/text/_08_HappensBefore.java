@@ -18,6 +18,14 @@ public class _08_HappensBefore {
     - 线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；
     - 对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始
 
+
+    太乱了，总结一下：
+    - 线程，start方法happens before该线程的每一个动作，interrupt，和join方法
+    - 锁，unLock happens before lock
+    - volatile
+    - 传递
+    - finalize
+
     as-if-serial 语义：不管怎么重排序，（单线程）程序的执行结果不能被改变
 
     两个操作之间存在happens-before关系，并不意味着Java平台的具体实现必须要按照happens-before关系指定的顺序来执行；如果重排序之后的执行结果，
@@ -46,7 +54,7 @@ public class _08_HappensBefore {
     － 对于静态同步方法，锁是当前类的class对象
     － 对于同步方法块，锁是Synchonized括号里的对象
     － 代码块同步是使用monitorenter和monitoerexit指令实现的，而方法同步是使用另外一种方式实现的
-    － synchronized用的锁是存在Java对象头里面的
+    － synchronized用的锁是存在Java对象头里面的(偏向锁，对象头：非数组两个字，数组3个字)
 
     锁一共有四种状态，从低到高是:
     - 无锁状态
@@ -63,9 +71,9 @@ public class _08_HappensBefore {
     2. 循环时间长开销大
     3. 只能保证一个共享变量的锁定／解锁 -> 解决方法：AtomicReference
 
-    线程之间通信的方法： 共享内存，消息传递，同步容器
+    线程之间通信的方法： 共享内存，消息传递，同步容器 （volatile，wait/notify, ReentrantLock pipereader, 信号量，countdownlatch, BlockingQueue ..）
 
-    JAVA语言规范鼓励但不强求JVM对64位的long型变量和double型变量的写操作具有原子性
+    JAVA语言规范鼓励但不强求JVM对64位的long型变量和double型变量的写操作具有原子性 (查资料说明：32位系统非原子性 64位系统原子性)
 
     Volatile变量有两个特性：保证可见性（读总是能看到对这个volatile变量对最后一次写）；保证原子性（只针对读写，像＋＋符合操作不具有原子性）；（还有重排序的问题）
 
@@ -88,7 +96,7 @@ public class _08_HappensBefore {
     使用 javap -v xx.class 来查看实现细节
 
 
-    notify() 或 notifyAll() 方法调用后，等待线程依旧不会从wait()返回，需要调用notify()或notifyAll()的线程释放锁之后，等待线程才有机会从wait（）返回
+    notify() 或 notifyAll() 方法调用后，等待线程依旧不会从wait()返回，需要调用notify()或notifyAll()的线程释放锁之后，等待线程才有机会从wait（）返回； 因为 object.wait需要synchonized配合，condition需要lock配合；
 
 
     Object的监视器方法（object.wait, object.notify...）与Condition接口的不同：
@@ -98,22 +106,23 @@ public class _08_HappensBefore {
     ReentrantLock的实现：
     － CAS操作state
     － 同步队列(AbstractQueuedSynchronizer) － 实现锁竞争
-    － 等待队列 - 实现condition
+    － 等待队列 - 实现condition （可以多个？）
 
     AQS（AbstractQueuedSynchronizer）是一个同步框架，它提供通用机制来原子性管理同步状态、阻塞和唤醒线程，以及维护被阻塞线程的队列，基于AQS实现的同步器包括：
-    ReentrantLock, Semaphore, ReentrantReadWriteLock, CountDownLatch, FutureTaks
+    ReentrantLock, Semaphore, ReentrantReadWriteLock, CountDownLatch, FutureTask
 
     － HashMap在并发执行put操作时会引起死循环，(要么使用synchronized修饰，或者直接使用同步队列)
 
     Unsafe只提供了3种CAS方法：compareAndSwapObject，compareAndSwapInt 和 compareAndSwapLong， 看AtomicBoolean源码的实现，发现它是把Boolean转换成整形，
-    再使用compareAndSwapInt进行CAS， 所以原子更新char float 和 double变量也可以用蕾丝的思路实现
+    再使用compareAndSwapInt进行CAS， 所以原子更新char float 和 double变量也可以用类似的思路实现
 
 
     线程池的处理流程
     1. 如果当前运行的线程少于corePoolSize，则创建新线程来执行任务（注意，执行这一步需要获取全局锁）
     2. 如果运行的线程等于或多余corePoolSize， 则将任务加入BlockingQueue
     3. 如果无法将任务加入BlockingQueue（队列已满），则创建新的线程来处理任务（注意，执行这一步需要获取全局锁）
-    4. 如果创建新线程将使当前总线程数超出maximumPoolSize，任务将被拒绝，并调用RejectedExecutionHandler.rejectedExecution()方法。自带四种策略：抛出异常，丢弃，丢弃最旧，返回给caller线程执行
+    4. 如果创建新线程将使当前总线程数超出maximumPoolSize，任务将被拒绝，并调用RejectedExecutionHandler.rejectedExecution()方法。
+        自带四种策略：抛出异常（Abort），丢弃（Discard），丢弃最旧（DiscardOldest），返回给caller线程执行
 
     线程池使用原则：
     － CPU密集型任务应配置尽可能小的线程池，比如 N(cpu)＋1 个线程的线程池

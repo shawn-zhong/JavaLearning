@@ -41,7 +41,6 @@ public class _05_MySQL {
 
     MyBatis延迟加载（默认关）：先查主表需要的信息，里面包含的比如Association，需要用到数据再进行DB查询
 
-
     － 存储过程和函数：
     存储过程和函数的区别在于函数必须有返回值，而存储过程没有。存储过程的参数可以使用IN，OUT，INOUT类型，而函数的参数只能是IN类型
 
@@ -127,9 +126,52 @@ public class _05_MySQL {
 4. 使用 show status 辅助分析
 
 
-关于MySQL索引，可以查看这个链接： https://my.oschina.net/liughDevelop/blog/1788148
 
+
+explain type的取值：
+
+
+聚簇索引 和 非聚簇索引的区别
+
+如果一个主键被定义了，那么这个主键就是作为聚集索引
+如果没有主键被定义，那么该表的第一个唯一非空索引被作为聚集索引
+如果没有主键也没有合适的唯一索引，那么innodb内部会生成一个隐藏的主键作为聚集索引，这个隐藏的主键是一个6个字节的列，改列的值会随着数据的插入自增。
+(如果InnoBD表没有主键且没有适合的唯一索引（没有构成该唯一索引的所有列都NOT NULL），MySQL将自动创建一个隐藏的名字为“GEN_CLUST_INDEX ”的聚簇索引)
+
+总结：InnoDB中，表数据文件本身就是按B+Tree组织的一个索引结构，聚簇索引就是按照每张表的主键构造一颗B+树，同时叶子节点中存放的就是整张表的行记录数据，
+也将聚集索引的叶子节点称为数据页。这个特性决定了索引组织表中数据也是索引的一部分；
+
+关于聚集索引，非聚集索引，可以看这篇文章比较好：
+https://www.cnblogs.com/jiawen010/p/11805241.html
+
+
+ALL (全表扫描) < index（全索引扫描 (覆盖索引)） < range（索引范围查询） ~ index_merge  < ref （join或最左前缀 并指定值） < eq_ref  < const < system
+
+
+ALL: 表示全表扫描，这个类型的查询是性能最差的查询之一。通常来说， 我们的查询不应该出现 ALL 类型的查询，因为这样的查询在数据量大的情况下，对数据库的性能是巨大的灾难。
+        如一个查询是 ALL 类型查询， 那么一般来说可以对相应的字段添加索引来避免。
+
+index: 表示全索引扫描(full index scan)，和 ALL 类型类似，只不过 ALL 类型是全表扫描，而 index 类型则仅仅扫描所有的索引， 而不扫描数据。index 类型通常出现在：
+        所要查询的数据直接在索引树中就可以获取到, 而不需要扫描数据。当是这种情况时，Extra 字段 会显示 Using index。（Shawn：实测就是覆盖索引而where不满足复合索引条件）
+
+range: 表示使用索引范围查询，通过索引字段范围获取表中部分数据记录。这个类型通常出现在 =, <>, >, >=, <, <=, IS NULL, <=>, BETWEEN, IN() 操作中。
+        例如下面的例子就是一个范围查询：explain select * from user_info  where id between 2 and 8；
+
+ref: 此类型通常出现在多表的 join 查询，针对于非唯一或非主键索引，或者是使用了 最左前缀 规则索引的查询。例如下面这个例子中，
+        就使用到了 ref 类型的查询：explain select * from user_info, order_info where user_info.id = order_info.user_id AND order_info.user_id = 5
+
+eq_ref: 此类型通常出现在多表的 join 查询，表示对于前表的每一个结果，都只能匹配到后表的一行结果。并且查询的比较操作通常是 =，查询效率较高。例如：explain select * from user_info,
+    order_info where user_info.id = order_info.user_id;
+
+const: 针对主键或唯一索引的等值查询扫描，最多只返回一行数据。 const 查询速度非常快， 因为它仅仅读取一次即可。例如下面的这个查询，它使用了主键索引，
+    因此 type 就是 const 类型的：explain select * from user_info where id = 2；
+
+system: 表中只有一条数据， 这个类型是特殊的 const 类型。
+
+关于MySQL索引，可以查看这个链接：
+https://my.oschina.net/liughDevelop/blog/1788148
 
      */
+
 
 }

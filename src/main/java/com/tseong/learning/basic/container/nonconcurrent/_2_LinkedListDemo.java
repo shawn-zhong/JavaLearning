@@ -35,6 +35,7 @@ public class _2_LinkedListDemo {
         
         Collections.sort(linkedList, Collections.reverseOrder());
         System.out.println(linkedList);
+
     }
 }
 
