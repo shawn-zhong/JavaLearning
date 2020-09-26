@@ -23,10 +23,10 @@ public class _DiscardServerMain {
                         protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                             nioSocketChannel.pipeline()
                                     .addLast("encoder", new DemoHandlerEncoder())
-                                    //.addLast("decoder", new DemoHandler1())
+                                    .addLast("decoder", new DemoHandler1())
                                     //.addLast("readTimeoutHandler", new ReadTimeoutHandler(30))
-                                    //.addLast(new DemoHandler2())
-                                    .addLast(new DiscardHandler());
+                                    .addLast(new DemoHandler2());
+                                    //.addLast(new DiscardHandler());
                         }
                     })
                     .option(ChannelOption.SO_KEEPALIVE, true);

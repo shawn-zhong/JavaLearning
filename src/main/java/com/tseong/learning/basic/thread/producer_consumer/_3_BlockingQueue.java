@@ -9,7 +9,7 @@ public class _3_BlockingQueue {
     private static final int CAPACITY = 5;
 
     public static class Producer extends Thread {
-        private LinkedBlockingQueue<Integer> blockingQueue;
+        private LinkedBlockingQueue<Integer> blockingQueue; // Linked BlockingQueue使用读写锁分离，不过不可以指定公平性
         private String name;
         private int maxSize;
         private static int i = 0;

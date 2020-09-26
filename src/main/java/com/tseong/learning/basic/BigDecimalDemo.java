@@ -6,7 +6,8 @@ import java.text.DecimalFormat;
 public class BigDecimalDemo {
 
     public static void main(String[] args) {
-        BigDecimal decimalA = new BigDecimal("3.1415926");
+        BigDecimal decimalA = new BigDecimal("3.1415926");  //
+        //BigDecimal decimalWrong = new BigDecimal(3.1415926);   // 这样可能会有精度丢失，建议上面格式或者 BigDecimal.valueof
         BigDecimal decimalB = decimalA;
         decimalB.subtract(new BigDecimal("3")); // 做减法
 
@@ -25,17 +26,21 @@ public class BigDecimalDemo {
 
         // 引用传递
         int[] arrayA = new int[10];
+        modifyArray(arrayA);
         arrayA[0] = 1;
 
        System.out.println("length of ArrayA: " + arrayA.length);
+       for (int i : arrayA) {
+           System.out.println(i);
+       }
 
     }
 
-    private void modifyArray(int[] arrayB) {
+    private static void modifyArray(int[] arrayB) {
         int[] b = new int[20];
         b[0] = 10;
         b[1] = 20;
 
-        arrayB = b;
+      //  arrayB = b;
     }
 }

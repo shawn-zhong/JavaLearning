@@ -30,6 +30,11 @@ public class _01_WaysOfInstancing {
         //student = constructor.newInstance("zhong", 12);
         //System.out.println("by reflect constructor " + student.toString() + " " + student.hashCode());
 
+        Constructor<Student> constructor = Student.class.getDeclaredConstructor(String.class);
+        constructor.setAccessible(true);
+        Student student1 = (Student)constructor.newInstance("getDeclaredConstructor");
+        System.out.println("by reflect private getDeclaredConstructor " + student1.toString() + " " + student1.hashCode());
+
         // 4.1 by call private constructor
         Constructor constructor1 = Class.forName("com.tseong.learning.advance._02_classloading._02_Instancing.Student")
                 .getDeclaredConstructor(String.class);
@@ -75,7 +80,7 @@ public class _01_WaysOfInstancing {
     }
 
     public static Student getObjectByUnsafe() {
-        // Unsafe类使用了单例模式，需要通过一个静态方法getUnsafe()方法来获取，但Unsafe类做了限制，如果是普通的调用的话，
+        // Unsafe类使用了单例模式，需要通过一个静态方法getUnsafe()方法来获取，但Unsafe类做了限制(特定loader才能调用)，如果是普通的调用的话，
         // 它会抛出一个SecurityException异常，只有有主加载器加载的类才能调用这个方法。所以我们通过反射来实例化Unsafe
         try {
             Field field = Unsafe.class.getDeclaredField("theUnsafe");

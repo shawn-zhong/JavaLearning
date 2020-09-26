@@ -15,7 +15,8 @@ public class _2_InterruptDemo {
                 // Thread.currentThread()通过该静态方法获取执行体所在线程的对象
 
                 int i=0;
-                while (!Thread.currentThread().isInterrupted()) {   // 这种控制方法的缺陷：这里判断要耗时. (如果不加这个判断，线程不会退出)
+                while (!Thread.currentThread().isInterrupted()) {   // 这种控制方法的缺陷：这里判断要耗时. (如果不加这个判断，线程不会退出)；
+                                                                    // 在sleep期间主线程调用interrupt()时，sleep函数将退出同时抛出interruptedException， 此时isInterrupted为false
                     if (i++>100000000) {
                         break;
                     }

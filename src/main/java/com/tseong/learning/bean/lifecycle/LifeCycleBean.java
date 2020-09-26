@@ -1,7 +1,9 @@
 package com.tseong.learning.bean.lifecycle;
 
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
@@ -33,7 +35,7 @@ public class LifeCycleBean implements BeanNameAware, InitializingBean {
         System.out.println("\n\tplaying lifecycle");
     }
 
-    public void destroy() {
+    public void destroy() { // 如果通过desposebleBean接口实现也一样
         System.out.println("\n\tdestroyMethod entering..");
     }
 

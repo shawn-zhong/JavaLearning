@@ -11,8 +11,8 @@ public class _2_LockCondition {
 
     private static final int CAPACITY = 5;
     private static final Lock lock = new ReentrantLock();
-    private static final Condition fullCondition = lock.newCondition();
-    private static final Condition emptyConditon = lock.newCondition();
+    private static final Condition notFullCondition = lock.newCondition();
+    private static final Condition notEmptyConditon = lock.newCondition();
 
     public static class Producer extends Thread {
         private Queue<Integer> queue;
@@ -36,7 +36,7 @@ public class _2_LockCondition {
 
                     try {
                         System.out.println("Producer " + name + "  found queue full, waiting for consumer to take");
-                        fullCondition.await();
+                        notFullCondition.await();
                         System.out.println("producer awake " + name);
                     }catch (InterruptedException ex) {
                         ex.printStackTrace();
@@ -46,10 +46,10 @@ public class _2_LockCondition {
                 System.out.println("Producer " + name + " now producing value : " + i);
                 queue.offer(i++);
 
-                //fullCondition.signalAll();
-                emptyConditon.signalAll();
+                //notFullCondition.signalAll();
+                notEmptyConditon.signalAll();
 
-                lock.unlock();
+                lock.unlock();  // 放finally更好
 
 
                 try {
@@ -84,7 +84,7 @@ public class _2_LockCondition {
 
                     try {
                         System.out.println("Consumer" + name + " found queue is empty, waiting for producer to produce");
-                        emptyConditon.await();
+                        notEmptyConditon.await();
 
                         System.out.println("consumer awake " + name);
 
@@ -97,8 +97,8 @@ public class _2_LockCondition {
                 int x = queue.poll();
                 System.out.println("Consumer" + name + " consuming value: " + x);
 
-                fullCondition.signalAll();
-                //emptyConditon.signalAll();
+                notFullCondition.signalAll();
+                //notEmptyConditon.signalAll();
 
                 lock.unlock();
 

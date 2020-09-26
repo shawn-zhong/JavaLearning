@@ -49,7 +49,7 @@ public class ConditionDemo {
                             // 4. 获得锁后，继续执行后面的代码
                         }
                     } else {                        // 线程2进入
-                        if (counter == NUMBER / 2) {
+                        if (counter == NUMBER / 2) {    // counter累计到一定程度时，释放信号
                             // 唤醒所有等待该条件变量cond的线程，即await阻塞函数。和signal()相比，signal由于只是随机
                             // 的唤醒其中一个等待线程，所以效率较高，如果在确认当前最多只有一个线程在等待时，可以考虑使用
                             // signal代替signalAll, 否则最好还是使用SignalAll更加安全，避免了程序整体挂起事件发生。

@@ -27,7 +27,7 @@ public class _04_OptionalDemo {
 
     public static String getChampionName(User user) {
         return Optional.ofNullable(user)
-                .map(u->u.getName())
+                .map(User::getName)
                 .orElseThrow(() ->new IllegalArgumentException("The value input is invalid"));
     }
 

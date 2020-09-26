@@ -27,6 +27,7 @@ class Testclass {
 public class _03_Demo {
 
     public static void main(String[] args) {
+       // Testclass testclass = new Testclass();
         Testclass.staticFunction();
 
         // 结果：

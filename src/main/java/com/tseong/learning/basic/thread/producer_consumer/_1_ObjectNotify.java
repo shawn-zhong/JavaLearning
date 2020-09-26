@@ -48,7 +48,7 @@ public class _1_ObjectNotify {
 
                 }
 
-                // 这段不要放在synchoronzied段比较好
+                // 这段不要放在synchoronzied段比较好 （不会释放锁）
                 try {
                     Thread.sleep(new Random().nextInt(1000));
                 } catch (InterruptedException e) {

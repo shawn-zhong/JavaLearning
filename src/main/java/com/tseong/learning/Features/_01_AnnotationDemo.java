@@ -12,6 +12,7 @@ public class _01_AnnotationDemo {
     }
 
     public void annotationDemo() throws ClassNotFoundException, NoSuchMethodException {
+        MyAnnotationDemo demo = new MyAnnotationDemo();
         Class<?> cls = Class.forName("com.tseong.learning.Features.MyAnnotationDemo");
         boolean flag = cls.isAnnotationPresent(MyAnnotation1.class);
         if (flag) {

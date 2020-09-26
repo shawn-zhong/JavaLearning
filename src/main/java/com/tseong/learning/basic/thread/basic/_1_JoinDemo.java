@@ -20,7 +20,7 @@ public class _1_JoinDemo {
         // // join方法将阻塞主线程，等待工作者线程的结束
         // 由于主线程和工作者线程是并行的两个执行体，因此如果主线程不join等待工作者线程的结束，那么主线程
         // 将会直接退出,如果工作者线程未被设置为后台线程,即便他仍需要继续执行,但是由于主线程的退出,工作者线程也强行退出 (－>实验证明不正确)
-        t1.join();  // : 使用了ObjectMonitor (Object.wait)
+        t1.join();  // : 使用了ObjectMonitor (Object.wait)，线程结束时，会sinalAll自己的object
 
 
         // 使用lambda表达式创建并运行一个线程：

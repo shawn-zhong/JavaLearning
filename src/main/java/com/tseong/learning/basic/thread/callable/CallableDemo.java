@@ -21,7 +21,7 @@ public class CallableDemo {
         // 此时的FutureTask扮演着Future<V>的角色
 
         // 该方法将阻塞直到线程执行完毕正常返回，如果是异常中断, 则被异常捕捉逻辑获取
-        Integer ret = sleepTask.get(); // 可以设置超时 (// *** 需要回头看这里怎样实现同步的！！！)  -> Locksupport
+        Integer ret = sleepTask.get(); // 可以设置超时 (// *** 需要回头看这里怎样实现同步的！！！)  -> Locksupport （好像还是QAS那套逻辑，回去再查书 TODO ）
         System.out.println("The return value of FutureTask is " + ret);
 
         // 关于callable的其它用法可以看线程池部分

@@ -50,7 +50,7 @@ public class _5_ThreadConcurrent {
 
     static class MyRunnableWrong implements Runnable {
 
-        private static int counter = 0; // 即使加了volatile没有用锁，还是不正确，因为volatile只保证可见性
+        private static int counter = 0; // 即使加了volatile没有用锁，还是不正确，因为volatile只保证可见性（加了volatile之后对于get/set是原子性的，但对于 ++ ，本身就不是原子性的操作）
 
         @Override
         public void run() {
@@ -100,7 +100,7 @@ public class _5_ThreadConcurrent {
     static class MyRunnableByAtomicReference implements Runnable {
 
         private static int counter = 0;
-        private static AtomicReference<Integer> counterRef = new AtomicReference<Integer>(counter);
+        private static AtomicReference<Integer> counterRef = new AtomicReference<Integer>(counter); // shanw：应该用ActomicInteger/ActomicLong,  AtomicReference对比的是引用地址 (>127不行？)，compareAndSet的时候有问题？
 
         @Override
         public void run() {
@@ -108,7 +108,7 @@ public class _5_ThreadConcurrent {
                 counterRef.accumulateAndGet(1, (a,b)-> a+b);    // correct
             }
 
-            System.out.println("MyRunnableByCas : " + Thread.currentThread().getName() + " : counter = " + counterRef.get());
+            System.out.println("MyRunnableByAtomicReference : " + Thread.currentThread().getName() + " : counter = " + counterRef.get());
         }
     }
 
@@ -176,7 +176,7 @@ public class _5_ThreadConcurrent {
                 unsafe = (Unsafe)f.get(null);
 
                 Field field = MyRunnableByCompareAndSwapWrongway.class.getDeclaredField("counter");
-                counteroffset = unsafe.objectFieldOffset(field); // 不能这样用，因为unsafe取不到static counter的值；需要用的话则在多个线程共享一个'对象'而非static
+                counteroffset = unsafe.objectFieldOffset(field); // 不能这样用，因为unsafe取不到static counter的值；需要用的话则在多个线程共享一个'对象'而非static （JDK8没问题？？）
 
                 System.out.println("counterOffset = " + counteroffset);
 

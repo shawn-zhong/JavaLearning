@@ -1,5 +1,7 @@
 package com.tseong.learning.basic.thread.lock.reentrantLock;
 
+import com.tseong.learning.basic.thread.jvmTools.javap.Synchronized;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -34,6 +36,13 @@ public class LockinteruptiblyDemo {
 
     void demoInterrupt() {
         Thread thread1 = new Thread(new RunDemo());
+
+        try {
+            Thread.sleep(10);
+        } catch (Exception e) {
+
+
+        }
         Thread thread2 = new Thread(new RunDemo());
 
         thread1.start();
@@ -82,18 +91,20 @@ class RunDemo implements Runnable {
         // Thread-1 Interrupted from doJob
         // Thread-0 finished
 
-        //lock.lockInterruptibly();
+       // lock.lockInterruptibly();
+       // synchronized(RunDemo.class) { // 如果用synchronized替代lock，都相当于 lock.lock, 没获取锁之前不会中断
 
-        System.out.println(Thread.currentThread().getName() + " got the lock" );
+            System.out.println(Thread.currentThread().getName() + " got the lock");
 
-        try {
-            TimeUnit.SECONDS.sleep(3);
-            System.out.println(Thread.currentThread().getName() + " finished" );
-        } catch (InterruptedException e) {
-            System.out.println(Thread.currentThread().getName() + " interrupted");
-        } finally {
-            lock.unlock();
-        }
+            try {
+                TimeUnit.SECONDS.sleep(3);
+                System.out.println(Thread.currentThread().getName() + " finished");
+            } catch (InterruptedException e) {
+                System.out.println(Thread.currentThread().getName() + " interrupted");
+            } finally {
+                //     lock.unlock();
+            }
+       // }
     }
 
 

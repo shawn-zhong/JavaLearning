@@ -44,6 +44,8 @@ public class _04_AtomicReferenceDemo {
         System.out.println("int exchanged : " + exchangedInt);
         System.out.println("int now value : " + atomicReferenceInt.get());
 
+
+
     }
 
     public static void main(String[] args) {

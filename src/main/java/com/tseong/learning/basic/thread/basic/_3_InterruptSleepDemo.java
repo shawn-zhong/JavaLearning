@@ -17,7 +17,7 @@ public class _3_InterruptSleepDemo {
                         if (++i > 10000000)
                             break;
 
-                        // 在sleep期间主线程调用interrupt()时，sleep函数将退出同时抛出interruptedException
+                        // 在sleep期间主线程调用interrupt()时，sleep函数将退出同时抛出interruptedException。而且isInterrupted为false
                         Thread.sleep(100);
                     }
                 } catch (InterruptedException e) {

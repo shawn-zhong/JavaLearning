@@ -65,6 +65,7 @@ public class _01_ReferenceDemo {
         // （应用）ThreadLocal的Key是弱引用类型的，但Value并非弱引用。
 
         // Phanton Reference
+        // 应用：NIO直接内存的释放
         ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
         PhantomReference<Object> phantomReference = new PhantomReference<>(_objPhanton, referenceQueue);
         PhantomReference<String> phantomReferenceStr = new PhantomReference<>(_strPhanton, referenceQueue);
