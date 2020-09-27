@@ -42,8 +42,8 @@ class SubClass extends BaseClass {
 
     // running sequence : step-6
     SubClass () {
-        System.out.println("SubClass Constructor: j = " + j);                       // 经过step-6, 此时j的值为3
-        System.out.println("SubClass Constructor: getValue() = " + getValue());     // 经过step-6, 此时j的值为3
+        System.out.println("SubClass Constructor: j = " + j);                       // 经过step-5.2, 此时j的值为3
+        System.out.println("SubClass Constructor: getValue() = " + getValue());     // 经过step-5.2, 此时j的值为3
     }
 
     // running sequence : step-5.2

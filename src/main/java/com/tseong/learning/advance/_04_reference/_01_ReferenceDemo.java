@@ -13,6 +13,10 @@ public class _01_ReferenceDemo {
     private static Object _objPhanton = new Object();
     private static String _strPhanton = "Another text";
 
+
+    public void local() {
+        ThreadLocal<Integer> a = new ThreadLocal<>();
+    }
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println(_objectStrong + " " + _objectSoft + " " + _objWeak + " " + _strWeak);
@@ -54,7 +58,7 @@ public class _01_ReferenceDemo {
         // 输出：
         // after system.gc - weakReference = java.lang.Object@7ea987ac
         // after system.gc - weakReference = This is text
-        // 可以看到如果不进行gc，弱引用对象在内存充足的情况下是不会回收的
+        // 可以看到如果 不进行gc，弱引用对象在内存充足的情况下是不会回收的
         System.gc();
         System.out.println("after system.gc - weakReference = " + weakReference.get());
         System.out.println("after system.gc - weakReference = " + weakReferenceStr.get());
@@ -65,7 +69,7 @@ public class _01_ReferenceDemo {
         // （应用）ThreadLocal的Key是弱引用类型的，但Value并非弱引用。
 
         // Phanton Reference
-        // 应用：NIO直接内存的释放
+        // 应用：NIO中对于直接内存的释放
         ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
         PhantomReference<Object> phantomReference = new PhantomReference<>(_objPhanton, referenceQueue);
         PhantomReference<String> phantomReferenceStr = new PhantomReference<>(_strPhanton, referenceQueue);
