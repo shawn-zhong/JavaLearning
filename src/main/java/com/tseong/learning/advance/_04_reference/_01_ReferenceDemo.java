@@ -14,9 +14,7 @@ public class _01_ReferenceDemo {
     private static String _strPhanton = "Another text";
 
 
-    public void local() {
-        ThreadLocal<Integer> a = new ThreadLocal<>();
-    }
+
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println(_objectStrong + " " + _objectSoft + " " + _objWeak + " " + _strWeak);

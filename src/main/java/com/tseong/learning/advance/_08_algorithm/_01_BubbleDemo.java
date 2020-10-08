@@ -13,7 +13,6 @@ public class _01_BubbleDemo {
         Integer[] source = {1,2,62,12, 3, 9, 19};
         bubbleSort(source);
         */
-
         List<Integer> array = Arrays.asList(43,12,654,23,65,3,1);
         bubbleSort(array);
 
