@@ -54,9 +54,10 @@ public class _01_GCParameters {
           - 大对象直接进入老年代，但默认设置为0 （-XX：PretenureSizeThreshhold=0），一定会现在新生代尝试
           - 长期存活的对象进入老年代（-XX:MaxTenuringThreashhod）, 默认15次
         - 老年代 （默认老年代占 2/3， 即 -XX:newRatio=2）
-    5. 方法区（Method Area, 即perm区）（JDK8取消了MethodArea而用MetaSpace代替）: 存储类信息、常量、静态变量，即时编译器编译后的代码等数据 （OOM）
+    5. 方法区（Method Area, 即perm区）（JDK8取消了MethodArea而用MetaSpace代替，类的元数据放入native memory，字符串池和类的静态变量放入java堆中）: 存储类信息、常量、静态变量，即时编译器编译后的代码等数据 （OOM）
     6. 直接内存（有人叫堆外内存）：（）（OOM）(可通过 -XX:MaxDirectMemorySize指定如果不指定默认等于-Xmx) （NIO可以直接分配直接内存并自动释放、unsafe类可以手动分配直接内存手动释放）
-        直接内存不会主动触发GC
+        shawn：直接内存不会主动触发GC，而是等老年代满了之后进行FULLGC随便清除掉（bytebuffer虚引用），但是unsafe难说
+        FULL GC发生条件：1, system.gc 2. 快OOM的时候（老年代、metaspace，）3.晋升失败（大对象担保、老年代碎片太多，）
 
     对象的内存布局：
         对象头（2或3个字（数组），一个字32/64bit） + 实例数据 + 对齐填充（凑成8字节的倍数）
@@ -65,7 +66,7 @@ public class _01_GCParameters {
     程序计数器、栈、本地方法 3个区域随线程而生而灭
 
     如何判断对象已死：引用计数法、可达性分析法（GC roots：栈中引用的对象、方法区中静态属性引用的对象、方法区中常量引用的对象、JNI（即Native方法）引用对的对象）
-    引用分成4中：强引用（就是最普通的引用）、软引用（OOM前进行回收）、弱引用（下次GC时进行回收）、虚引用（）
+    引用分成4中：强引用（就是最普通的引用）、软引用（OOM前进行回收）、弱引用（下次GC时进行回收）、虚引用（shawn：回收后可以在队列查到一条记录）
     类的finalize方法只能执行一次，但在finalize方法中自己还能救活自己一次；
 
 
