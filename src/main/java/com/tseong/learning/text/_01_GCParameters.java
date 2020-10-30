@@ -109,23 +109,41 @@ public class _01_GCParameters {
                 -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true "
 
 
+    # https://blog.csdn.net/xinyuan_java/article/details/83620028
+    # https://cloud.tencent.com/developer/ask/114185
     # 为了避免Perm区满引起的full gc，建议开启CMS回收Perm区选项：+CMSPermGenSweepingEnabled -XX:+CMSClassUnloadingEnabled
+    （ 将来请使用CMSClassUnloadingEnabled代替CMSPermGenSweepingEnabled）
+
+
+    #UseCMSCompactAtFullCollection 在FULL GC的时候， 对年老代的内存进行压缩。-XX:CMSFullGCsBeforeCompaction=0 则是代表多少次FGC后对老年代做压缩操作，默认值为0，代表每次都压缩, 把对象移动到内存的最左边，可能会影响性能,但是可以消除碎片；
+    #https://www.cnblogs.com/onmyway20xx/p/6605324.html
+    #有一点需要注意的是：CMS并发GC不是“full GC”，CMS 不等于Full GC，我们可以看到CMS分为多个阶段，只有stop the world的阶段被计算到了Full GC的次数和时间，而和业务线程并发的GC的次数和时间则不被认为是Full GC。CMS主要可以分为initial mark(stop the world), concurrent mark, remark(stop the world), concurrent sweep几个阶段，其中initial mark和remark会stop the world。
 
     JAVA_MEM_OPTS="
                 -server
                 -Xmx2048m
                 -Xms512m
-                -XX:PermSize=128m （JDK8无permsize参数）
+                -XX:PermSize=128m （JDK8无permsize参数， 使用-XX:MetaspaceSize，若无默认与-xmx相同）
                 -Xss256k
+
                 -XX:+DisableExplicitGC
+
                 -XX:+UseConcMarkSweepGC
                 -XX:+CMSParallelRemarkEnabled （为了减少第二次暂停的时间，开启并行remark）
-                -XX:+UseCMSCompactAtFullCollection （可以通过配置适当的CMSFullGCsBeforeCompaction来调整性能）
                 -XX:CMSInitiatingOccupancyFraction=70 （老年代70%的时候开始进行CMS收集）
                 -XX:+UseCMSInitiatingOccupancyOnly （只是用设定的回收阈值(上面指定的70%),如果不指定,JVM仅在第一次使用设定值,后续则自动调整）
+                -XX:+UseCMSCompactAtFullCollection （可以通过配置适当的CMSFullGCsBeforeCompaction来调整性能）
+
+                -Xloggc:/apps/logs/gc/$LOG_NAME.log -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps "
+
                 -XX:LargePageSizeInBytes=128m （https://blog.csdn.net/xihuanyuye/article/details/83930703）
                 -XX:+UseFastAccessorMethods
-                -Xloggc:/apps/logs/gc/$LOG_NAME.log -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps "
+
+
+
+    JAVA_OOM_OPTS="
+                -XX:+HeapDumpOnOutOfMemoryError
+                -XX:HeapDumpPath=/apps/logs/heapdump/$APP_NAME "
 
     JAVA_JMX="  -Dcom.sun.management.jmxremote=true
                 -Dcom.sun.management.jmxremote.rmi.port=1000
@@ -135,9 +153,7 @@ public class _01_GCParameters {
                 -Dcom.sun.management.jmxremote.local.only=false
                 -Djava.rmi.server.hostname=192.168.1.186 "
 
-    JAVA_OOM_OPTS="
-                -XX:+HeapDumpOnOutOfMemoryError
-                -XX:HeapDumpPath=/apps/logs/heapdump/$APP_NAME "
+
 
     nohup java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_OOM_OPTS $JAVA_JMX -classpath $LIB_JARS $MAIN_FUNCTION > ${LOG_NAME}.log 2>&1 &
 
